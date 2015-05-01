@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Time-Telling Fortress</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <header><h1>Time-Telling Fortress</h1>
+      <a href="/update">Update</a>
+    </header><hr>
+    
+    <div class="post">
+      <div class="postInfo"><b>Anonymous</b> 2015-05-01 19:51:04 UTC No.1</div>
+      <div class="postBody"><p>Top kek</p></div>
+    </div>
+    <br>
+    <form action="/post" method="POST">
+      <table id="postForm">
+        <tr>
+          <th id="formName"><input type="text" size="15" placeholder="Anonymous" value="Anonymous" name="name"></th>
+          <th id="formOptions"><input type="text" size="15" placeholder="email" value="noko" name="opts"></th>
+          <th id="formButton"><input type="submit" value="Post"><br></th>
+        </tr><tr>
+          <td id="formText"><textarea rows="4" cols="40" placeholder="Comment" autofocus name="body"></textarea><br></td>
+        </tr><tr>
+          <td id="formFile"><input type="file" name="file" accept="image/jpeg, image/png, image/gif, video/webm"></td>
+        </tr>
+      </table>
+      <input type="hidden" name="board" value="snw">
+      <input type="hidden" name="thread" value="0">
+    </form>
+  </body>
+</html>
