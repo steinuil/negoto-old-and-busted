@@ -8,11 +8,18 @@
   <body>
     <header><h1><%= @info["name"] %></h1>
       <a href="/update">Update</a>
-    </header><hr>
-    <% @posts.each do |post| %>
-    <div class="post">
-      <div class="postInfo"><b><%= post["name"] %></b> <%= post["time"] %> No.<%= post["no"] %></div>
-      <div class="postBody"><p><%= post["body"] %></p></div>
+    </header><br>
+    <% @thread.each do |thread|; @op = thread["op"] %>
+    <div class="thread">
+      <div class="op">
+        <div class="postInfo"><b><%= @op["name"] %></b> <%= @op["time"] %> No.<%= @op["no"] %></div>
+        <div class="postBody"><p><%= @op["body"] %></p></div>
+      </div>
+      <% thread["posts"].each do |post| %>
+      <div class="post" id="no_<%= post["no"] %>">
+        <div class="postInfo"><b><%= post["name"] %></b> <%= post["time"] %> No.<%= post["no"] %></div>
+        <div class="postBody"><p><%= post["body"] %></p></div>
+      </div><% end %>
     </div><% end %>
     <br>
     <form action="/post" method="POST">
@@ -22,13 +29,15 @@
           <th id="formOptions"><input type="text" size="15" placeholder="email" value="noko" name="opts"></th>
           <th id="formButton"><input type="submit" value="Post"><br></th>
         </tr><tr>
-          <td id="formText"><textarea rows="4" cols="40" placeholder="Comment" autofocus name="body"></textarea><br></td>
+          <td id="formText"><textarea rows="4" cols="40" placeholder="Comment" name="body"></textarea><br></td>
         </tr><tr>
           <td id="formFile"><input type="file" name="file" accept="image/jpeg, image/png, image/gif, video/webm"></td>
+        </tr><tr>
+          <td id="test"><input type="text" name="thread" value="0"></td>
         </tr>
       </table>
       <input type="hidden" name="board" value="<%= @info["board"] %>">
-      <input type="hidden" name="thread" value="0">
+      <!-- <input type="hidden" name="thread" value="0"> -->
     </form>
   </body>
 </html>
