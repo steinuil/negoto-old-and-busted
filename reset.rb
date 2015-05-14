@@ -12,6 +12,6 @@ stats.insert_one({ board: "snw",
                    post_no: 0 })
 
 @info = stats.find({ board: "snw" }).to_a[0].to_h
-@thread = []
+@threads = []
 render = ERB.new(File.read('template/index.erb'))
 File.write('public/index.html', render.result(binding))

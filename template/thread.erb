@@ -1,27 +1,25 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= "/#{@info["board"]}/ - #{@info["name"]}" %></title>
+    <title><%= "#{@info["board"]} - #{@info["name"]}" %></title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/style.css">
   </head>
   <body>
-    <header>
-      <img id="banner" src="/<%= @banner %>"></img>
-      <h1><%= "/#{@info["board"]}/ - #{@info["name"]}" %></h1>
+    <header><h1><%= "/#{@info["board"]}/ - #{@info["name"]}" %></h1>
       <a href="/update">Update</a>
     </header><br>
-    <% @threads.each do |thread|; @op = thread["op"] %><div class="thread" id="t<%= @op["no"] %>">
+    <% @op = @threads["op"] %><div class="thread" id="t<%= @op["no"] %>">
       <div class="op" id="p<%= @op ["no"] %>">
-        <div class="postInfo"><b><%= @op["name"] %></b> <%= @op["time"] %> &#8470;<%= @op["no"] %> [<a href="/thread/<%= @op["no"] %>.html">Reply</a>]</div>
+        <div class="postInfo"><b><%= @op["name"] %></b> <%= @op["time"] %> &#8470;<%= @op["no"] %> [<a href="/">Return</a>]</div>
         <div class="postBody"><p><%= @op["body"] %></p></div>
       </div>
-      <% thread["posts"].each do |post| %>
+      <% @threads["posts"].each do |post| %>
       <div class="post" id="p<%= post["no"] %>">
         <div class="postInfo"><b><%= post["name"] %></b> <%= post["time"] %> &#8470;<%= post["no"] %></div>
         <div class="postBody"><p><%= post["body"] %></p></div>
       </div><% end %>
-    </div><% end %>
+    </div>
     <br>
     <form action="/post" method="POST">
       <table id="postForm">
@@ -33,12 +31,10 @@
         </tr><tr>
           <td id="formFile"><input type="file" name="file" accept="image/jpeg, image/png, image/gif, video/webm"></td>
           <td id="formSage"><label for="sage">sage</label><input type="checkbox" id="sage" name="sage"></td>
-        <!-- </tr><tr>
-          <td id="test"><input type="text" name="thread" value="0"></td> -->
         </tr>
       </table>
       <input type="hidden" name="board" value="<%= @info["board"] %>">
-      <input type="hidden" name="thread" value="0">
+      <input type="hidden" name="thread" value="<%= @op["no"] %>">
     </form>
   </body>
 </html>

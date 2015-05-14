@@ -1,6 +1,6 @@
 body {
   font-family: sans-serif;
-  margin: 0px;
+  margin: 5px;
   color: #333;
 }
 
@@ -9,16 +9,38 @@ header {
   font-size: 1.2em;
 }
 
+a {
+  text-decoration: none;
+}
+
+#banner {
+  border: 1px solid #CCC;
+}
+
 .post {
   display: table;
   background-color: #CCC;
-  margin: 5px;
+  margin: 5px 0;
   padding: 5px;
 }
 
-.op {
-  padding-left: 5px;
-  padding-right: 5px;
+.post:target {
+  background-color: #EEE;
+}
+
+.quote {
+  color: #789922;
+}
+
+.code {
+  display: inline-block;
+  background-color: #EEE;
+  margin: 2px;
+  padding: 3px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  tab-size: 4;
+  -moz-tab-size: 4;
 }
 
 .postInfo{
@@ -39,39 +61,42 @@ header {
 /* Post form */
 #postForm {
   table-layout: fixed;
-  width: 301px;
+  width: 300px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 5px;
   background-color: #CCC;
+  border-collapse: collapse;
 }
 
-#formName, #formOptions {
-  width: 121px;
+#formName {
+  width: 249px;
   text-align: left;
 }
 
-#formName input, #formOptions input {
-  width: 118px;
+#formName input, #formSage {
+  width: 242px;
   transition: 1s;
   background-color: #CCC;
   padding-left: 3px;
   color: #888;
+  margin: 2px 2px 1px;
 }
 
-#formName input:focus, #formOptions input:focus {
+#formName input:focus {
   transition: 1s;
   background-color: #FFF;
   color: #333;
 }
 
 #formButton {
-  text-align: right;
+  text-align: left;
 }
 
 #formButton input {
   background-color: #FFF;
   transition: 0.5s;
+  margin: 2px 0 1px;
 }
 
 #formButton input:active {
@@ -81,15 +106,27 @@ header {
 }
 
 #formText textarea {
-  max-width: 293px;
-  min-width: 293px;
+  max-width: 292px;
+  min-width: 292px;
   min-height: 90px;
   font-family: sans-serif;
   font-size: 14px;
+  margin: 0 2px;
 }
 
 #formFile {
-  width: 293px;
+  z-index: -1;
+}
+
+#formSage {
+  width: 55px;
+  float: right;
+  font-size: 0.9em !important;
+  text-align: right;
+}
+
+#formSage label {
+  vertical-align: top;
 }
 
 #postForm input, textarea {
