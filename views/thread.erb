@@ -1,11 +1,11 @@
 <% @op = @threads["op"] %><div class="thread" id="t<%= @op["no"] %>">
-  <div class="op" id="p<%= @op ["no"] %>">
-    <div class="postInfo"><b><%= @op["name"] %></b> <%= @op["time"] %> &#8470;<%= @op["no"] %> [<a href="/">Return</a>]</div>
+  <div class="op" id="<%= @op ["no"] %>">
+    <div class="postInfo"><b><%= @op["name"] %></b> <%= @op["time"] %> <a href="/thread/<%= @op["no"] %>">&#8470;</a><%= @op["no"] %> [<a href="/">Return</a>]</div>
     <div class="postBody"><p><%= @op["body"] %></p></div>
   </div>
   <% @threads["posts"].each do |post| %>
-  <div class="post" id="p<%= post["no"] %>">
-    <div class="postInfo"><b><%= post["name"] %></b> <%= post["time"] %> &#8470;<%= post["no"] %></div>
+  <div class="post" id="<%= post["no"] %>">
+    <div class="postInfo"><b><%= post["name"] %></b> <%= post["time"] %> <a href="<%= "/thread/#{@op["no"]}##{post["no"]}" %>">&#8470;</a><%= post["no"] %></div>
     <div class="postBody"><p><%= post["body"] %></p></div>
   </div><% end %>
 </div>
