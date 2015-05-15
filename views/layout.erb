@@ -13,7 +13,8 @@
     </header><br>
     <%= @content %>
     <br>
-    <form action="/post" method="POST">
+    <hr>
+    <form action="/post" method="POST" enctype="multipart/form-data">
       <table id="postForm">
         <tr>
           <td id="formName"><input type="text" size="15" placeholder="Anonymous" value="Anonymous" name="name"></td>

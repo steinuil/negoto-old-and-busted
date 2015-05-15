@@ -13,6 +13,11 @@ a {
   text-decoration: none;
 }
 
+hr {
+  clear: both;
+  visibility: hidden;
+}
+
 #banner {
   border: 1px solid #CCC;
 }
@@ -47,6 +52,15 @@ a {
   font-size: 0.8em;
   padding-bottom: 2px;
   border-bottom: 1px solid #AAA;
+}
+
+.op .postInfo {
+  clear: both;
+}
+
+.post .postInfo {
+  white-space: nowrap;
+  float: left;
 }
 
 .postBody {
@@ -131,4 +145,22 @@ a {
 
 #postForm input, textarea {
   border: 0px;
+}
+
+/* temporary image stuff */
+.op img {
+  width: auto;
+  height: auto;
+  max-width: 250px;
+  max-height: 250px;
+  float: left;
+  margin-right: 5px;
+}
+.post img {
+  width: auto;
+  height: auto;
+  max-width: 150px;
+  max-height: 150px;
+  float: left;
+  margin-right: 5px;
 }

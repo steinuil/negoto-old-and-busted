@@ -52,6 +52,19 @@ class Post
   end
 end
 
+def get_extension(mimetype)
+  case mimetype
+  when "image/jpeg"
+    return ".jpg"
+  when "image/png"
+    return ".png"
+  when "image/gif"
+    return ".gif"
+  when "video/webm"
+    return ".webm"
+  end
+ end
+
 # [insert Frank Sinatra quote here]
 get '/' do
   @info = stats.find(board: "snw").to_a.first.to_h
@@ -76,12 +89,22 @@ post '/post' do
     break
   end
 
+  unless params[:file].nil?
+    file = params[:file]
+    filename = Time.now.to_i.to_s + get_extension(file[:type])
+    File.open("public/src/#{filename}", 'wb') { |f| f.write(file[:tempfile].read) }
+    file_info = { src: filename, filename: file[:filename] }
+  else
+    file_info = ""
+  end
+
   info = stats.find(board: "snw").to_a.first.to_h
   post_no = info["post_no"] + 1
 
   Post.new({ no: post_no,
              name: params[:name],
              body: escape_body(params[:body]),
+             file: file_info,
              time: Time.now }, page, board).send
 
   stats.find(board: "snw").update_one("$inc" => { post_no: 1 })

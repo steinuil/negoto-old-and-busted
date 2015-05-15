@@ -9,8 +9,8 @@ Don't actually use this yet.
 
 ## TODO
 - [x] Render the thread pages.
-- [ ] Images.
-  * It'd be nice to use [libvips](https://github.com/jcupitt/ruby-vips) for that.
+- [x] Images. (kinda)
+  - [ ] It'd be nice to use [libvips](https://github.com/jcupitt/ruby-vips) for that.
 - [ ] Actual support for multiple boards.
 - [ ] Control panel for the mods or whatever.
 - [ ] Live updating and sorceries of the sort which will require ECMAscript.
