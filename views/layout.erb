@@ -11,7 +11,7 @@
       <h1><%= "/#{@info["board"]}/ - #{@info["name"]}" %></h1>
       <a href="/update">Update</a>
     </header><br>
-    <%= ERB.new(@content).result(binding) %>
+    <%= @content %>
     <br>
     <form action="/post" method="POST">
       <table id="postForm">

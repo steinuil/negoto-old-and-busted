@@ -20,6 +20,7 @@ stats = database[:statistics]
 def escape_body(text)
   $wordfilters.each { |pairs| text = text.gsub(pairs[:from], pairs[:to]) }
   text = HTMLEntities.new.encode(text)
+  # terrible mess
   text.gsub!(/(?<!&gt;)(&gt;){2}([0-9]+)/, '<a class="quotelink" href="#\2">\1\1\2</a>') # >>quote links
   text.gsub!(/(https?|ftp|irc):\/\/(\S+(?!&quot;))/, '<a href="\1://\2">\1://\2</a>')    # links
   text.gsub!(/^(&quot;){3}\R+(.+?)\R(&quot;){3}/m, '<pre class="code">\2</pre>')         # code tags
@@ -31,65 +32,81 @@ end
 
 def update_page(thread, info, type, id)
   @threads, @info = thread, info
-  @banner = Dir.chdir('public') { Dir.glob('banners/*').sample }
-  render = ERB.new(File.read("template/#{type}.erb")).result(binding)
-  File.write("public/#{id}.html", render)
+  render = ERB.new(File.read("views/#{type}.erb")).result(binding)
+  File.write("cache/#{id}", render)
+end
+
+class Post
+  def initialize(post, page, board)
+    @post = post
+    @page = page
+    @board = board
+  end
+
+  def send
+    if @page == 0
+      @board.insert_one({ thread: @post[:no], op: @post, posts: [], updated: Time.now })
+    else
+      @board.find(thread: @page).update_one("$push" => { posts: @post })
+    end
+  end
 end
 
 # [insert Frank Sinatra quote here]
 get '/' do
-  redirect 'index.html'
+  @info = stats.find(board: "snw").to_a.first.to_h
+  @banner = Dir.chdir('public') { Dir.glob('banners/*').sample }
+  @content = File.read("cache/top")
+  @no = 0
+  erb :layout
+end
+
+get '/thread/:id' do |id|
+  @info = stats.find(board: "snw").to_a.first.to_h
+  @banner = Dir.chdir('public') { Dir.glob('banners/*').sample }
+  @content = File.read("cache/#{id}")
+  @no = id
+  erb :layout
 end
 
 post '/post' do
-  @no = params[:thread].to_i
-  @info = stats.find(board: "snw").to_a.first.to_h
-  @new_post = { no: @info["post_no"] + 1,
-                name: params[:name],
-                body: escape_body(params[:body]),
-                #file: { original: params[:file] },
-                time: Time.now }
-
-  if @no == 0
-    board.insert_one({ thread: @new_post[:no],
-                       op: @new_post,
-                       posts: [],
-                       updated: Time.now })
-    stats.find(board: "snw").update_one("$inc" => { :post_no => 1 })
-
-  elsif board.find(thread: @no).count == 0
+  page = params[:thread].to_i
+  if board.find(thread: page).count == 0 and page != 0
     redirect '/error/no_thread'
-
-  else
-    board.find(thread: @no)
-      .update_one("$push" => { posts: @new_post })
-      unless params[:sage] == "on"
-        board.find(thread: @no)
-          .update_one("$set" => { updated: Time.now })
-      end
-
-    stats.find(board: "snw").update_one("$inc" => { :post_no => 1 })
+    break
   end
 
-  # Update
-  @threads = board.find.sort(updated: -1).to_a
-  update_page(@threads, @info, "index", "index")
+  info = stats.find(board: "snw").to_a.first.to_h
+  post_no = info["post_no"] + 1
 
-  @no = @new_post[:no] if @no == 0
-  update_page(board.find(thread: @no).to_a.first,
-              @info, "thread", "thread/#{@no}")
+  Post.new({ no: post_no,
+             name: params[:name],
+             body: escape_body(params[:body]),
+             time: Time.now }, page, board).send
 
-  redirect "/thread/#{@no}.html"
+  stats.find(board: "snw").update_one("$inc" => { post_no: 1 })
+
+  unless params[:sage] == "on"
+    board.find(thread: page).update_one("$set" => { updated: Time.now })
+  end
+
+  threads = board.find.sort(updated: -1).to_a
+  update_page(threads, info, "top", "top")
+
+  page = post_no if page == 0
+  update_page(board.find(thread: page).to_a.first, info, "thread", page)
+
+  redirect "/thread/#{page}"
 end
 
 get '/update' do
-  @threads = board.find.sort(updated: -1).to_a
-  @info = stats.find(board: "snw").to_a.first.to_h
+  threads = board.find.sort(updated: -1).to_a
+  info = stats.find(board: "snw").to_a.first.to_h
 
-  update_page(@threads, @info, "index", "index")
+  update_page(threads, info, "top", "top")
 
-  @threads.each do |thread|
-    update_page(thread, @info, "thread", "thread/#{thread["op"]["no"]}")
+  threads.each do |thread|
+    update_page(thread, info, "thread", thread["thread"])
   end
 
   redirect '/'
