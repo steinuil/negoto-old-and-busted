@@ -4,10 +4,13 @@
     <%= "<img src='/src/#{@op["file"]["src"]}'></img>" if @op["file"] != nil and @op["file"] != "" %>
     <div class="postBody"><p><%= @op["body"] %></p></div>
   </div>
-  <% thread["posts"].each do |post| %>
+  <% postc = thread["posts"].count %><%= "<div class=\"omitted\">#{postc - 5} posts omitted, click Reply to view.</div>" if postc > 5 %>
+  <% thread["posts"].last(5).each do |post| %>
   <div class="post" id="<%= post["no"] %>">
     <%= "<img src='/src/#{post["file"]["src"]}'></img>" if post["file"] != nil and post["file"] != "" %>
     <div class="postInfo"><b><%= post["name"] %></b> <%= post["time"] %> <a href="<%= "/thread/#{@op["no"]}##{post["no"]}" %>">&#8470;</a><%= post["no"] %></div>
+    <hr>
     <div class="postBody"><p><%= post["body"] %></p></div>
   </div><% end %>
 </div><% end %>
+<hr>

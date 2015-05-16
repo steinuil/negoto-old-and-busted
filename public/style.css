@@ -1,7 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
 body {
   font-family: sans-serif;
   margin: 5px;
   color: #333;
+  font-size: 0.9rem;
 }
 
 header {
@@ -20,6 +27,16 @@ hr {
 
 #banner {
   border: 1px solid #CCC;
+}
+
+.post, .op {
+  font-size: 0.8rem;
+}
+
+.omitted {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 5px;
 }
 
 .post {
@@ -48,24 +65,34 @@ hr {
   -moz-tab-size: 4;
 }
 
-.postInfo{
-  font-size: 0.8em;
-  padding-bottom: 2px;
-  border-bottom: 1px solid #AAA;
+.post hr {
+  clear: none;
+  margin: 0;
+  background-color: #AAA;
+  visibility: visible;
+  height: 1px;
+  margin-bottom: 1px;
+}
+
+.postInfo {
 }
 
 .op .postInfo {
   clear: both;
+  margin-top: 15px;
+  margin-bottom: 3px;
+  border-bottom: 1px solid #AAA;
 }
 
 .post .postInfo {
+  display: inline-block;
+  margin: 0;
+  vertical-align: top;
   white-space: nowrap;
-  float: left;
+  margin-top: -1px;
 }
 
 .postBody {
-  font-size: 0.9em;
-  padding-top: 3px;
 }
 
 .postBody p {
@@ -73,7 +100,61 @@ hr {
 }
 
 /* Post form */
-#postForm {
+
+#post_form {
+  width: 300px;
+  margin: 15px auto;
+  background-color: #CCC;
+  padding: 5px;
+}
+
+#post_name,
+#post_button {
+  color: #AAA;
+  background-color: #CCC;
+  transition: 1s;
+}
+
+#post_name:focus {
+  transition: 1s;
+  background-color: #FFF;
+  color: #333;
+}
+
+#post_button:hover {
+  transition: 1s;
+  background-color: #333;
+  color: #CCC;
+}
+
+#post_name {
+  width: 250px;
+  padding: 2px;
+  margin-bottom: 2.5px;
+}
+
+#post_button {
+  padding: 1px;
+  margin-left: 5px;
+  width: 40px;
+}
+
+#post_body {
+  font-family: sans-serif;
+  font-size: 0.9rem;
+  max-width: 295px;
+  min-width: 295px;
+  padding: 2px;
+  margin: 2.5px 0;
+  min-height: 90px;
+}
+
+#form_file {
+  margin-top: 2.5px;
+  height: 17px;
+}
+
+/* #postForm {
   table-layout: fixed;
   width: 300px;
   margin-left: auto;
@@ -81,6 +162,7 @@ hr {
   margin-bottom: 5px;
   background-color: #CCC;
   border-collapse: collapse;
+  padding: 5px;
 }
 
 #formName {
@@ -92,9 +174,8 @@ hr {
   width: 242px;
   transition: 1s;
   background-color: #CCC;
-  padding-left: 3px;
   color: #888;
-  margin: 2px 2px 1px;
+  background-color: #444;
 }
 
 #formName input:focus {
@@ -110,7 +191,6 @@ hr {
 #formButton input {
   background-color: #FFF;
   transition: 0.5s;
-  margin: 2px 0 1px;
 }
 
 #formButton input:active {
@@ -124,8 +204,7 @@ hr {
   min-width: 292px;
   min-height: 90px;
   font-family: sans-serif;
-  font-size: 14px;
-  margin: 0 2px;
+  font-size: 0.9rem;
 }
 
 #formFile {

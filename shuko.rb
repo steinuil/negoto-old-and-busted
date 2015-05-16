@@ -1,10 +1,12 @@
 require 'sinatra'
 require 'mongo'
 require 'erb'
+require 'tilt/erubis'
 require 'htmlentities'
 
 # Options
 set :bind, '0.0.0.0' # this is so that I can access it over the LAN
+set :server, :thin   # because the default server is too fucking SLOW
 
 $wordfilters = [
   #{ from: /\s(yeah|yes)/i, to: "Jud" },
@@ -119,7 +121,7 @@ post '/post' do
   page = post_no if page == 0
   update_page(board.find(thread: page).to_a.first, info, "thread", page)
 
-  redirect "/thread/#{page}"
+  redirect "/thread/#{page}##{post_no}"
 end
 
 get '/update' do

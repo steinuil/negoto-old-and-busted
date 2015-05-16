@@ -12,20 +12,11 @@
       <a href="/update">Update</a>
     </header><br>
     <%= @content %>
-    <br>
     <hr>
-    <form action="/post" method="POST" enctype="multipart/form-data">
-      <table id="postForm">
-        <tr>
-          <td id="formName"><input type="text" size="15" placeholder="Anonymous" value="Anonymous" name="name"></td>
-          <td id="formButton"><input type="submit" value="Post"><br></td>
-        </tr><tr>
-          <td id="formText"><textarea rows="4" cols="40" placeholder="Comment" name="body"></textarea><br></td>
-        </tr><tr>
-          <td id="formFile"><input type="file" name="file" accept="image/jpeg, image/png, image/gif, video/webm"></td>
-          <td id="formSage"><label for="sage">sage</label><input type="checkbox" id="sage" name="sage"></td>
-        </tr>
-      </table>
+    <form id="post_form" action="/post" method="POST" enctype="multipart/form-data">
+      <input id="post_name" type="text" placeholder="Anonymous" value="Anonymous" name="name"><input id="post_button" type="submit" value="Post"><br>
+      <textarea id="post_body" placeholder="Comment" name="body"></textarea><br>
+      <input id="post_file" type="file" name="file" accept="image/jpeg, image/png, image/gif, video/webm"><label id="post_sage" for="sage">sage</label><input type="checkbox" id="sage" name="sage">
       <input type="hidden" name="board" value="<%= @info["board"] %>">
       <input type="hidden" name="thread" value="<%= @no %>">
     </form>
