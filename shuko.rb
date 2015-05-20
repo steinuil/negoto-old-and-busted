@@ -38,19 +38,33 @@ def update_page(thread, info, type, id)
   File.write("cache/#{id}", render)
 end
 
+#def cache(thread, info, id)
+#  update = ->(thread, info, type, id) do
+#    @threads, @info = thread, info
+#    render = ERB.new(File.read("views/#{type}.erb")).result(binding)
+#    File.write("cache/#{id}", render)
+#  end
+#  update.call(thread, info, "thread", id)
+#  update.call(thread, info, "top", "top")
+#end
+
 class Post
-  def initialize(post, page, board)
-    @post = post
-    @page = page
+  def initialize(post_no, page, board)
+    @no = post_no
     @board = board
+    @page = page
   end
 
-  def send
+  def send(content)
     if @page == 0
-      @board.insert_one({ thread: @post[:no], op: @post, posts: [], updated: Time.now })
+      @board.insert_one({ thread: @no, op: content, posts: [], updated: Time.now })
     else
-      @board.find(thread: @page).update_one("$push" => { posts: @post })
+      @board.find(thread: @page).update_one("$push" => { posts: content })
     end
+  end
+
+  def delete
+    @board.find(thread: @page).update_one("$pull" => { posts: { no: @no } })
   end
 end
 
@@ -86,28 +100,40 @@ end
 
 post '/post' do
   page = params[:thread].to_i
-  if board.find(thread: page).count == 0 and page != 0
+  op = page == 0
+
+  if board.find(thread: page).count == 0 and not op
     redirect '/error/no_thread'
+    break
+  elsif params[:name].empty?
+    redirect '/error/no_name'
+    break
+  elsif params[:file].nil? and op
+    redirect '/error/no_image'
+    break
+  elsif params[:file].nil? and params[:body].empty?
+    redirect '/error/no_comment'
     break
   end
 
-  unless params[:file].nil?
+  if params[:file].nil?
+    file_info = ""
+  else
     file = params[:file]
     filename = Time.now.to_i.to_s + get_extension(file[:type])
     File.open("public/src/#{filename}", 'wb') { |f| f.write(file[:tempfile].read) }
     file_info = { src: filename, filename: file[:filename] }
-  else
-    file_info = ""
   end
 
   info = stats.find(board: "snw").to_a.first.to_h
   post_no = info["post_no"] + 1
 
-  Post.new({ no: post_no,
-             name: params[:name],
-             body: escape_body(params[:body]),
-             file: file_info,
-             time: Time.now }, page, board).send
+  Post.new(post_no, page, board)
+    .send({ no: post_no,
+            name: params[:name],
+            body: escape_body(params[:body]),
+            file: file_info,
+            time: Time.now })
 
   stats.find(board: "snw").update_one("$inc" => { post_no: 1 })
 
@@ -118,7 +144,7 @@ post '/post' do
   threads = board.find.sort(updated: -1).to_a
   update_page(threads, info, "top", "top")
 
-  page = post_no if page == 0
+  page = post_no if op
   update_page(board.find(thread: page).to_a.first, info, "thread", page)
 
   redirect "/thread/#{page}##{post_no}"
@@ -138,9 +164,18 @@ get '/update' do
 end
 
 get '/error/:err' do
-  if params[:err] == "no_thread"
-    "No such thread. <a href='/index.html'>Go back</a>"
+  case params[:err]
+  when "no_thread"
+    error = "No such thread."
+  when "no_image"
+    error = "You can't start a thread without an image."
+  when "no_comment"
+    error = "You can't post without a comment or an image."
+  when "no_name"
+    error = "You can't post without a name."
   end
+  error += " <a href='/'>Go back</a>"
+  error
 end
 
 not_found do

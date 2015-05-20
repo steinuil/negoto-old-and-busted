@@ -3,20 +3,21 @@
   <head>
     <title><%= "/#{@info["board"]}/ - #{@info["name"]}" %></title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="/style.css">
+    <link type="text/css" rel="stylesheet" href="/style.css">
+    <script src="/script.js"></script>
   </head>
   <body>
     <header>
-      <img id="banner" src="/<%= @banner %>"></img>
+      <img id="banner" src="/<%= @banner %>">
       <h1><%= "/#{@info["board"]}/ - #{@info["name"]}" %></h1>
       <a href="/update">Update</a>
     </header><br>
     <%= @content %>
     <hr>
-    <form id="post_form" action="/post" method="POST" enctype="multipart/form-data">
-      <input id="post_name" type="text" placeholder="Anonymous" value="Anonymous" name="name"><input id="post_button" type="submit" value="Post"><br>
-      <textarea id="post_body" placeholder="Comment" name="body"></textarea><br>
-      <input id="post_file" type="file" name="file" accept="image/jpeg, image/png, image/gif, video/webm"><label id="post_sage" for="sage">sage</label><input type="checkbox" id="sage" name="sage">
+    <form id="form" action="/post" method="POST" enctype="multipart/form-data">
+      <input id="name" type="text" placeholder="Anonymous" value="Anonymous" name="name"><input id="button" type="submit" value="Post"><br>
+      <textarea id="body" placeholder="Comment" name="body"></textarea><br>
+      <input id="file" type="file" name="file" accept="image/jpeg, image/png, image/gif, video/webm"><label id="sage" for="sagebox">sage</label><input type="checkbox" id="sagebox" name="sage">
       <input type="hidden" name="board" value="<%= @info["board"] %>">
       <input type="hidden" name="thread" value="<%= @no %>">
     </form>

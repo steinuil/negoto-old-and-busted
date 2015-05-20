@@ -1,14 +1,15 @@
-<% @op = @threads["op"] %><div class="thread" id="t<%= @op["no"] %>">
-  <div class="op" id="<%= @op ["no"] %>">
-    <div class="postInfo"><b><%= @op["name"] %></b> <%= @op["time"] %> <a href="/thread/<%= @op["no"] %>">&#8470;</a><%= @op["no"] %> [<a href="/">Return</a>]</div>
-    <%= "<img src='/src/#{@op["file"]["src"]}'></img>" if @op["file"] != nil and @op["file"] != "" %>
-    <div class="postBody"><p><%= @op["body"] %></p></div>
-  </div>
-  <% @threads["posts"].each do |post| %>
-  <div class="post" id="<%= post["no"] %>">
-    <%= "<img src='/src/#{post["file"]["src"]}'></img>" if post["file"] != nil and post["file"] != "" %>
-    <div class="postInfo"><b><%= post["name"] %></b> <%= post["time"] %> <a href="<%= "/thread/#{@op["no"]}##{post["no"]}" %>">&#8470;</a><%= post["no"] %></div>
+<% op = @threads['op'] %><div class="thread" id="t<% op['no'] %>">
+  <div class="post op" id="<%= op['no'] %>">
+    <div class="info"><b><%= op['name'] %></b> <%= op['time'].strftime("%Y/%m/%d %H:%M:%S") %> <a href="/thread/<%= op['no'] %>">&#8470;</a><span onclick="quote(<%= op['no'] %>)"><%= op['no'] %></span> [<a href="/">Return</a>]</div>
     <hr>
-    <div class="postBody"><p><%= post["body"] %></p></div>
+    <figure><img src="<%= "/src/#{op['file']['src']}" %>"><figcaption class="caption"><%= op['file']['filename'] %></figcaption></figure>
+    <div class="body"><p><%= op['body'] %></p></div>
+  </div>
+  <% @threads['posts'].each do |post| %><div class="post reply" id="<%= post['no'] %>">
+    <%= "<figure><img src=\"/src/#{post['file']['src']}\"><figcaption class=\"caption\">#{post['file']['filename']}</figcaption></figure>" if post['file'] != nil and post['file'] != "" %>
+    <div class="info"><b><%= post['name'] %></b> <%= post['time'].strftime("%Y/%m/%d %H:%M:%S") %> <a href="/thread/<%= "#{op['no']}##{post['no']}" %>">&#8470;</a><span onclick="quote(<%= post['no'] %>);"><%= post['no'] %></span></div>
+    <hr>
+    <div class="body"><p><%= post['body'] %></p></div>
   </div><% end %>
 </div>
+<hr>

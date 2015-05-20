@@ -16,7 +16,7 @@ stats.insert_one({ board: "snw",
                    name: "Time-Telling Fortress",
                    post_no: 0 })
 
-@info = stats.find({ board: "snw" }).to_a.first.to_h
+@info = stats.find(board: "snw").to_a.first.to_h
 @threads = []
 render = ERB.new(File.read("views/top.erb")).result(binding)
 File.write("cache/top", render)

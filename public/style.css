@@ -1,3 +1,14 @@
+/* Fix some browser inconsistencies, thanks normalize.css-kun */
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+input[type="submit"] {
+  -webkit-appearance: none;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,15 +16,13 @@
 }
 
 body {
-  font-family: sans-serif;
   margin: 5px;
   color: #333;
-  font-size: 0.9rem;
 }
 
 header {
   text-align: center;
-  font-size: 1.2em;
+  font-size: 1.2rem;
 }
 
 a {
@@ -29,40 +38,14 @@ hr {
   border: 1px solid #CCC;
 }
 
-.post, .op {
+/* Posts */
+.post {
   font-size: 0.8rem;
 }
 
-.omitted {
-  font-size: 0.75rem;
-  color: #888;
-  margin-top: 5px;
-}
-
-.post {
-  display: table;
-  background-color: #CCC;
-  margin: 5px 0;
-  padding: 5px;
-}
-
-.post:target {
-  background-color: #EEE;
-}
-
-.quote {
-  color: #789922;
-}
-
-.code {
-  display: inline-block;
-  background-color: #EEE;
-  margin: 2px;
-  padding: 3px;
-  font-family: monospace;
-  white-space: pre-wrap;
-  tab-size: 4;
-  -moz-tab-size: 4;
+.op {
+  clear: both;
+  padding-top: 15px;
 }
 
 .post hr {
@@ -74,17 +57,39 @@ hr {
   margin-bottom: 1px;
 }
 
-.postInfo {
+.omitted {
+  font-size: 0.75rem;
+  color: #888;
 }
 
-.op .postInfo {
-  clear: both;
-  margin-top: 15px;
-  margin-bottom: 3px;
-  border-bottom: 1px solid #AAA;
+.reply:target {
+  background-color: #EEE;
 }
 
-.post .postInfo {
+.post .quote {
+  color: #789922;
+}
+
+.post .code {
+  display: inline-block;
+  background-color: #EEE;
+  margin: 2px;
+  padding: 3px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  tab-size: 4;
+  -moz-tab-size: 4;
+  font-size: 0.8rem;
+}
+
+.reply {
+  display: table;
+  background-color: #CCC;
+  margin: 5px 0;
+  padding: 5px;
+}
+
+.post>.info {
   display: inline-block;
   margin: 0;
   vertical-align: top;
@@ -92,56 +97,71 @@ hr {
   margin-top: -1px;
 }
 
-.postBody {
+.post>.info>a,
+.post>.info>span {
+  color: #333;
 }
 
-.postBody p {
+.post>.info>a:hover,
+.post>.info>span:hover {
+  color: red;
+  cursor: pointer;
+}
+
+.op>.body {
+  margin-bottom: 10px;
+}
+
+.post>.body p {
   margin: 0;
 }
 
 /* Post form */
 
-#post_form {
+#form {
   width: 300px;
   margin: 15px auto;
   background-color: #CCC;
   padding: 5px;
 }
 
-#post_name,
-#post_button {
+#form * {
+  font-size: 0.8rem;
+}
+
+#form>#name,
+#form>#button {
   color: #AAA;
   background-color: #CCC;
   transition: 1s;
 }
 
-#post_name:focus {
+#form>#name:focus {
   transition: 1s;
   background-color: #FFF;
   color: #333;
 }
 
-#post_button:hover {
+#form>#button:hover {
   transition: 1s;
   background-color: #333;
   color: #CCC;
 }
 
-#post_name {
+#form>#name {
   width: 250px;
   padding: 2px;
   margin-bottom: 2.5px;
 }
 
-#post_button {
+#form>#button {
   padding: 1px;
   margin-left: 5px;
   width: 40px;
 }
 
-#post_body {
+#form>#body {
   font-family: sans-serif;
-  font-size: 0.9rem;
   max-width: 295px;
   min-width: 295px;
   padding: 2px;
@@ -149,97 +169,54 @@ hr {
   min-height: 90px;
 }
 
-#form_file {
+#form>#file {
   margin-top: 2.5px;
-  height: 17px;
-}
-
-/* #postForm {
-  table-layout: fixed;
-  width: 300px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 5px;
-  background-color: #CCC;
-  border-collapse: collapse;
-  padding: 5px;
-}
-
-#formName {
-  width: 249px;
-  text-align: left;
-}
-
-#formName input, #formSage {
-  width: 242px;
-  transition: 1s;
-  background-color: #CCC;
-  color: #888;
-  background-color: #444;
-}
-
-#formName input:focus {
-  transition: 1s;
-  background-color: #FFF;
-  color: #333;
-}
-
-#formButton {
-  text-align: left;
-}
-
-#formButton input {
-  background-color: #FFF;
-  transition: 0.5s;
-}
-
-#formButton input:active {
-  background-color: #333;
-  color: #CCC;
-  transition: 0.5s;
-}
-
-#formText textarea {
-  max-width: 292px;
-  min-width: 292px;
-  min-height: 90px;
-  font-family: sans-serif;
-  font-size: 0.9rem;
-}
-
-#formFile {
-  z-index: -1;
-}
-
-#formSage {
-  width: 55px;
-  float: right;
-  font-size: 0.9em !important;
-  text-align: right;
-}
-
-#formSage label {
-  vertical-align: top;
-}
-
-#postForm input, textarea {
-  border: 0px;
-}
-
-/* temporary image stuff */
-.op img {
-  width: auto;
-  height: auto;
-  max-width: 250px;
-  max-height: 250px;
-  float: left;
+  height: 25px;
+  overflow: hidden;
+  width: 230px;
   margin-right: 5px;
 }
+
+
+/* image stuff */
 .post img {
   width: auto;
   height: auto;
+}
+
+.op img {
+  max-width: 250px;
+  max-height: 250px;
+}
+
+.reply img {
   max-width: 150px;
   max-height: 150px;
+}
+
+.post>figure {
   float: left;
-  margin-right: 5px;
+  position: relative;
+  margin: 0 5px -3px 0;
+}
+
+.post>figure>.caption {
+  opacity: 0;
+  background-color: #333;
+  color: #CCC;
+  font-size: 0.75rem;
+  position: absolute;
+  left: 0;
+  padding: 3px;
+  text-align: center;
+  z-index: 1;
+  transition: 0.5s;
+  bottom: 3px;
+  display: block;
+  transition: 0.5s;
+}
+
+.post>figure:hover>.caption {
+  opacity: 0.9;
+  transition: 0.5s;
 }
