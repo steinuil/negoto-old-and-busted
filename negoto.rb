@@ -4,14 +4,10 @@ require 'erb'
 require 'tilt/erubis'
 require 'htmlentities'
 
-# Options
+# Settings
 set :bind, '0.0.0.0' # this is so that I can access it over the LAN
 set :server, :thin   # because the default server is too fucking SLOW
-
-$wordfilters = [
-  #{ from: /\s(yeah|yes)/i, to: "Jud" },
-  { from: /shit/i, to: "Seiya" }
-]
+Mongo::Logger.logger.level = Logger::INFO
 
 # Database stuff
 database = Mongo::Client.new(['127.0.0.1:27017'], :database => 'negoto')
@@ -19,10 +15,10 @@ info = database[:info]
 
 # Functions I guess
 def escape_body(text)
-  $wordfilters.each { |pairs| text = text.gsub(pairs[:from], pairs[:to]) }
+  #$wordfilters.each { |pairs| text = text.gsub(pairs[:from], pairs[:to]) }
   text = HTMLEntities.new.encode(text)
-  # terrible mess
-  text.gsub!(/(?<!&gt;)(&gt;){2}([0-9]+)/, '<a class="quotelink" href="#\2">\1\1\2</a>') # >>quote links
+  # terrible mess ahead
+  text.gsub!(/(?<!&gt;)(&gt;){2}([0-9]+)/, '<a class="quotelink" href="#\2">\1\1\2</a>') # >>qlinks
   text.gsub!(/(https?|ftp|irc):\/\/(\S+(?!&quot;))/, '<a href="\1://\2">\1://\2</a>')    # links
   text.gsub!(/^(&quot;){3}\R+(.+?)\R(&quot;){3}/m, '<pre class="code">\2</pre>')         # code tags
   text.gsub!(/^(&gt;.+?)$/, '<span class="quote">\1</span>')                             # >quotes
@@ -31,22 +27,11 @@ def escape_body(text)
   return text
 end
 
-def cache(threads, info, type, id, board)
-  @threads, @info = threads, info
-  @board_id = info['board']
+def cache(threads, type, id, board_id)
+  @threads, @board_id = threads, board_id
   render = ERB.new(File.read("views/#{type}.erb")).result(binding)
-  File.write("cache/#{@board_id}/#{id}", render)
+  File.write("cache/#{board_id}/#{id}", render)
 end
-
-#def cache(threads, info, id)
-#  update = ->(thread, info, type, id) do
-#    @threads, @info = thread, info
-#    render = ERB.new(File.read("views/#{type}.erb")).result(binding)
-#    File.write("cache/#{id}", render)
-#  end
-#  threads.each { |thread| update.call(thread, info, "thread", id) }
-#  update.call(thread, info, "top", "top")
-#end
 
 class Post
   def initialize(post_no, page, board)
@@ -84,11 +69,6 @@ def get_extension(mimetype)
 # [insert Frank Sinatra quote here]
 get '/' do
   database.database.collection_names
-  #@info = stats.find(board: "snw").to_a.first.to_h
-  #@banner = Dir.chdir('public') { Dir.glob('banners/*').sample }
-  #@content = File.read("cache/top")
-  #@no = 0
-  #erb :layout
 end
 
 get '/:board/' do |board|
@@ -114,7 +94,6 @@ post '/post' do
   op = page == 0
 
   if not info.find(t: 'list').to_a.first.to_h['boards'].include?(board_id)
-  #if not database.database.collection_names.include?(board_id) and board_id != "info"
     redirect '/error/no_board'
     break
   elsif board.find(thread: page).count == 0 and not op
@@ -158,8 +137,8 @@ post '/post' do
 
   threads = board.find.sort(updated: -1).to_a
   page = post_no if op
-  cache(threads, board_info, "top", "top", board)
-  cache(board.find(thread: page).to_a.first, board_info, "thread", page, board)
+  cache(threads, "top", "top", board_id)
+  cache(board.find(thread: page).to_a.first, "thread", page, board_id)
 
   redirect "#{board_id}/thread/#{page}##{post_no}"
 end
@@ -169,14 +148,9 @@ get '/update' do
   boards.each do |board_id|
     board = database[board_id]
     threads = board.find.sort(updated: -1).to_a
-    board_info = info.find(board: board_id).to_a.first.to_h
-    cache(threads, board_info, "top", "top", board)
-    threads.each { |thread| cache(thread, board_info, "thread", thread["thread"], board) }
+    cache(threads, "top", "top", board_id)
+    threads.each { |thread| cache(thread, "thread", thread["thread"], board_id) }
   end
-  #threads = board.find.sort(updated: -1).to_a
-  #board_info = stats.find(board: "snw").to_a.first.to_h
-  #cache(threads, board_info, "top", "top")
-  #threads.each { |thread| cache(thread, board_info, "thread", thread["thread"]) }
 
   redirect '/'
 end
