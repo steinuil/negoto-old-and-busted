@@ -14,9 +14,8 @@ $wordfilters = [
 ]
 
 # Database stuff
-database = Mongo::Client.new(['127.0.0.1:27017'], :database => 'shuko')
-board = database[:snw]
-stats = database[:statistics]
+database = Mongo::Client.new(['127.0.0.1:27017'], :database => 'negoto')
+info = database[:info]
 
 # Functions I guess
 def escape_body(text)
@@ -32,27 +31,28 @@ def escape_body(text)
   return text
 end
 
-def update_page(thread, info, type, id)
-  @threads, @info = thread, info
+def cache(threads, info, type, id, board)
+  @threads, @info = threads, info
+  @board_id = info['board']
   render = ERB.new(File.read("views/#{type}.erb")).result(binding)
-  File.write("cache/#{id}", render)
+  File.write("cache/#{@board_id}/#{id}", render)
 end
 
-#def cache(thread, info, id)
+#def cache(threads, info, id)
 #  update = ->(thread, info, type, id) do
 #    @threads, @info = thread, info
 #    render = ERB.new(File.read("views/#{type}.erb")).result(binding)
 #    File.write("cache/#{id}", render)
 #  end
-#  update.call(thread, info, "thread", id)
+#  threads.each { |thread| update.call(thread, info, "thread", id) }
 #  update.call(thread, info, "top", "top")
 #end
 
 class Post
   def initialize(post_no, page, board)
     @no = post_no
-    @board = board
     @page = page
+    @board = board
   end
 
   def send(content)
@@ -83,26 +83,41 @@ def get_extension(mimetype)
 
 # [insert Frank Sinatra quote here]
 get '/' do
-  @info = stats.find(board: "snw").to_a.first.to_h
+  database.database.collection_names
+  #@info = stats.find(board: "snw").to_a.first.to_h
+  #@banner = Dir.chdir('public') { Dir.glob('banners/*').sample }
+  #@content = File.read("cache/top")
+  #@no = 0
+  #erb :layout
+end
+
+get '/:board/' do |board|
+  @info = info.find(board: board).to_a.first.to_h
   @banner = Dir.chdir('public') { Dir.glob('banners/*').sample }
-  @content = File.read("cache/top")
+  @content = File.read("cache/#{board}/top")
   @no = 0
   erb :layout
 end
 
-get '/thread/:id' do |id|
-  @info = stats.find(board: "snw").to_a.first.to_h
+get '/:board/thread/:id' do |board, id|
+  @info = info.find(board: board).to_a.first.to_h
   @banner = Dir.chdir('public') { Dir.glob('banners/*').sample }
-  @content = File.read("cache/#{id}")
+  @content = File.read("cache/#{board}/#{id}")
   @no = id
   erb :layout
 end
 
 post '/post' do
+  board_id = params[:board]
+  board = database[board_id]
   page = params[:thread].to_i
   op = page == 0
 
-  if board.find(thread: page).count == 0 and not op
+  if not info.find(t: 'list').to_a.first.to_h['boards'].include?(board_id)
+  #if not database.database.collection_names.include?(board_id) and board_id != "info"
+    redirect '/error/no_board'
+    break
+  elsif board.find(thread: page).count == 0 and not op
     redirect '/error/no_thread'
     break
   elsif params[:name].empty?
@@ -125,8 +140,8 @@ post '/post' do
     file_info = { src: filename, filename: file[:filename] }
   end
 
-  info = stats.find(board: "snw").to_a.first.to_h
-  post_no = info["post_no"] + 1
+  board_info = info.find(board: board_id).to_a.first.to_h
+  post_no = board_info["post_no"] + 1
 
   Post.new(post_no, page, board)
     .send({ no: post_no,
@@ -135,36 +150,41 @@ post '/post' do
             file: file_info,
             time: Time.now })
 
-  stats.find(board: "snw").update_one("$inc" => { post_no: 1 })
+  info.find(board: board_id).update_one("$inc" => { post_no: 1 })
 
   unless params[:sage] == "on"
     board.find(thread: page).update_one("$set" => { updated: Time.now })
   end
 
   threads = board.find.sort(updated: -1).to_a
-  update_page(threads, info, "top", "top")
-
   page = post_no if op
-  update_page(board.find(thread: page).to_a.first, info, "thread", page)
+  cache(threads, board_info, "top", "top", board)
+  cache(board.find(thread: page).to_a.first, board_info, "thread", page, board)
 
-  redirect "/thread/#{page}##{post_no}"
+  redirect "#{board_id}/thread/#{page}##{post_no}"
 end
 
 get '/update' do
-  threads = board.find.sort(updated: -1).to_a
-  info = stats.find(board: "snw").to_a.first.to_h
-
-  update_page(threads, info, "top", "top")
-
-  threads.each do |thread|
-    update_page(thread, info, "thread", thread["thread"])
+  boards = info.find(t: 'list').to_a.first.to_h['boards']
+  boards.each do |board_id|
+    board = database[board_id]
+    threads = board.find.sort(updated: -1).to_a
+    board_info = info.find(board: board_id).to_a.first.to_h
+    cache(threads, board_info, "top", "top", board)
+    threads.each { |thread| cache(thread, board_info, "thread", thread["thread"], board) }
   end
+  #threads = board.find.sort(updated: -1).to_a
+  #board_info = stats.find(board: "snw").to_a.first.to_h
+  #cache(threads, board_info, "top", "top")
+  #threads.each { |thread| cache(thread, board_info, "thread", thread["thread"]) }
 
   redirect '/'
 end
 
 get '/error/:err' do
   case params[:err]
+  when "no_board"
+    error = "No such board."
   when "no_thread"
     error = "No such thread."
   when "no_image"
@@ -174,7 +194,7 @@ get '/error/:err' do
   when "no_name"
     error = "You can't post without a name."
   end
-  error += " <a href='/'>Go back</a>"
+  error += " <a href='/'>Get back to where you once belonged.</a>"
   error
 end
 
