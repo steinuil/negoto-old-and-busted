@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Negoto</title>
+    <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <header>
+      <h1>Negoto</h1>
+    </header>
+    <nav>
+      <ul>
+        <% @board_list.each do |board| %><li><a href="/<%= board %>/"><%= board %></a></li><% end %>
+      </ul>
+    </nav>
+  </body>
+</html>

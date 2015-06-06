@@ -15,7 +15,8 @@ Please don't actually use this yet, unless you know what you're doing.
 
 ## TODO
 - [X] Render the thread pages.
-- [ ] Images (kinda) and webbums. I guess ImageMagick and ffmpeg will do.
+- [ ] Images (kinda) and webbums.
+  - [ ] Thumbnails for said images and webbums. I guess ImageMagick and ffmpeg will do.
 - [X] Actual support for multiple boards.
   * Board creation a shit. It's completely possible though.
 - [ ] Control panel for the mods or whatever.

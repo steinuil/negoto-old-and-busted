@@ -1,7 +1,6 @@
 require 'sinatra'
 require 'mongo'
 require 'erb'
-require 'tilt/erubis'
 require 'htmlentities'
 
 # Settings
@@ -68,23 +67,26 @@ def get_extension(mimetype)
 
 # [insert Frank Sinatra quote here]
 get '/' do
-  database.database.collection_names
+  @board_list = info.find(t: 'list').to_a.first.to_h['boards']
+  erb :front
 end
 
 get '/:board/' do |board|
   @info = info.find(board: board).to_a.first.to_h
   @banner = Dir.chdir('public') { Dir.glob('banners/*').sample }
+  @board_list = info.find(t: 'list').to_a.first.to_h['boards']
   @content = File.read("cache/#{board}/top")
   @no = 0
-  erb :layout
+  erb :base
 end
 
 get '/:board/thread/:id' do |board, id|
   @info = info.find(board: board).to_a.first.to_h
   @banner = Dir.chdir('public') { Dir.glob('banners/*').sample }
+  @board_list = info.find(t: 'list').to_a.first.to_h['boards']
   @content = File.read("cache/#{board}/#{id}")
   @no = id
-  erb :layout
+  erb :base
 end
 
 post '/post' do
@@ -175,3 +177,8 @@ end
 not_found do
   "This is not the page you're searching for. Are you lost?<br><a href='/'>Go back.</a>"
 end
+
+#post '/test' do
+#  File.write("public/#{params[:test]}", params[:test])
+#  status 200
+#end

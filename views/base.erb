@@ -7,6 +7,9 @@
     <script src="/script.js"></script>
   </head>
   <body>
+    <nav id="navbar">
+      [ <a href="/">Home</a><% @board_list.each do |board| %> / <a href="/<%= board %>/"><%= board %></a><% end %> ]
+    </nav>
     <header>
       <img id="banner" src="/<%= @banner %>">
       <h1><%= "/#{@info["board"]}/ - #{@info["name"]}" %></h1>

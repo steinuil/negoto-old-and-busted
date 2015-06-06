@@ -20,6 +20,39 @@ body {
   color: #333;
 }
 
+nav>ul {
+  margin-top: 20px;
+  text-align: center;
+  list-style: none;
+}
+
+nav>ul>li {
+  border: 5px solid #CCC;
+  padding: 15px 20px;
+  margin: 2.5px;
+  background-color: #CCC;
+  display: inline-block;
+  color: #333;
+  transition: 1s;
+}
+
+nav>ul>li>a {
+  color: inherit;
+}
+
+nav>ul>li:hover {
+  background-color: #333;
+  color: #CCC;
+  transition: 1s;
+  transform: rotate(360deg);
+}
+
+#navbar {
+  text-align: center;
+  margin-bottom: 5px;
+  font-size: 0.8rem;
+}
+
 header {
   text-align: center;
   font-size: 1.2rem;
@@ -62,7 +95,7 @@ hr {
   color: #888;
 }
 
-.reply:target {
+.post:target {
   background-color: #EEE;
 }
 
