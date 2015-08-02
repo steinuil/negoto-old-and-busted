@@ -10,7 +10,7 @@ Mongo::Logger.logger.level = Logger::INFO
 
 # Database stuff
 database = Mongo::Client.new(['127.0.0.1:27017'], :database => 'negoto')
-info = database[:info]
+$info = database[:info]
 
 # Functions I guess
 def escape_body(text)
@@ -63,31 +63,36 @@ def get_extension(mimetype)
   when "video/webm"
     return ".webm"
   end
- end
-
-# [insert Frank Sinatra quote here]
-get '/' do
-  @board_list = info.find(t: 'list').to_a.first.to_h['boards']
-  erb :front
 end
 
-get '/:board/' do |board|
-  @info = info.find(board: board).to_a.first.to_h
-  @banner = Dir.chdir('public') { Dir.glob('banners/*').sample }
-  @board_list = info.find(t: 'list').to_a.first.to_h['boards']
-  @content = File.read("cache/#{board}/top")
-  @no = 0
-  erb :base
+def find_info(query)
+  return $info.find(query).to_a.first.to_h
 end
 
-get '/:board/thread/:id' do |board, id|
-  @info = info.find(board: board).to_a.first.to_h
-  @banner = Dir.chdir('public') { Dir.glob('banners/*').sample }
-  @board_list = info.find(t: 'list').to_a.first.to_h['boards']
-  @content = File.read("cache/#{board}/#{id}")
+def page(board, id)
+  @pg = id == 0 ? 'top' : id
+
+  @info       = find_info(board: board)
+  @board_list = find_info(t: 'list')['boards']
+  @content    = File.read("cache/#{board}/#{@pg}")
+
+  @banner = Dir.chdir('public') do
+    Dir.glob('banners/*').sample
+  end
+
   @no = id
   erb :base
 end
+
+
+# [insert Frank Sinatra quote here]
+get '/' do
+  @board_list = find_info(t: 'list')['boards']
+  erb :front
+end
+
+get '/:board/' do |board|; page(board, 0); end
+get '/:board/thread/:id' do |board, id|; page(board, id); end
 
 post '/post' do
   board_id = params[:board]
@@ -95,7 +100,7 @@ post '/post' do
   page = params[:thread].to_i
   op = page == 0
 
-  if not info.find(t: 'list').to_a.first.to_h['boards'].include?(board_id)
+  if not find_info(t: 'list')['boards'].include?(board_id)
     redirect '/error/no_board'
     break
   elsif board.find(thread: page).count == 0 and not op
@@ -121,7 +126,7 @@ post '/post' do
     file_info = { src: filename, filename: file[:filename] }
   end
 
-  board_info = info.find(board: board_id).to_a.first.to_h
+  board_info = find_info(board: board_id)
   post_no = board_info["post_no"] + 1
 
   Post.new(post_no, page, board)
@@ -131,7 +136,7 @@ post '/post' do
             file: file_info,
             time: Time.now })
 
-  info.find(board: board_id).update_one("$inc" => { post_no: 1 })
+  $info.find(board: board_id).update_one("$inc" => { post_no: 1 })
 
   unless params[:sage] == "on"
     board.find(thread: page).update_one("$set" => { updated: Time.now })
@@ -146,7 +151,7 @@ post '/post' do
 end
 
 get '/update' do
-  boards = info.find(t: 'list').to_a.first.to_h['boards']
+  boards = find_info(t: 'list')['boards']
   boards.each do |board_id|
     board = database[board_id]
     threads = board.find.sort(updated: -1).to_a

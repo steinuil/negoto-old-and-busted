@@ -6,7 +6,7 @@ database = Mongo::Client.new(['127.0.0.1:27017'], :database => 'negoto')
 info = database[:info]
 
 board_id = "snw"
-#Dir.mkdir("cache/#{board_id}")
+Dir.mkdir("cache/#{board_id}")
 
 info.insert_one({ board: board_id, name: "Time-Telling Fortress", post_no: 0 })
 info.insert_one({ t: "list", boards: [board_id]})
