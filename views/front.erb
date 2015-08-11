@@ -11,7 +11,7 @@
     </header>
     <nav>
       <ul>
-        <% @board_list.each do |board| %><li><a href="/<%= board %>/"><%= board %></a></li><% end %>
+        <% @boards.each do |board| %><li><a href="/<%= board %>/"><%= board %></a></li><% end %>
       </ul>
     </nav>
   </body>

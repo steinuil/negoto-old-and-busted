@@ -4,8 +4,8 @@ A shitty imageboard which probably won't have that many features and that nobody
 Please don't actually use this yet, unless you know what you're doing.
 
 ## To run:
-* Install Ruby 2.2.2 and MongoDB
-* `gem install sinatra mongo htmlentities thin`
+* Install Ruby 2.2.2, MongoDB and ImageMagick
+* `gem install sinatra mongo htmlentities thin rouge mini_magick`
 * `mkdir cache public/src public/banners`
   * Put some banners in `public/banners` if you want
 * Start `mongod`
@@ -15,8 +15,8 @@ Please don't actually use this yet, unless you know what you're doing.
 
 ## TODO
 - [X] Render the thread pages.
-- [ ] Images (kinda) and webbums.
-  - [ ] Thumbnails for said images and webbums. I guess ImageMagick and ffmpeg will do.
+- [X] Images (kinda) and webbums.
+  - [X] Thumbnails for said images and webbums. I guess ImageMagick and ffmpeg will do.
 - [X] Actual support for multiple boards.
   * Board creation a shit. It's completely possible though.
 - [ ] Control panel for the mods or whatever.

@@ -1,12 +1,12 @@
-<% op = @threads['op'] %><div class="thread" id="t<% op['no'] %>">
+<% op = @thread['op'] %><div class="thread" id="t<% op['no'] %>">
   <div class="post op" id="<%= op['no'] %>">
     <div class="info"><b><%= op['name'] %></b> <%= op['time'].strftime("%Y/%m/%d %H:%M:%S") %> <a href="/<%= @board_id %>/thread/<%= op['no'] %>">&#8470;</a><span onclick="quote(<%= op['no'] %>)"><%= op['no'] %></span> [<a href="/<%= @board_id %>/">Return</a>]</div>
     <hr>
-    <figure><img src="<%= "/src/#{op['file']['src']}" %>"><figcaption class="caption"><%= op['file']['filename'] %></figcaption></figure>
+    <figure><a href="/src/<%= op['file']['src'] %>"><img src="<%= "/thumb/#{op['file']['thumb']}" %>"></a><figcaption class="caption"><%= op['file']['filename'] %></figcaption></figure>
     <div class="body"><p><%= op['body'] %></p></div>
   </div>
-  <% @threads['posts'].each do |post| %><div class="post reply" id="<%= post['no'] %>">
-    <%= "<figure><img src=\"/src/#{post['file']['src']}\"><figcaption class=\"caption\">#{post['file']['filename']}</figcaption></figure>" if post['file'] != nil and post['file'] != "" %>
+  <% @thread['posts'].each do |post| %><div class="post reply" id="<%= post['no'] %>">
+      <%= "<figure><a href=\"/src/#{post['file']['src']}\"><img src=\"/thumb/#{post['file']['thumb']}\"></a><figcaption class=\"caption\">#{post['file']['filename']}</figcaption></figure>" if post['file'] != nil and post['file'] != "" %>
     <div class="info"><b><%= post['name'] %></b> <%= post['time'].strftime("%Y/%m/%d %H:%M:%S") %> <a href="/<%= @board_id %>/thread/<%= "#{op['no']}##{post['no']}" %>">&#8470;</a><span onclick="quote(<%= post['no'] %>);"><%= post['no'] %></span></div>
     <hr>
     <div class="body"><p><%= post['body'] %></p></div>

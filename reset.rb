@@ -1,5 +1,6 @@
 require 'mongo'
 require 'erb'
+require 'yaml'
 require 'fileutils'
 
 database = Mongo::Client.new(['127.0.0.1:27017'], :database => 'negoto')
@@ -39,4 +40,18 @@ File.write("cache/#{board_id}/top", render)
 #else
 #  puts "Usage: ./reset.rb (-start|-reset)"
 #end
+
+if ARGV[0] == "start" or ARGV[0] == "reset"
+  client = Mongo::Client.new(['127.0.0.1:27017'], database: 'negoto')
+  negoto = ImageBoard.new(client)
+  config = YAML.load(File.read('config.yml'))
+
+  if ARGV[0] == "reset"
+    client.database.drop
+
+    config["boards"].each do |board|
+      @board = Board.new(negoto, board["id"]).create(board["name"])
+      @board.cache
+    end
+
 

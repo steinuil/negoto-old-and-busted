@@ -1,115 +1,53 @@
 require 'sinatra'
 require 'mongo'
 require 'erb'
-require 'htmlentities'
+
+require_relative 'classes'
+include NegotoClasses
 
 # Settings
 set :bind, '0.0.0.0' # this is so that I can access it over the LAN
 set :server, :thin   # because the default server is too fucking SLOW
+set :port, 6789
 Mongo::Logger.logger.level = Logger::INFO
 
-# Database stuff
-database = Mongo::Client.new(['127.0.0.1:27017'], :database => 'negoto')
-$info = database[:info]
+# New Forms
+negoto = ImageBoard.new(Mongo::Client.new(['127.0.0.1:27017'], database: 'negoto'))
 
-# Functions I guess
-def escape_body(text)
-  #$wordfilters.each { |pairs| text = text.gsub(pairs[:from], pairs[:to]) }
-  text = HTMLEntities.new.encode(text)
-  # terrible mess ahead
-  text.gsub!(/(?<!&gt;)(&gt;){2}([0-9]+)/, '<a class="quotelink" href="#\2">\1\1\2</a>') # >>qlinks
-  text.gsub!(/(https?|ftp|irc):\/\/(\S+(?!&quot;))/, '<a href="\1://\2">\1://\2</a>')    # links
-  text.gsub!(/^(&quot;){3}\R+(.+?)\R(&quot;){3}/m, '<pre class="code">\2</pre>')         # code tags
-  text.gsub!(/^(&gt;.+?)$/, '<span class="quote">\1</span>')                             # >quotes
-  text.gsub!(/(\r\n|\R)/m, "<br>")
-  text.gsub!(/<br><\/span>/, "</span>") # because >quotes fuck up with newlines for some reason
-  return text
-end
-
-def cache(threads, type, id, board_id)
-  @threads, @board_id = threads, board_id
-  render = ERB.new(File.read("views/#{type}.erb")).result(binding)
-  File.write("cache/#{board_id}/#{id}", render)
-end
-
-class Post
-  def initialize(post_no, page, board)
-    @no = post_no
-    @page = page
-    @board = board
-  end
-
-  def send(content)
-    if @page == 0
-      @board.insert_one({ thread: @no, op: content, posts: [], updated: Time.now })
-    else
-      @board.find(thread: @page).update_one("$push" => { posts: content })
-    end
-  end
-
-  def delete
-    @board.find(thread: @page).update_one("$pull" => { posts: { no: @no } })
-  end
-end
-
-def get_extension(mimetype)
-  case mimetype
-  when "image/jpeg"
-    return ".jpg"
-  when "image/png"
-    return ".png"
-  when "image/gif"
-    return ".gif"
-  when "video/webm"
-    return ".webm"
-  end
-end
-
-def find_info(query)
-  return $info.find(query).to_a.first.to_h
-end
-
-def page(board, id)
-  @pg = id == 0 ? 'top' : id
-
-  @info       = find_info(board: board)
-  @board_list = find_info(t: 'list')['boards']
-  @content    = File.read("cache/#{board}/#{@pg}")
-
-  @banner = Dir.chdir('public') do
-    Dir.glob('banners/*').sample
-  end
-
-  @no = id
-  erb :base
-end
-
-
-# [insert Frank Sinatra quote here]
 get '/' do
-  @board_list = find_info(t: 'list')['boards']
+  @boards = negoto.boards
   erb :front
 end
 
-get '/:board/' do |board|; page(board, 0); end
-get '/:board/thread/:id' do |board, id|; page(board, id); end
+get '/:board_id/' do |board_id|
+  page(negoto, board_id, 0)
+end
+
+get '/:board_id/thread/:thread_id' do |board_id, thread_id|
+  page(negoto, board_id, thread_id)
+end
 
 post '/post' do
-  board_id = params[:board]
-  board = database[board_id]
-  page = params[:thread].to_i
-  op = page == 0
+  board = Board.new(negoto, params[:board])
 
-  if not find_info(t: 'list')['boards'].include?(board_id)
+  post_id = board.get_post_number + 1
+  page = params[:thread].to_i
+  thread_id = page == 0 ? post_id : page
+
+  thread = Dis.new(board, thread_id)
+  post = Post.new(thread, post_id)
+  now = Time.now
+
+  if not negoto.include?(params[:board])
     redirect '/error/no_board'
     break
-  elsif board.find(thread: page).count == 0 and not op
+  elsif not board.include?(thread_id) and not post.op?
     redirect '/error/no_thread'
     break
   elsif params[:name].empty?
     redirect '/error/no_name'
     break
-  elsif params[:file].nil? and op
+  elsif params[:file].nil? and post.op?
     redirect '/error/no_image'
     break
   elsif params[:file].nil? and params[:body].empty?
@@ -120,45 +58,35 @@ post '/post' do
   if params[:file].nil?
     file_info = ""
   else
-    file = params[:file]
-    filename = Time.now.to_i.to_s + get_extension(file[:type])
-    File.open("public/src/#{filename}", 'wb') { |f| f.write(file[:tempfile].read) }
-    file_info = { src: filename, filename: file[:filename] }
+    @file = Picture.new(params[:file], now)
+    @file.resize(post)
+    file_info = @file.info
   end
 
-  board_info = find_info(board: board_id)
-  post_no = board_info["post_no"] + 1
+  post_content = {
+    no: post_id,
+    name: params[:name],
+    body: format(params[:body]),
+    file: file_info,
+    time: now }
 
-  Post.new(post_no, page, board)
-    .send({ no: post_no,
-            name: params[:name],
-            body: escape_body(params[:body]),
-            file: file_info,
-            time: Time.now })
+  post.create(post_content)
 
-  $info.find(board: board_id).update_one("$inc" => { post_no: 1 })
+  thread.bump(now) unless params[:sage] == "on"
+  board.cache
 
-  unless params[:sage] == "on"
-    board.find(thread: page).update_one("$set" => { updated: Time.now })
-  end
-
-  threads = board.find.sort(updated: -1).to_a
-  page = post_no if op
-  cache(threads, "top", "top", board_id)
-  cache(board.find(thread: page).to_a.first, "thread", page, board_id)
-
-  redirect "#{board_id}/thread/#{page}##{post_no}"
+  redirect "/#{params[:board]}/thread/#{thread_id}##{post_id}"
 end
 
 get '/update' do
-  boards = find_info(t: 'list')['boards']
-  boards.each do |board_id|
-    board = database[board_id]
-    threads = board.find.sort(updated: -1).to_a
-    cache(threads, "top", "top", board_id)
-    threads.each { |thread| cache(thread, "thread", thread["thread"], board_id) }
+  negoto.boards.each do |board_id|
+    @board = Board.new(negoto, board_id)
+    @board.cache
+    @board.threads.each do |thread|
+      @thread_id = thread['thread']
+      Dis.new(@board, @thread_id).cache
+    end
   end
-
   redirect '/'
 end
 
@@ -182,8 +110,3 @@ end
 not_found do
   "This is not the page you're searching for. Are you lost?<br><a href='/'>Go back.</a>"
 end
-
-#post '/test' do
-#  File.write("public/#{params[:test]}", params[:test])
-#  status 200
-#end
