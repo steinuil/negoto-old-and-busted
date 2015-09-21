@@ -1,20 +1,21 @@
 require 'mongo'
-require 'erb'
-require 'yaml'
-require 'fileutils'
+#require 'yaml'
+#require 'fileutils'
+require_relative 'classes'
 
-database = Mongo::Client.new(['127.0.0.1:27017'], :database => 'negoto')
-info = database[:info]
 
-board_id = "snw"
-Dir.mkdir("cache/#{board_id}")
-
-info.insert_one({ board: board_id, name: "Time-Telling Fortress", post_no: 0 })
-info.insert_one({ t: "list", boards: [board_id]})
-@info = info.find(board: board_id).to_a.first.to_h
-@threads = []
-render = ERB.new(File.read('views/top.erb')).result(binding)
-File.write("cache/#{board_id}/top", render)
+#database = Mongo::Client.new(['127.0.0.1:27017'], :database => 'negoto')
+#info = database[:info]
+#
+#board_id = "snw"
+#Dir.mkdir("cache/#{board_id}")
+#
+#info.insert_one({ board: board_id, name: "Time-Telling Fortress", post_no: 0 })
+#info.insert_one({ t: "list", boards: [board_id]})
+#@info = info.find(board: board_id).to_a.first.to_h
+#@threads = []
+#render = ERB.new(File.read('views/top.erb')).result(binding)
+#File.write("cache/#{board_id}/top", render)
 
 
 #if ARGV[0] == "-start" or ARGV[0] == "-reset"
@@ -43,15 +44,12 @@ File.write("cache/#{board_id}/top", render)
 
 if ARGV[0] == "start" or ARGV[0] == "reset"
   client = Mongo::Client.new(['127.0.0.1:27017'], database: 'negoto')
-  negoto = ImageBoard.new(client)
-  config = YAML.load(File.read('config.yml'))
+  negoto = Chan.new(client)
+  #config = YAML.load(File.read('config.yml'))
 
-  if ARGV[0] == "reset"
-    client.database.drop
+  snw = Board.new(negoto, "snw")
 
-    config["boards"].each do |board|
-      @board = Board.new(negoto, board["id"]).create(board["name"])
-      @board.cache
-    end
-
+  snw.create("Time-Telling Fortress")
+  snw.cache
+end
 

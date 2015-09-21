@@ -33,17 +33,36 @@ document.addEventListener("keydown", function(event) {
 	};
 });
 
-/*
-var xhr = new XMLHttpRequest(),
-    xhr2 = new XMLHttpRequest(),
-	test = encodeURIComponent("a");
 
-xhr.open('GET', "/ss.txt", true);
-xhr.send();
-xhr.onload = function() { console.log(xhr.responseText); }
+//function cycleImage(string)
 
-xhr2.open('POST', "/test", true);
-xhr2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-xhr2.send("test=" + test);
-xhr2.onload = function() { console.log(xhr2.responseText + "\n" + xhr2.status) };
-*/
+
+// AJAX
+function send_post() {
+	
+	var body = document.getElementById('body').value,
+		name = document.getElementById('name').value,
+		sage = document.getElementById('sage').value,
+		board = document.getElementById('board').value,
+		thread = document.getElementById('thread').value;
+
+	if (body === "") {
+		alert("Can't post without a post nigga");
+		return;
+	}
+	
+	minAjax({
+		url: "/post",
+		type: "POST",
+		data: {
+			name: name,
+			board: board,
+			thread: thread,
+			body: body,
+			sage: sage
+		},
+		success: function() {
+			document.getElementById('body').value = '';
+		}
+	})
+};

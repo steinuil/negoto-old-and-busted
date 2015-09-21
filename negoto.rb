@@ -3,7 +3,6 @@ require 'mongo'
 require 'erb'
 
 require_relative 'classes'
-include NegotoClasses
 
 # Settings
 set :bind, '0.0.0.0' # this is so that I can access it over the LAN
@@ -12,7 +11,7 @@ set :port, 6789
 Mongo::Logger.logger.level = Logger::INFO
 
 # New Forms
-negoto = ImageBoard.new(Mongo::Client.new(['127.0.0.1:27017'], database: 'negoto'))
+negoto = Chan.new(Mongo::Client.new(['127.0.0.1:27017'], database: 'negoto'))
 
 get '/' do
   @boards = negoto.boards
@@ -66,9 +65,10 @@ post '/post' do
   post_content = {
     no: post_id,
     name: params[:name],
-    body: format(params[:body]),
+    body: format_text(params[:body]),
     file: file_info,
-    time: now }
+    time: now
+  }
 
   post.create(post_content)
 

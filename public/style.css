@@ -81,6 +81,10 @@ hr {
   padding-top: 15px;
 }
 
+.op>.body {
+  margin-top: 3px;
+}
+
 .post hr {
   clear: none;
   margin: 0;

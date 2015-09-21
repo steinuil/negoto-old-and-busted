@@ -4,7 +4,8 @@
     <title><%= "/#{@board_id}/" %><%# "/#{@info["board"]}/ - #{@info["name"]}" %></title>
     <meta charset="utf-8">
     <link type="text/css" rel="stylesheet" href="/style.css">
-    <script src="/script.js"></script>
+    <script type="text/javascript" src="https://raw.githubusercontent.com/flouthoc/minAjax.js/master/index.js"></script>
+    <script type="text/javascript" src="/script.js"></script>
   </head>
   <body>
     <nav id="navbar">
@@ -13,7 +14,8 @@
     <header>
       <img id="banner" src="/<%= @banner %>">
       <h1><%= "/#{@board_id}/" %><%# "/#{@info["board"]}/ - #{@info["name"]}" %></h1>
-      <a href="/update">Update</a>
+      <a href="/update">Update</a> / 
+      <a onclick="send_post()" href="#">Post (ajax)</a>
     </header><br>
     <%= @content %>
     <hr>
@@ -21,8 +23,8 @@
       <input id="name" type="text" placeholder="Anonymous" value="Anonymous" name="name"><input id="button" type="submit" value="Post"><br>
       <textarea id="body" placeholder="Comment" name="body"></textarea><br>
       <input id="file" type="file" name="file" accept="image/jpeg, image/png, image/gif, video/webm"><label id="sage" for="sagebox">sage</label><input type="checkbox" id="sagebox" name="sage">
-      <input type="hidden" name="board" value="<%= @board_id %>">
-      <input type="hidden" name="thread" value="<%= @thread_id %>">
+      <input id="board" type="hidden" name="board" value="<%= @board_id %>">
+      <input id="thread" type="hidden" name="thread" value="<%= @thread_id %>">
     </form>
   </body>
 </html>
