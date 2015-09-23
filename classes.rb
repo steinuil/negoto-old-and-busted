@@ -181,13 +181,6 @@ class Picture
   def resize(post)
     @resize = post.op? ? "250x250" : "150x150"
     @image_file.resize(@resize).format("jpg").write(@thumbpath)
-    #if post.op?
-    #  @image_file.resize("250x250")
-    #else
-    #  @image_file.resize("150x150")
-    #end
-    #@image_file.format(@format)
-    #@image_file.write(@thumbpath)
   end
 
   def info

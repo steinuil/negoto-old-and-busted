@@ -219,16 +219,7 @@ hr {
 .post img {
   width: auto;
   height: auto;
-}
-
-.op img {
-  max-width: 250px;
-  max-height: 250px;
-}
-
-.reply img {
-  max-width: 150px;
-  max-height: 150px;
+  max-width: calc(100% - 10px);
 }
 
 .post>figure {

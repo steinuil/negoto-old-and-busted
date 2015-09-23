@@ -1,9 +1,4 @@
-function quote(id) {
-    console.log("Quoting reply n." + id)
-    document.getElementById("body").value += (">>" + id + "\n");
-}
-
-var n = (window.location.hash !== "") ? (window.location.hash.substring(4)) : -1,
+/* var n = (window.location.hash !== "") ? (window.location.hash.substring(4)) : -1,
     post = document.getElementsByClassName("post");
 
 // Keyboard controls
@@ -31,17 +26,31 @@ document.addEventListener("keydown", function(event) {
 				break;
 		};
 	};
-});
-
+}); */
 
 //function cycleImage(string)
 
+// Quote a post number
+function quote(id) {
+    console.log("Quoting reply n." + id)
+    document.getElementById("body").value += (">>" + id + "\n");
+}
+
+// Expand images
+/* function in_deflate(post, img, exp) {
+	folder = exp ? "src" : "thumb"
+	document.getElementById(post).getElementsByTagName('img')[0].setAttribute('src', "/" + folder + "/" + img
+*/
 
 // AJAX
 function send_post() {
-	
+
+	document.getElementById('button').disabled = true;
+	document.getElementById('button').value = 'Uploading...';
+
 	var body = document.getElementById('body').value,
 		name = document.getElementById('name').value,
+		file = document.getElementById('file').files[0],
 		sage = document.getElementById('sage').value,
 		board = document.getElementById('board').value,
 		thread = document.getElementById('thread').value;
@@ -59,10 +68,14 @@ function send_post() {
 			board: board,
 			thread: thread,
 			body: body,
-			sage: sage
+			sage: sage,
+			file: file
 		},
 		success: function() {
 			document.getElementById('body').value = '';
+			document.getElementById('button').value = 'Sent';
 		}
 	})
+
+	document.getElementById('button').disabled = false;
 };
