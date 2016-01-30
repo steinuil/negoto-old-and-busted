@@ -26,7 +26,7 @@ get "/:board_id/" do |board_id|
 
   @threads = Board[board_id].yarns.all
 
-  haml :base
+  haml :catalog
 end
 
 get "/:board_id" do |board_id|

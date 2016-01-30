@@ -1,0 +1,23 @@
+%html
+  %head
+    %title /#{@board_id}/
+    %meta{ charset: "utf-8" }
+    %link{ type: "text/css", rel: "stylesheet", href: "/style.css" }
+  %body#top
+    %nav#navbar
+      [
+      %a{ href: "/" } Home
+      - @boards.each do |board|
+        \/
+        %a{ href: "/#{board}/" }= board
+      ]
+    %header
+      %img#banner{ src: "/#{@banner}" }
+      %h1#title= "/#{@board_id}/ - #{@board_name}"
+    %hr
+    = haml :form, locals: {id: @board_id}
+    %hr
+    #catalog
+      - if @threads
+        - @threads.each do |thread|
+          .thread ayy
