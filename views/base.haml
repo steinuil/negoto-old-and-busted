@@ -3,9 +3,6 @@
     %title /#{@board_id}/
     %meta{ charset: "utf-8" }
     %link{ type: "text/css", rel: "stylesheet", href: "/style.css" }
-    /%script{ type: "text/javascript",
-    /  src: "https://raw.githubusercontent.com/flouthoc/minAjax.js/master/index.js" }
-    %script{ type: "text/javascript", src: "/script.js" }
   %body#top
     %nav#navbar
       [
@@ -30,10 +27,9 @@
         accept: "image/jpeg, image/png, image/gif, video/webm" }<
       %label#sage{ for: "sagebox"} sage
       %input#sagebox{ type: "checkbox", name: "sage" }>
-      /%input#board{ type: "hidden", name: "board", value: @board_id }
-      /%input#thread{ type: "hidden", name: "thread", value: @thread_id }
+      %input#page{ type: "hidden", name: "page", value: 0 }
     %hr
     #catalog
-      /- @threads.each do |thread|
-      /  .thread
-
+      - if @threads
+        - @threads.each do |thread|
+          .thread ayy

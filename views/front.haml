@@ -1,0 +1,13 @@
+%html
+  %head
+    %title Negoto
+    %meta{ charset: "utf-8" }
+    %link{ type: "text/css", rel: "stylesheet", href: "/style.css" }
+  %body#front
+    %header
+      %h1 Negoto
+    %nav
+      %ul
+        - @boards.each do |board|
+          %li
+            %a{ href: "/#{board}/" }<= board
