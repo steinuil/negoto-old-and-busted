@@ -15,9 +15,10 @@ class Post < REM
       @yarn = Yarn.new(board: post[:board], id: @id)
       return nil if @yarn.locked?
 
+      @sage = post.delete :sage
       @@posts.insert post
       Board[post[:board]].incr
-      @yarn.bump unless post[:sage]
+      @yarn.bump unless @sage
       #FIXME cache yarn
       return new(@id)
     end

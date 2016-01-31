@@ -29,6 +29,8 @@ db.create_table :posts do
   primary_key :pid
   Integer :id
   String :board
+  Integer :yarn
+
   String :name
   DateTime :time
   String :body, text: true

@@ -51,15 +51,56 @@ get "/api" do
 end
 
 post "/api/:board_id" do |board_id|
+  @err = if not Board.list.include? board_id
+    "no_board"
+  elsif params[:name].empty?
+    "no_name"
+  elsif params[:file].nil?
+    "no_image"
+  end
+
+  redirect "/error/#{@err}" if @err ||= nil
+
+  @file_info = Picture.add(params[:file])
+
+  @post = {
+    board: board_id,
+    subject: params[:subject],
+    name: params[:name],
+    body: params[:body],
+    spoiler: params[:spoiler] == "on" ? true : false,
+    file: @file_info
+  }
+
   Yarn.create post_content
 end
 
 post "/api/:board_id/:thread_id" do |board_id, thread_id|
+  @err = if not Board.list.include? board_id
+    "no_board"
+  elsif not Board[board_id].include? thread_id
+    "no_thread"
+  elsif params[:name].empty?
+    "no_name"
+  elsif params[:file].nil? and params[:body].empty?
+    "no_comment"
+  end
 
-  post_content = {
+  redirect "/error/#{@err}" if @err ||= nil
+
+  @file_info = Picture.add(params[:file]) if params[:file]
+
+  @post = {
+    board: board_id,
+    yarn: thread_id,
     name: params[:name],
-    file: file_info
+    body: params[:body],
+    spoiler: params[:spoiler] == "on" ? true : false,
+    sage: params[:sage] == "on" ? true : false,
+    file: @file_info ||= ""
   }
 
-  post = Post.create 
+  post = Post.create @post
+
+  redirect "/#{board_id}/thread/#{thread_id}#p#{post.id}"
 end

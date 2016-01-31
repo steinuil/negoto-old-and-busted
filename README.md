@@ -14,7 +14,7 @@ An imageboard written Ruby using Sinatra and a few other things.
 # What works without spewing out walls of errors
 * Creating boards
 * Running the program
-* Going to `localhost:6789/#{board}/` and clicking on the other board links
+* Rendering the homepage and a(n empty) page for each board
 
 # Whatnot
 * Basically everything else

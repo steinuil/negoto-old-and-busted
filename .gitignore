@@ -1,7 +1,6 @@
 *.db
 .DS_Store*
 ._*
-#/public/banners/!.gitkeep
 /public/banners/*.jpg
 /public/banners/*.png
 /public/banners/*.gif

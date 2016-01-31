@@ -1,6 +1,6 @@
 /* Fix some browser inconsistencies, thanks normalize.css-kun */
 html {
-  font-family: sans-serif;
+  font-family: -apple-system, "Segoe UI", "Roboto", "Helvetica Neue", "Open Sans", sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
@@ -20,6 +20,16 @@ body {
   color: #333;
 }
 
+a {
+  text-decoration: none;
+}
+
+hr {
+  clear: both;
+  visibility: hidden;
+}
+
+/* Navbar and header */
 nav>ul {
   margin-top: 20px;
   text-align: center;
@@ -58,17 +68,12 @@ header {
   font-size: 1.2rem;
 }
 
-a {
-  text-decoration: none;
-}
-
-hr {
-  clear: both;
-  visibility: hidden;
-}
-
 #banner {
   border: 1px solid #CCC;
+}
+
+#title {
+  margin: 10px;
 }
 
 /* Posts */

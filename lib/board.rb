@@ -39,7 +39,9 @@ class Board < REM
   end
 
   def yarns
-    @@yarns.where(board: @id)
+    #@@yarns.where(board: @id)
+    @@yarns.where(board: @id).order(:time).select(
+      :id, :locked, :subject, :name, :time, :body, :spoiler, :file)
   end
 
   def delete
