@@ -3,7 +3,7 @@ An imageboard written Ruby using Sinatra and a few other things.
 
 # Requirements
 * Ruby 2.x (tested in Ruby 2.2 and 2.3)
-* A database compatible with [Sequel](http://sequel.jeremyevans.net) (tested in SQlite)
+* A database compatible with [Sequel](http://sequel.jeremyevans.net) (tested in SQLite)
 * Image/MiniMagick
 * Gems: `sinatra thin haml sequel`
 

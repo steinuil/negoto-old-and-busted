@@ -22,4 +22,13 @@
     #catalog
       - if @threads
         - @threads.each do |thread|
-          .thread ayy
+          .thread
+            - @file = eval thread[:file]
+            %figure<
+              %a{ href: "/src/#{@file[:src]}" }<
+                %img{ src: "/thumb/#{@file[:thumb]}" }
+            .body= thread[:body]
+            -#= succeed "&#x000A;" do
+            -#  %b= thread[:name] |
+            -#  = thread[:time].to_s#.strftime("%Y/%m/%d %H:%M")
+            -#  %a{ href: "/#{@board_id}/thread/#{thread[:id]}" }= "&#8470;" + thread[:id].to_s

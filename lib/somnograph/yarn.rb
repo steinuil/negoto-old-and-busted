@@ -17,7 +17,7 @@ class Yarn < REM
     @@yarns.insert post
     Board[post[:board]].incr
     #FIXME cache yarn
-    return new(@id)
+    return new(post[:board], @id)
   end
 
   def self.[] board, id

@@ -4,6 +4,7 @@ require "sinatra"
 require "haml"
 
 require_relative "lib/somnograph"
+require_relative "lib/attachment"
 
 set :bind, "0.0.0.0"
 set :server, :thin
@@ -61,7 +62,7 @@ post "/api/:board_id" do |board_id|
 
   redirect "/error/#{@err}" if @err ||= nil
 
-  @file_info = Picture.add(params[:file])
+  @file_info = Attachment.add(params[:file], :op)
 
   @post = {
     board: board_id,
@@ -69,10 +70,10 @@ post "/api/:board_id" do |board_id|
     name: params[:name],
     body: params[:body],
     spoiler: params[:spoiler] == "on" ? true : false,
-    file: @file_info
+    file: @file_info.to_s
   }
 
-  Yarn.create post_content
+  Yarn.create @post
 end
 
 post "/api/:board_id/:thread_id" do |board_id, thread_id|
@@ -88,7 +89,7 @@ post "/api/:board_id/:thread_id" do |board_id, thread_id|
 
   redirect "/error/#{@err}" if @err ||= nil
 
-  @file_info = Picture.add(params[:file]) if params[:file]
+  @file_info = Attachment.add(params[:file], :post) if params[:file]
 
   @post = {
     board: board_id,

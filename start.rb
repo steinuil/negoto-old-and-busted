@@ -43,3 +43,6 @@ REM.connect adapter: "sqlite", database: "negoto.db"
 Board.create id: "snw", name: "Time-Telling Fortress"
 Board.create id: "gemu", name: "Vidya"
 Board.create id: "loli", name: "Flat-Chested Maidens"
+
+Dir.mkdir "public/thumb"
+Dir.mkdir "public/src"
