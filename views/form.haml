@@ -1,5 +1,8 @@
 %form#form{ action: "/api/#{id}", method: "POST",
   enctype: "multipart/form-data" }
+  - if page == 0
+    %input#subject{ type: "text", placeholder: "Subject",
+    name: "subject" }
   %input#name{ type: "text", placeholder: "Anonymous",
     value: "Anonymous", name: "name" }<
   %input#button{ type: "submit", value: "Post" }
@@ -9,4 +12,4 @@
     accept: "image/jpeg, image/png, image/gif, video/webm" }<
   %label#sage{ for: "sagebox"} sage
   %input#sagebox{ type: "checkbox", name: "sage" }>
-  %input#page{ type: "hidden", name: "page", value: @thread_id }
+  %input#page{ type: "hidden", name: "page", value: page }

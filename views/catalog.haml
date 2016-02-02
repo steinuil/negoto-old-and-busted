@@ -1,35 +1,13 @@
-%html
-  %head
-    %title /#{@board_id}/
-    %meta{ charset: "utf-8" }
-    %link{ type: "text/css", rel: "stylesheet", href: "/style.css" }
-  %body#catalog-page
-    %header
-      %nav
-        [
-        %a{ href: "/" } Home
-        - @boards.each do |board|
-          \/
-          %a{ href: "/#{board}/" }= board
-        ] [
-        %a{ href: "https://github.com/steinuil/negoto" } source
-        ]
-      %img#banner{ src: "/#{banner}" }
-      %h1#title= "/#{@board_id}/ - #{@board_name}"
-    %hr
-    = haml :form, locals: {id: @board_id}
-    %hr
-    #catalog
-      - if @threads
-        - @threads.each do |thread|
-          .thread
-            - @file = eval thread[:file]
-            %figure<
-              %a{ href: "/#{@board_id}/thread/#{thread[:id]}" }<
-                %img{ src: "/thumb/#{@file[:thumb]}" }
-            .info= elapsed thread[:time]
-            .body= thread[:body]
-            -#= succeed "&#x000A;" do
-            -#  %b= thread[:name] |
-            -#  = thread[:time].to_s#.strftime("%Y/%m/%d %H:%M")
-            -#  %a{ href: "/#{@board_id}/thread/#{thread[:id]}" }= "&#8470;" + thread[:id].to_s
+= haml :form, locals: {id: @board[:id], page: 0}
+%hr
+#catalog
+  - if @threads
+    - @threads.each do |thread|
+      .thread
+        - file = eval thread[:file]
+        %figure<
+          %a{ href: "/#{@board[:id]}/thread/#{thread[:id]}" }<
+            %img{ src: "/thumb/#{file[:thumb]}" }
+        .info= elapsed thread[:time]
+        .subject= thread[:subject]
+        .body= thread[:body]

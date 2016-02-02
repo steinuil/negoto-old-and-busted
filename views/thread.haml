@@ -1,0 +1,38 @@
+- url = "#{@board[:id]}/thread/#{@op[:id]}"
+#thread
+  .post.op
+    .info
+      = succeed "&#x000A;" do
+        %span#subject= @op[:subject] if @op[:subject]
+        |
+        %b= @op[:name]
+        = @op[:time]
+        %a{ href: url }= "&#8470;#{@op[:id]}"
+    %hr
+    - @file = eval @op[:file]
+    %figure
+      %a{ href: "/src/#{@file[:src]}" }<
+        %img{ src: "/thumb/#{@file[:thumb]}" }
+      %figcaption= @file[:filename]
+    .body
+      %p= @op[:body]
+  - if @replies
+    - @replies.each do |post|
+      .post.reply
+        - unless post[:file].empty? ; @file = eval post[:file]
+          %figure
+            %a{ href: "/src/#{@file[:src]}" }<
+              %img{ src: "/thumb/#{@file[:thumb]}" }
+            %figcaption= @file[:filename]
+        .info
+          = succeed "&#x000A;" do
+            %b= post[:name]
+            = post[:time]
+            = "&#8470;#{post[:id]}"
+        %hr
+        .body<
+          %p= post[:body]
+
+%hr
+= haml :form, locals: { id: url,
+                        page: @op[:id] }

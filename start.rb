@@ -41,8 +41,8 @@ end
 REM.connect adapter: "sqlite", database: "negoto.db"
 
 Board.create id: "snw", name: "Time-Telling Fortress"
-Board.create id: "gemu", name: "Vidya"
-Board.create id: "loli", name: "Flat-Chested Maidens"
+Board.create id: "gemu", name: "Video Games"
+Board.create id: "med", name: "Medecine"
 
 Dir.mkdir "public/thumb"
 Dir.mkdir "public/src"

@@ -79,15 +79,19 @@ header
   *
     font-size: 0.8rem
 
-  &, #name, #button, #body
+  &, #subject, #name, #button, #body
     padding: 5px
+
+  #subject
+    width: $form-width
 
   $button-width: 40px
 
   #name
     width: $form-width - $button-width - 5
 
-    &:focus
+  #subject, #name
+    &:hover, &:focus
       transition: 1s
       color: $text
       background-color: $lightest
@@ -101,7 +105,7 @@ header
       transition: 1s
       background-color: $text
 
-  #name, #button
+  #subject, #name, #button
     margin-bottom: 5px
     transition: 1s
 
@@ -113,17 +117,30 @@ header
     min-height: 100px
     background-color: $lightest
 
+  #subject, #name, #body
+    &::-webkit-input-placeholder
+      color: $darker
+    &::-moz-placeholder
+      color: $darker
+      opacity: 1
+    &:-ms-input-placeholder
+      color: $darker
+    &:placeholder-shown
+      color: $darker
+
 // Catalog
 #catalog
   display: flex
+  flex-flow: row wrap
   justify-content: center
   align-items: baseline
 
   .thread
     margin: 5px
     text-align: center
+    width: 250px
     
-    figure
+    figure img
       //border: 1px solid $darker
       //border-bottom: 3px solid $darker
       box-shadow: $shadow
@@ -137,6 +154,46 @@ header
     .body
       padding: 0 5px 5px
       font-size: 0.9rem
+
+// Thread
+#thread
+  font-size: 0.9rem
+
+  figure
+    float: left
+    position: relative
+    width: auto
+    height: auto
+    margin-right: 5px
+
+    figcaption
+      display: none
+
+  hr
+    border-bottom: 1px solid $darker
+
+  .op
+    margin: 5px
+
+  .reply
+    display: table
+    padding: 5px
+    margin: 5px 0
+    background-color: $dark
+    box-shadow: $shadow
+
+    figure
+      max-width: 150px
+
+    .info
+      display: inline-block
+      vertical-align: top
+      white-space: nowrap
+
+    hr
+      clear: none
+      margin: 0
+      visibility: visible
 
 // Front page
 #front
@@ -154,3 +211,8 @@ header
     li
       margin: 50px
       font-size: 1.5rem
+
+  #powered
+    position: absolute
+    bottom: 10px
+    left: 10px

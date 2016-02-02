@@ -1,0 +1,21 @@
+%html
+  %head
+    %title= "/#{@board[:id]}/ - #{@board[:name]}"
+    %meta{ charset: "utf-8" }
+    %link{ type: "text/css", rel: "stylesheet", href: "/style.css" }
+  %body
+    %header
+      %nav
+        [
+        %a{ href: "/" } Home
+        - boards.each do |board|
+          \/
+          %a{ href: "/#{board[:id]}/",
+              title: "#{board[:name]}" }= board[:id]
+        ] [
+        %a{ href: "https://github.com/steinuil/negoto" } source
+        ]
+      %img#banner{ src: "/#{banner}" }
+      %h1#title= "/#{@board[:id]}/ - #{@board[:name]}"
+    %hr
+    = yield

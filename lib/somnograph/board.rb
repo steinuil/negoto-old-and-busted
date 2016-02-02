@@ -48,6 +48,10 @@ class Board < REM
       :id, :locked, :subject, :name, :time, :body, :spoiler, :file)
   end
 
+  def list
+    @@yarns.where(board: @id).map :id
+  end
+
   def delete
     @this.delete
     @@yarns.where(board: @id).delete

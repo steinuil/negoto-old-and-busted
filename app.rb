@@ -1,5 +1,3 @@
-#FIXME a drink
-
 require "sinatra"
 require "tilt/haml"
 require "tilt/sass"
@@ -33,11 +31,12 @@ helpers do
   def banner
     Dir.chdir("public") { Dir.glob("banners/*").sample }
   end
+
+  def boards() Board.names end
 end
 
 get "/" do
-  @boards = Board.names
-  haml :front
+  haml :front, layout: false
 end
 
 get "/style.css" do
@@ -45,12 +44,7 @@ get "/style.css" do
 end
 
 get "/:board_id/" do |board_id|
-  @boards = Board.list
-
-  @board_id = board_id
-  @board_name = Board[board_id].name
-  @thread_id = 0
-
+  @board = { id: board_id, name: Board[board_id].name }
   @threads = Board[board_id].yarns.all.reverse
 
   haml :catalog
@@ -61,8 +55,10 @@ get "/:board_id" do |board_id|
 end
 
 get "/:board_id/thread/:thread_id" do |board_id, thread_id|
-  # thread info
-  haml :page
+  @board = { id: board_id, name: Board[board_id].name }
+  @op = Yarn[board_id, thread_id].get
+  @replies = Yarn[board_id, thread_id].posts
+  haml :thread
 end
 
 get "/error/:err" do |err|
@@ -80,6 +76,8 @@ end
 post "/api/:board_id" do |board_id|
   @err = if not Board.list.include? board_id
     "no_board"
+  elsif params[:subject].empty?
+    "no_subject"
   elsif params[:name].empty?
     "no_name"
   elsif params[:file].nil?
@@ -96,18 +94,17 @@ post "/api/:board_id" do |board_id|
     name: params[:name],
     body: params[:body],
     spoiler: params[:spoiler] == "on" ? true : false,
-    file: @file_info.to_s
-  }
+    file: @file_info.to_s }
 
   Yarn.create @post
 
   "Post successful"
 end
 
-post "/api/:board_id/:thread_id" do |board_id, thread_id|
+post "/api/:board_id/thread/:thread_id" do |board_id, thread_id|
   @err = if not Board.list.include? board_id
     "no_board"
-  elsif not Board[board_id].include? thread_id
+  elsif not Board[board_id].list.include? thread_id.to_i
     "no_thread"
   elsif params[:name].empty?
     "no_name"
@@ -115,7 +112,7 @@ post "/api/:board_id/:thread_id" do |board_id, thread_id|
     "no_comment"
   end
 
-  redirect "/error/#{@err}" if @err ||= nil
+  redirect "/error/#{@err}" if @err
 
   @file_info = Attachment.add(params[:file], :post) if params[:file]
 
@@ -126,8 +123,7 @@ post "/api/:board_id/:thread_id" do |board_id, thread_id|
     body: params[:body],
     spoiler: params[:spoiler] == "on" ? true : false,
     sage: params[:sage] == "on" ? true : false,
-    file: @file_info ||= ""
-  }
+    file: @file_info.to_s ||= "" }
 
   post = Post.create @post
 

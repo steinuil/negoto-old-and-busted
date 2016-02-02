@@ -26,6 +26,11 @@ class Yarn < REM
 
   attr_reader :id, :board
 
+  def get
+    @this.select(:id, :locked, :subject, :name, :time, :body,
+      :spoiler, :file).first
+  end
+
   def subject
     @this.map(:subject).first
   end

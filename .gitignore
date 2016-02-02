@@ -1,5 +1,8 @@
 *.db
-.*
+.DS_Store
+._*
+/.*
+
 /public/banners/*.jpg
 /public/banners/*.png
 /public/banners/*.gif

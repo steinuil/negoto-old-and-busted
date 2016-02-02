@@ -16,6 +16,15 @@ An imageboard written Ruby using Sinatra and a few other things.
 * Running the program
 * Rendering the homepage and a page for each board
 * Posting new threads
+* Rendering thread pages
+* Posting in threads
 
 # Whatnot
 * Basically everything else
+
+# Javascript stuff to implement
+* AJAX posting
+* Updating threads
+* Converting dates to local time
+* Converting greeting to local time
+* Moving the reply box around
