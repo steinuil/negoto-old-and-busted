@@ -17,7 +17,7 @@ class Attachment
     @name = Time.now.strftime "%s%3N"
     @thumbname = @name + "s"
 
-    @path = "public/thumb/#{@name}.#{@ext}"
+    @path = "public/src/#{@name}.#{@ext}"
     File.open(@path, "wb") do |f|
       f.write @attachment[:tempfile].read
     end
