@@ -3,18 +3,18 @@
     %title /#{@board_id}/
     %meta{ charset: "utf-8" }
     %link{ type: "text/css", rel: "stylesheet", href: "/style.css" }
-  %body#top
-    %nav#navbar
-      [
-      %a{ href: "/" } Home
-      - @boards.each do |board|
-        \/
-        %a{ href: "/#{board}/" }= board
-      ] [
-      %a{ href: "https://github.com/steinuil/negoto" } source
-      ]
+  %body#catalog-page
     %header
-      %img#banner{ src: "/#{@banner}" }
+      %nav
+        [
+        %a{ href: "/" } Home
+        - @boards.each do |board|
+          \/
+          %a{ href: "/#{board}/" }= board
+        ] [
+        %a{ href: "https://github.com/steinuil/negoto" } source
+        ]
+      %img#banner{ src: "/#{banner}" }
       %h1#title= "/#{@board_id}/ - #{@board_name}"
     %hr
     = haml :form, locals: {id: @board_id}
@@ -25,8 +25,9 @@
           .thread
             - @file = eval thread[:file]
             %figure<
-              %a{ href: "/src/#{@file[:src]}" }<
+              %a{ href: "/#{@board_id}/thread/#{thread[:id]}" }<
                 %img{ src: "/thumb/#{@file[:thumb]}" }
+            .info= elapsed thread[:time]
             .body= thread[:body]
             -#= succeed "&#x000A;" do
             -#  %b= thread[:name] |

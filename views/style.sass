@@ -1,0 +1,156 @@
+$text: #333
+$darkest: #7E9CD9
+$darker: #B7C5D9
+$dark: #D6DAF0
+$light: #EEF2FF
+$lightest: #FFF
+
+$quote: #789922
+$backquote: #D00
+$link: #34345C
+
+$sans-serif: -apple-system, "Segoe UI", "Roboto", "Helvetica Neue", "Open Sans", sans-serif
+
+$shadow: 3px 3px $darker
+
+// Restoring sanity
+html
+  -ms-text-size-adjust: 100%
+  -webkit-text-size-adjust: 100%
+input[type="submit"]
+  -webkit-appearance: none
+
+*
+  margin: 0
+  padding: 0
+  border: none
+
+body
+  font-family: $sans-serif
+  margin: 5px
+  color: $text
+
+a
+  text-decoration: none
+
+hr
+  clear: both
+  visibility: hidden
+
+// Actual changes
+body
+  background-color: $light
+
+a
+  color: $link
+
+  &:hover
+    color: $backquote
+
+// Header
+header
+  text-align: center
+
+  nav
+    margin-bottom: 5px
+    font-size: 0.8rem
+
+  #banner
+    border: 1px solid $darker
+
+  #title
+    margin: 15px
+    font-size: 3rem
+
+#form
+  $form-width: 350px
+
+  width: $form-width
+  margin: 10px auto
+  position: relative
+
+  cursor: move
+  user-select: none
+  -webkit-user-select: none
+
+  background-color: $dark
+  box-shadow: $shadow
+
+  *
+    font-size: 0.8rem
+
+  &, #name, #button, #body
+    padding: 5px
+
+  $button-width: 40px
+
+  #name
+    width: $form-width - $button-width - 5
+
+    &:focus
+      transition: 1s
+      color: $text
+      background-color: $lightest
+
+  #button
+    width: $button-width
+    position: absolute
+    right: 5px
+
+    &:hover
+      transition: 1s
+      background-color: $text
+
+  #name, #button
+    margin-bottom: 5px
+    transition: 1s
+
+    color: $darker
+    background-color: $light
+
+  #body
+    width: $form-width
+    min-height: 100px
+    background-color: $lightest
+
+// Catalog
+#catalog
+  display: flex
+  justify-content: center
+  align-items: baseline
+
+  .thread
+    margin: 5px
+    text-align: center
+    
+    figure
+      //border: 1px solid $darker
+      //border-bottom: 3px solid $darker
+      box-shadow: $shadow
+
+    .info
+      padding: 2px
+      font-size: 0.75rem
+      color: $darkest
+      font-style: italic
+
+    .body
+      padding: 0 5px 5px
+      font-size: 0.9rem
+
+// Front page
+#front
+  header
+    font-size: 2.5rem
+
+    h1
+      font-size: 5rem
+
+  #boards
+    margin: 90px
+    list-style: none
+    text-align: center
+
+    li
+      margin: 50px
+      font-size: 1.5rem

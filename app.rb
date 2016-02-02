@@ -1,10 +1,12 @@
 #FIXME a drink
 
 require "sinatra"
-require "haml"
+require "tilt/haml"
+require "tilt/sass"
 
 require_relative "lib/somnograph"
 require_relative "lib/attachment"
+require_relative "lib/format"
 
 set :bind, "0.0.0.0"
 set :server, :thin
@@ -12,20 +14,44 @@ set :port, 6789
 
 REM.connect adapter: "sqlite", database: "negoto.db"
 
+helpers do
+  def elapsed time
+    Time.elapsed time
+  end
+  
+  def greeting
+    @hour = Time.now.hour
+    if @hour < 6 or @hour > 22
+      "Good night"
+    elsif @hour >= 6 and @hour < 12
+      "Good morning"
+    elsif @hour >= 12 and @hour < 18
+      "Good afternoon"
+    else "Good evening" end
+  end
+
+  def banner
+    Dir.chdir("public") { Dir.glob("banners/*").sample }
+  end
+end
+
 get "/" do
-  @boards = Board.list
+  @boards = Board.names
   haml :front
+end
+
+get "/style.css" do
+  sass :style
 end
 
 get "/:board_id/" do |board_id|
   @boards = Board.list
-  @banner = Dir.chdir("public") { Dir.glob("banners/*").sample }
 
   @board_id = board_id
   @board_name = Board[board_id].name
   @thread_id = 0
 
-  @threads = Board[board_id].yarns.all
+  @threads = Board[board_id].yarns.all.reverse
 
   haml :catalog
 end
@@ -74,6 +100,8 @@ post "/api/:board_id" do |board_id|
   }
 
   Yarn.create @post
+
+  "Post successful"
 end
 
 post "/api/:board_id/:thread_id" do |board_id, thread_id|

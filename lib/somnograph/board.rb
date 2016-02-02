@@ -3,6 +3,10 @@ class Board < REM
     @@boards.map :id
   end
 
+  def self.names
+    @@boards.select :id, :name
+  end
+
   def initialize id
     @id = id
     @this = @@boards.where id: id
