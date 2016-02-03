@@ -1,6 +1,6 @@
-class Time
-  def self.elapsed time
-    @elapsed = self.now - time
+helpers do
+  def elapsed time
+    @elapsed = Time.now - time
     @when = if @elapsed < 60
       [@elapsed.to_i, "second"]
     elsif @elapsed < 60 * 60
@@ -18,5 +18,24 @@ class Time
     end
     @when[1] += "s" if @when[0] > 1
     "#{@when[0]} #{@when[1]} ago"
+  end
+
+  def greeting
+    @hour = Time.now.hour
+    if @hour < 6 or @hour > 22
+      "Good night"
+    elsif @hour >= 6 and @hour < 12
+      "Good morning"
+    elsif @hour >= 12 and @hour < 18
+      "Good afternoon"
+    else "Good evening" end
+  end
+
+  def banner
+    Dir.chdir("public") { Dir.glob("banners/*").sample }
+  end
+
+  def boards
+    Board.names
   end
 end

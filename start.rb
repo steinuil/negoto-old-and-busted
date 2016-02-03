@@ -50,6 +50,7 @@ REM.connect adapter: "sqlite", database: "negoto.db"
 Board.create id: "snw", name: "Time-Telling Fortress"
 Board.create id: "gemu", name: "Video Games"
 Board.create id: "med", name: "Medecine"
+Board.create id: "flat", name: "Washboards"
 
 Dir.mkdir "public" unless Dir.exist? "public"
 Dir.mkdir "public/banners" unless Dir.exist? "public/banners"
