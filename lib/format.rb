@@ -2,13 +2,13 @@ require "htmlentities"
 
 class String
   def format
-    text = HTMLEntities.new.encode(self).split(/\R```\R*/)
+    text = self.split(/\R/).join "\n"
+    text = HTMLEntities.new.encode(text).split /\R?^```\R*/
     text.map!.with_index do |string, counter|
       if counter.even?
-        string.gsub! /\\(.*?)(\\|\z)/,
+        string.gsub! /\\\\(.+?)(\\\\|\z)/,
           '<span class="spoiler">\1</span>'
-        @lines = string.split /\R/
-        @lines.map! do |line|
+        @lines = string.split(/\R/).map do |line|
           line.gsub /^(&gt;.+)$/,
             '<span class="quote">\1</span>'
         end
@@ -18,6 +18,12 @@ class String
         "<pre>" + string + "</pre>"
       end
     end
+    p text
+    text = text.delete_if do |section|
+      #section unless
+      section.empty? or section == "<pre></pre>"
+    end
+    p text
     text.join "<br>" #huehuehuehuehuehuehuehue
   end
 
