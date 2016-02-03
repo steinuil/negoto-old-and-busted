@@ -15,9 +15,9 @@ post "/api/:board_id" do |board_id|
 
   @post = {
     board: board_id,
-    subject: params[:subject],
-    name: params[:name],
-    body: params[:body],
+    subject: params[:subject].escape,
+    name: params[:name].escape,
+    body: params[:body].format,
     spoiler: params[:spoiler],
     file: params[:file] }
 
@@ -47,8 +47,8 @@ post "/api/:board_id/thread/:thread_id" do |board_id, thread_id|
   @post = {
     board: board_id,
     yarn: thread_id,
-    name: params[:name],
-    body: params[:body],
+    name: params[:name].escape,
+    body: params[:body].format,
     spoiler: params[:spoiler],
     sage: params[:sage],
     file: params[:file]

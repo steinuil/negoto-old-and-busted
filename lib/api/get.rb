@@ -3,7 +3,7 @@ get "/api" do
 end
 
 get "/api/boards" do
-  Board.names.to_json
+  Board.names.all.to_json
 end
 
 get "/api/:board_id" do |board_id|

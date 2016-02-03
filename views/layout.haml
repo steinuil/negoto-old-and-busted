@@ -1,6 +1,7 @@
+- @sub = (@op ? @op[:subject] : @board[:name]) if @board
 %html
   %head
-    %title= "/#{@board[:id]}/ - #{@sub}"
+    %title= @board ? "/#{@board[:id]}/ - #{@sub}" : @title
     %meta{ charset: "utf-8" }
     %link{ type: "text/css", rel: "stylesheet", href: "/style.css" }
   %body
@@ -16,6 +17,6 @@
         %a{ href: "https://github.com/steinuil/negoto" } source
         ]
       %img#banner{ src: "/#{banner}" }
-      %h1#title= "/#{@board[:id]}/ - #{@board[:name]}"
+      %h1#title= @board ? "/#{@board[:id]}/ - #{@board[:name]}" : @title
     %hr
     = yield

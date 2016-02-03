@@ -11,6 +11,7 @@ $link: #34345C
 $name: #117743
 
 $sans-serif: -apple-system, "Segoe UI", "Roboto", "Helvetica Neue", "Open Sans", sans-serif
+$monospace: monospace
 
 $shadow: 3px 3px $darker
 
@@ -176,7 +177,6 @@ header
       font-size: 1.25rem
       font-weight: bold
       background: $dark
-      //border: 4px solid $dark
       box-shadow: $shadow
 
   figure
@@ -197,6 +197,14 @@ header
       .name
         font-weight: bold
         color: $name
+    pre
+      display: inline-block
+      padding: 5px
+      margin: 2px
+      font-family: $monospace
+      background-color: $light
+      tab-size: 4
+      -moz-tab-size: 4
 
   .op
     margin: 5px
@@ -242,3 +250,9 @@ header
     position: absolute
     bottom: 10px
     left: 10px
+
+// Error page
+#error
+  text-align: center
+  font-size: 2rem
+  margin: 100px

@@ -6,6 +6,7 @@ require_relative "lib/somnograph"
 require_relative "lib/api"
 require_relative "lib/attachment"
 require_relative "lib/helpers"
+require_relative "lib/format"
 
 set :bind, "0.0.0.0"
 set :server, :thin
@@ -25,8 +26,6 @@ get "/:board_id/" do |board_id|
   redirect "/error/no_board" unless Board.list.include? board_id
   @board = { id: board_id, name: Board[board_id].name }
   @threads = Board[board_id].yarns.all.reverse
-  @title = "/#{board_id}/ - #{@board[:name]}"
-  @sub = @board[:name]
 
   haml :catalog
 end
@@ -39,7 +38,6 @@ get "/:board_id/thread/:thread_id" do |board_id, thread_id|
   @board = { id: board_id, name: Board[board_id].name }
   @op = Yarn[board_id, thread_id].get
   @replies = Yarn[board_id, thread_id].posts
-  @sub = @op[:subject]
 
   haml :thread
 end
@@ -57,7 +55,7 @@ get "/error/:err" do |err|
   when "no_comment"
     @err = "You can't post without both a comment and a picture"
   end
-  @title = "Time-Telling Fortress - Error"
+  @title = "Error"
 
   haml :error
 end
