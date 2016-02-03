@@ -1,5 +1,12 @@
 require_relative "lib/somnograph"
 require "sequel"
+require "fileutils"
+
+if ARGV[0] == "reset"
+  File.delete "negoto.db"
+  FileUtils.rm_r "public/thumb"
+  FileUtils.rm_r "public/src"
+end
 
 db = Sequel.sqlite "negoto.db"
 
@@ -44,5 +51,7 @@ Board.create id: "snw", name: "Time-Telling Fortress"
 Board.create id: "gemu", name: "Video Games"
 Board.create id: "med", name: "Medecine"
 
+Dir.mkdir "public" unless Dir.exist? "public"
+Dir.mkdir "public/banners" unless Dir.exist? "public/banners"
 Dir.mkdir "public/thumb"
 Dir.mkdir "public/src"

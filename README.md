@@ -8,8 +8,9 @@ An imageboard written Ruby using Sinatra and a few other things.
 * Gems: `sinatra thin haml sequel mini_magick sass`
 
 # Running
-* Edit `start.rb` to your liking
-* Run `start.rb` and then `app.rb`
+* Edit `start.rb` to your liking and run it
+* Put some banners into `public/banners` if you so desire
+* Run `app.rb`
 
 # What works without spewing out walls of errors
 * Creating boards

@@ -6,9 +6,9 @@
   .post.op
     .info
       = succeed "&#x000A;" do
-        %b= @op[:name]
-        = @op[:time]
-        %a{ href: url }= "&#8470;#{@op[:id]}"
+        %span.name= @op[:name]
+        %span.time= @op[:time]
+        %a.id{ href: url }= "&#8470;#{@op[:id]}"
     %hr
     - @file = eval @op[:file]
     %figure
@@ -27,9 +27,9 @@
             %figcaption= @file[:filename]
         .info
           = succeed "&#x000A;" do
-            %b= post[:name]
-            = post[:time]
-            = "&#8470;#{post[:id]}"
+            %span.name= post[:name]
+            %span.time= post[:time]
+            %a.id= "&#8470;#{post[:id]}"
         %hr
         .body<
           %p= post[:body]

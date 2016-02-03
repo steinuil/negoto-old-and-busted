@@ -129,7 +129,3 @@ post "/api/:board_id/thread/:thread_id" do |board_id, thread_id|
 
   redirect "/#{board_id}/thread/#{thread_id}#p#{post.id}"
 end
-
-get "/api/:board_id/thread/:thread_id/bump" do |board_id, thread_id|
-  Yarn[board_id, thread_id].bump
-end

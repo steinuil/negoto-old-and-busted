@@ -8,6 +8,7 @@ $lightest: #FFF
 $quote: #789922
 $backquote: #D00
 $link: #34345C
+$name: #117743
 
 $sans-serif: -apple-system, "Segoe UI", "Roboto", "Helvetica Neue", "Open Sans", sans-serif
 
@@ -156,7 +157,7 @@ header
       font-size: 0.9rem
 
       .subject
-        font-style: bold
+        font-weight: bold
 
 // Thread
 #thread
@@ -173,6 +174,7 @@ header
 
     #return, #subject
       font-size: 1.25rem
+      font-weight: bold
       background: $dark
       //border: 4px solid $dark
       box-shadow: $shadow
@@ -189,6 +191,12 @@ header
 
   hr
     border-bottom: 1px solid $darker
+
+  .post
+    .info
+      .name
+        font-weight: bold
+        color: $name
 
   .op
     margin: 5px

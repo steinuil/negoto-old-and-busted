@@ -10,13 +10,12 @@ class Post < REM
     post.merge!({ id: @id, time: Time.now })
 
     @yarn = Yarn[post[:board], post[:yarn]]
-    p "#{post[:board]} #{post[:yarn]}"
     return nil if @yarn.locked?
 
     @sage = post.delete :sage
     @@posts.insert post
     Board[post[:board]].incr
-    @yarn.bump
+    @yarn.bump unless @sage
     #FIXME cache yarn
     return new(post[:board], @id)
   end

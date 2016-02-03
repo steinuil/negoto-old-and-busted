@@ -3,7 +3,5 @@
 ._*
 /.*
 
-/public/banners/*.jpg
-/public/banners/*.png
-/public/banners/*.gif
+/public
 /old/*

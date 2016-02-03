@@ -10,6 +10,6 @@
             %img{ src: "/thumb/#{file[:thumb]}" }
         .info= elapsed thread[:updated]
         .desc<
-          %b.subject<= thread[:subject]
+          %span.subject<= thread[:subject]
           - unless thread[:body].empty?
             %span.body= " - " + thread[:body]
