@@ -8,6 +8,8 @@
         %figure<
           %a{ href: "/#{@board[:id]}/thread/#{thread[:id]}" }<
             %img{ src: "/thumb/#{file[:thumb]}" }
-        .info= elapsed thread[:time]
-        .subject= thread[:subject]
-        .body= thread[:body]
+        .info= elapsed thread[:updated]
+        .desc<
+          %b.subject<= thread[:subject]
+          - unless thread[:body].empty?
+            %span.body= " - " + thread[:body]

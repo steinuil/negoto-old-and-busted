@@ -113,6 +113,7 @@ header
     background-color: $light
 
   #body
+    font-family: $sans-serif
     width: $form-width
     min-height: 100px
     background-color: $lightest
@@ -146,18 +147,35 @@ header
       box-shadow: $shadow
 
     .info
-      padding: 2px
+      padding: 4px 0 0
       font-size: 0.75rem
-      color: $darkest
-      font-style: italic
+      color: $darker
 
-    .body
-      padding: 0 5px 5px
+    .desc
+      padding: 0 5px
       font-size: 0.9rem
+
+      .subject
+        font-style: bold
 
 // Thread
 #thread
   font-size: 0.9rem
+
+  #thread-bar
+    margin: 10px 5px
+
+    #return
+      padding: 5px 10px 5px 0
+
+    #subject
+      padding: 5px 20px
+
+    #return, #subject
+      font-size: 1.25rem
+      background: $dark
+      //border: 4px solid $dark
+      box-shadow: $shadow
 
   figure
     float: left

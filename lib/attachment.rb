@@ -44,6 +44,8 @@ class Attachment
       @thumbpath = "public/thumb/#{@thumbname}.jpg"
 
       @thumb = MiniMagick::Image.open(@path)
+      @thumb.background op ? "#EEF2FF" : "#D6DAF0"
+      @thumb.extent "0x0"
       @thumb.resize @size
       @thumb.format "jpg"
       @thumb.write @thumbpath

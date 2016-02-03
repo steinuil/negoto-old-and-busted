@@ -9,15 +9,16 @@ class Post < REM
     @id = @@count[post[:board]] += 1
     post.merge!({ id: @id, time: Time.now })
 
-      @yarn = Yarn.new(post[:board], @id)
-      return nil if @yarn.locked?
+    @yarn = Yarn[post[:board], post[:yarn]]
+    p "#{post[:board]} #{post[:yarn]}"
+    return nil if @yarn.locked?
 
-      @sage = post.delete :sage
-      @@posts.insert post
-      Board[post[:board]].incr
-      @yarn.bump unless @sage
-      #FIXME cache yarn
-      return new(post[:board], @id)
+    @sage = post.delete :sage
+    @@posts.insert post
+    Board[post[:board]].incr
+    @yarn.bump
+    #FIXME cache yarn
+    return new(post[:board], @id)
   end
 
   def self.[](board, id)

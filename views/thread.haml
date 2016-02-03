@@ -1,10 +1,11 @@
 - url = "#{@board[:id]}/thread/#{@op[:id]}"
 #thread
+  #thread-bar
+    %a#return{ href: "/#{@board[:id]}/" }= "〈〈"
+    %span#subject= @op[:subject]
   .post.op
     .info
       = succeed "&#x000A;" do
-        %span#subject= @op[:subject] if @op[:subject]
-        |
         %b= @op[:name]
         = @op[:time]
         %a{ href: url }= "&#8470;#{@op[:id]}"
