@@ -2,15 +2,15 @@ require "sinatra"
 require "tilt/haml"
 require "tilt/sass"
 
-require_relative "lib/somnograph"
-require_relative "lib/api"
-require_relative "lib/attachment"
-require_relative "lib/helpers"
-require_relative "lib/format"
+%w[somnograph api attachment helpers format].each do |l|
+  require_relative "lib/#{l}"
+end
 
 set :bind, "0.0.0.0"
 set :server, :thin
 set :port, 6789
+
+$website_name = "Time-Telling Fortress"
 
 REM.connect adapter: "sqlite", database: "negoto.db"
 
@@ -35,6 +35,9 @@ get "/:board_id" do |board_id|
 end
 
 get "/:board_id/thread/:thread_id" do |board_id, thread_id|
+  unless Yarn.list(board_id).include? thread_id.to_i
+    redirect "/error/no_thread"
+  end
   @board = { id: board_id, name: Board[board_id].name }
   @op = Yarn[board_id, thread_id].get
   @replies = Yarn[board_id, thread_id].posts
@@ -59,66 +62,3 @@ get "/error/:err" do |err|
 
   haml :error
 end
-
-=begin
-get "/api" do
-  "You shouldn't be here."
-end
-
-post "/api/:board_id" do |board_id|
-  @err = if not Board.list.include? board_id
-    "no_board"
-  elsif params[:subject].empty?
-    "no_subject"
-  elsif params[:name].empty?
-    "no_name"
-  elsif params[:file].nil?
-    "no_image"
-  end
-
-  redirect "/error/#{@err}" if @err ||= nil
-
-  @file_info = Attachment.add(params[:file], :op)
-
-  @post = {
-    board: board_id,
-    subject: params[:subject],
-    name: params[:name],
-    body: params[:body],
-    spoiler: params[:spoiler] == "on" ? true : false,
-    file: @file_info.to_s }
-
-  Yarn.create @post
-
-  "Post successful"
-end
-
-post "/api/:board_id/thread/:thread_id" do |board_id, thread_id|
-  @err = if not Board.list.include? board_id
-    "no_board"
-  elsif not Board[board_id].list.include? thread_id.to_i
-    "no_thread"
-  elsif params[:name].empty?
-    "no_name"
-  elsif params[:file].nil? and params[:body].empty?
-    "no_comment"
-  end
-
-  redirect "/error/#{@err}" if @err
-
-  @file_info = Attachment.add(params[:file], :post) if params[:file]
-
-  @post = {
-    board: board_id,
-    yarn: thread_id,
-    name: params[:name],
-    body: params[:body],
-    spoiler: params[:spoiler] == "on" ? true : false,
-    sage: params[:sage] == "on" ? true : false,
-    file: @file_info.to_s ||= "" }
-
-  post = Post.create @post
-
-  redirect "/#{board_id}/thread/#{thread_id}#p#{post.id}"
-end
-=end

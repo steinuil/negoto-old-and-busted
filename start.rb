@@ -1,14 +1,18 @@
 require_relative "lib/somnograph"
 require "sequel"
 require "fileutils"
+require "yaml"
+
+config = YAML.load(File.read("config.yml"))
 
 if ARGV[0] == "reset"
-  File.delete "negoto.db"
+  File.delete config[:database]
   FileUtils.rm_r "public/thumb"
   FileUtils.rm_r "public/src"
 end
 
-db = Sequel.sqlite "negoto.db"
+db = Sequel.connect adapter: config[:adapter],
+                    database: config[:database]
 
 db.create_table :boards do
   primary_key :bid
@@ -45,12 +49,12 @@ db.create_table :posts do
   String :file
 end
 
-REM.connect adapter: "sqlite", database: "negoto.db"
+REM.connect  adapter: config[:adapter],
+             database: config[:database]
 
-Board.create id: "snw", name: "Time-Telling Fortress"
-Board.create id: "gemu", name: "Video Games"
-Board.create id: "med", name: "Medecine"
-Board.create id: "flat", name: "Washboards"
+config[:boards].each do |board|
+  Board.create id: board[:id], name: board[:name]
+end
 
 Dir.mkdir "public" unless Dir.exist? "public"
 Dir.mkdir "public/banners" unless Dir.exist? "public/banners"

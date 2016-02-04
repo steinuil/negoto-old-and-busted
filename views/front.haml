@@ -1,13 +1,13 @@
 %html
   %head
-    %title Time-Telling Fortress
+    %title= $website_name
     %meta{ charset: "utf-8" }
     %link{ type: "text/css", rel: "stylesheet", href: "/style.css" }
   %body#front
     %header
       #greeting= "#{greeting}, brother."
       %br Welcome to the
-      %h1 Time-Telling Fortress
+      %h1= $website_name
     %ul#boards
       - boards.each do |board|
         %li

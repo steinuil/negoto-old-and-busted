@@ -1,6 +1,6 @@
 class Yarn < REM
   def self.list board=nil
-    board ? @@yarns.where(board: board) : @@yarns
+    board ? @@yarns.where(board: board).map(:id) : @@yarns.map(:id)
   end
 
   def initialize board, id

@@ -18,12 +18,9 @@ class String
         "<pre>" + string + "</pre>"
       end
     end
-    p text
     text = text.delete_if do |section|
-      #section unless
       section.empty? or section == "<pre></pre>"
     end
-    p text
     text.join "<br>" #huehuehuehuehuehuehuehue
   end
 

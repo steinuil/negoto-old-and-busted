@@ -1,0 +1,12 @@
+---
+:name: Negoto
+:adapter: sqlite
+:database: negoto.db
+:magick: graphicsmagick
+:boards:
+- :id: tech
+  :name: Technology
+- :id: mus
+  :name: Music
+- :id: film
+  :name: Movies

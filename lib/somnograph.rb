@@ -11,4 +11,4 @@ class REM
   end
 end
 
-%w(board yarn post).each { |l| require_relative "somnograph/#{l}" }
+%w[board yarn post].each { |l| require_relative "somnograph/#{l}" }

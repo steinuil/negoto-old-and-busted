@@ -19,6 +19,7 @@ An imageboard written Ruby using Sinatra and a few other things.
 * Posting new threads
 * Rendering thread pages
 * Posting in threads
+* Markup (code blocks, spoilers, quotes)
 
 # Whatnot
 * Basically everything else
