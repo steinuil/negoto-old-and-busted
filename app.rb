@@ -25,7 +25,7 @@ end
 get "/:board_id/" do |board_id|
   redirect "/error/no_board" unless Board.list.include? board_id
   @board = { id: board_id, name: Board[board_id].name }
-  @threads = Board[board_id].yarns.all.reverse
+  @threads = Board[board_id].yarns.reverse
 
   haml :catalog
 end

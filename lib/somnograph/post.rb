@@ -15,6 +15,7 @@ class Post < REM
     @sage = post.delete :sage
     @@posts.insert post
     Board[post[:board]].incr
+    @yarn.incr
     @yarn.bump unless @sage
     #FIXME cache yarn
     return new(post[:board], @id)

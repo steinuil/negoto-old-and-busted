@@ -27,6 +27,7 @@ db.create_table :yarns do
   String :board
   FalseClass :locked
   DateTime :updated
+  Integer :count
   String :subject
 
   String :name

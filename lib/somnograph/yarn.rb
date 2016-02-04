@@ -7,12 +7,14 @@ class Yarn < REM
     @id = id
     @board = board
     @this = @@yarns.where(board: board, id: id)
+    @count = @this.map(:count).first
   end
 
   def self.create post
     @id = @@count[post[:board]] += 1
     @time = Time.now
-    post.merge!({ id: @id, time: @time, updated: @time, locked: false })
+    post.merge!({ id: @id, time: @time, updated: @time,
+                  locked: false, count: 1 })
 
     @@yarns.insert post
     Board[post[:board]].incr
@@ -49,6 +51,11 @@ class Yarn < REM
 
   def bump
     @this.update updated: Time.now
+  end
+
+  def incr
+    @count += 1
+    @this.update count: @count
   end
 
   def posts

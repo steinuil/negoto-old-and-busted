@@ -45,7 +45,7 @@ class Board < REM
   def yarns
     @@yarns.where(board: @id).order(:updated).select(
       :id, :locked, :subject, :name, :time, :body, :spoiler,
-      :file, :updated)
+      :file, :updated, :count)
   end
 
   def list
