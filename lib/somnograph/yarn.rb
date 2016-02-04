@@ -14,7 +14,7 @@ class Yarn < REM
     @id = @@count[post[:board]] += 1
     @time = Time.now
     post.merge!({ id: @id, time: @time, updated: @time,
-                  locked: false, count: 1 })
+                  locked: false, count: 0 })
 
     @@yarns.insert post
     Board[post[:board]].incr

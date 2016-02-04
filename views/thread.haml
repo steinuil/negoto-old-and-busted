@@ -1,20 +1,20 @@
 - url = "#{@board[:id]}/thread/#{@op[:id]}"
 #thread
   #thread-bar
-    %a#return{ href: "/#{@board[:id]}/" }= "〈〈"
+    %a#return{ href: "/#{@board[:id]}/" }= "❬❬"
     %span#subject= @op[:subject]
   .post.op
     .info
       = succeed "&#x000A;" do
         %span.name= @op[:name]
-        %span.time= @op[:time]
+        %span.time= @op[:time].strftime "%Y/%m/%d %H:%M:%S"
         %a.id{ href: url }= "&#8470;#{@op[:id]}"
     %hr
     - @file = eval @op[:file]
     %figure
       %a{ href: "/src/#{@file[:src]}" }<
-        %img{ src: "/thumb/#{@file[:thumb]}" }
-      %figcaption= @file[:filename]
+        %img{ src: "/thumb/#{@file[:thumb]}",
+              title: @file[:filename] }
     .body
       %p= @op[:body]
   - if @replies
@@ -23,12 +23,12 @@
         - unless post[:file].empty? ; @file = eval post[:file]
           %figure
             %a{ href: "/src/#{@file[:src]}" }<
-              %img{ src: "/thumb/#{@file[:thumb]}" }
-            %figcaption= @file[:filename]
+              %img{ src: "/thumb/#{@file[:thumb]}",
+                    title: @file[:filename] }
         .info
           = succeed "&#x000A;" do
             %span.name= post[:name]
-            %span.time= post[:time]
+            %span.time= post[:time].strftime "%Y/%m/%d %H:%M:%S"
             %a.id= "&#8470;#{post[:id]}"
         %hr
         .body<

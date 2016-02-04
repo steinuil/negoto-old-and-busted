@@ -5,6 +5,12 @@ post "/api/:board_id" do |board_id|
     "no_subject"
   elsif params[:file].nil?
     "no_image"
+  elsif params[:subject].length > 30
+    "subject_too_long"
+  elsif params[:name].length > 30
+    "name_too_long"
+  elsif params[:body].length > 2000
+    "post_too_long"
   end
 
   redirect "/error/#{@err}" if @err
@@ -23,6 +29,8 @@ post "/api/:board_id" do |board_id|
 
   @thread = Yarn.create @post
 
+  #Cooldown.add request.ip
+
   "Post successful"
 end
 
@@ -33,7 +41,11 @@ post "/api/:board_id/thread/:thread_id" do |board_id, thread_id|
     "no_thread"
   elsif params[:file].nil? and params[:body].empty?
     "no_comment"
-   end
+  elsif params[:name].length > 50
+    "name_too_long"
+  elsif params[:body].length > 2000
+    "post_too_long"
+  end
 
   redirect "/error/#{@err}" if @err
 
@@ -55,6 +67,8 @@ post "/api/:board_id/thread/:thread_id" do |board_id, thread_id|
   }
 
   @post = Post.create @post
+
+  #Cooldown.add request.ip
 
   "Post successful"
 end

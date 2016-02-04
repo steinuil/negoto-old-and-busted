@@ -11,9 +11,10 @@ $link: #34345C
 $name: #117743
 
 $sans-serif: -apple-system, "Segoe UI", "Roboto", "Helvetica Neue", "Open Sans", sans-serif
-$monospace: monospace
+$monospace: "Lucida Console", Monaco, monospace
 
 $shadow: 3px 3px $darker
+$border: 1px solid $darker
 
 // Restoring sanity
 html
@@ -21,6 +22,10 @@ html
   -webkit-text-size-adjust: 100%
 input[type="submit"]
   -webkit-appearance: none
+
+  &::-moz-focus-inner
+    border: 0
+    padding: 0
 
 *
   margin: 0
@@ -49,6 +54,30 @@ a
   &:hover
     color: $backquote
 
+p
+  line-height: 1.4em
+
+.quote
+  color: $quote
+
+.spoiler
+  color: $text
+  background-color: $text
+
+  &:hover
+    color: $lightest
+
+pre
+  display: inline-block
+  padding: 5px
+  margin: 2px
+  font-family: $monospace
+  font-size: 0.8rem
+  line-height: 1.2rem
+  background-color: $light
+  tab-size: 4
+  -moz-tab-size: 4
+
 // Header
 header
   text-align: center
@@ -58,12 +87,14 @@ header
     font-size: 0.8rem
 
   #banner
+    border: $border
     box-shadow: $shadow
 
   #title
     margin: 15px
     font-size: 3rem
 
+// Form
 #form
   $form-width: 350px
 
@@ -103,10 +134,6 @@ header
     position: absolute
     right: 5px
 
-    &:hover
-      transition: 1s
-      background-color: $text
-
   #subject, #name, #button
     margin-bottom: 5px
     transition: 1s
@@ -119,6 +146,7 @@ header
     width: $form-width
     min-height: 100px
     background-color: $lightest
+    margin-bottom: 5px
 
   #subject, #name, #body
     &::-webkit-input-placeholder
@@ -130,6 +158,29 @@ header
       color: $darker
     &:placeholder-shown
       color: $darker
+
+  #file:hover, #button:hover, #sage:hover, #spoiler:hover
+    transition: 0.5s
+    background-color: $text
+
+  #file, #sage, #spoiler
+    transition: 0.5s
+    display: inline-block
+    padding: 5px
+    background-color: $light
+    color: $darker
+
+  #sage, #spoiler
+    float: right
+    margin-left: 5px
+
+  #sagei:checked + #sage, #spoileri:checked + #spoiler
+    font-weight: bold
+    color: $text
+    background-color: $darker
+
+  #filei, #sagei, #spoileri
+    display: none
 
 // Catalog
 #catalog
@@ -144,7 +195,7 @@ header
     width: 250px
     
     figure img
-      border: 1px  solid $darker
+      border: $border
       box-shadow: $shadow
 
     .info
@@ -159,6 +210,10 @@ header
       .subject
         font-weight: bold
 
+    pre
+      background-color: $dark
+      text-align: left
+
 // Thread
 #thread
   font-size: 0.9rem
@@ -167,7 +222,7 @@ header
     margin: 10px 5px
 
     #return
-      padding: 5px 10px 5px 0
+      padding: 5px 10px
 
     #subject
       padding: 5px 20px
@@ -194,27 +249,8 @@ header
         font-weight: bold
         color: $name
 
-    .quote
-      color: $quote
-
-    .spoiler
-      color: $text
-      background-color: $text
-
-      &:hover
-        color: $lightest
-      
-    pre
-      display: inline-block
-      padding: 5px
-      margin: 2px
-      font-family: $monospace
-      background-color: $light
-      tab-size: 4
-      -moz-tab-size: 4
-
     hr
-      border-bottom: 1px solid $darker
+      border-bottom: $border
 
   .op
     margin: 5px

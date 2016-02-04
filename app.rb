@@ -1,16 +1,17 @@
 require "sinatra"
 require "tilt/haml"
 require "tilt/sass"
+require "yaml"
 
-%w[somnograph api attachment helpers format].each do |l|
+%w[somnograph api attachment helpers format cooldown].each do |l|
   require_relative "lib/#{l}"
 end
+
+$config = YAML.load(File.read("config.yml"))
 
 set :bind, "0.0.0.0"
 set :server, :thin
 set :port, 6789
-
-$website_name = "Time-Telling Fortress"
 
 REM.connect adapter: "sqlite", database: "negoto.db"
 
@@ -57,6 +58,12 @@ get "/error/:err" do |err|
     @err = "You can't start a thread without a file"
   when "no_comment"
     @err = "You can't post without both a comment and a picture"
+  when "subject_too_long"
+    @err = "Your subject is too long"
+  when "name_too_long"
+    @err = "Your name is too long"
+  when "post_too_long"
+    @err = "Your post is too long"
   end
   @title = "Error"
 

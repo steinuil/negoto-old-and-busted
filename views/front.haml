@@ -1,13 +1,13 @@
 %html
   %head
-    %title= $website_name
+    %title= $config[:name]
     %meta{ charset: "utf-8" }
     %link{ type: "text/css", rel: "stylesheet", href: "/style.css" }
   %body#front
     %header
       #greeting= "#{greeting}, brother."
       %br Welcome to the
-      %h1= $website_name
+      %h1= $config[:name]
     %ul#boards
       - boards.each do |board|
         %li
