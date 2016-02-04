@@ -1,9 +1,9 @@
-require "htmlentities"
+require "rack/utils"
 
 class String
   def format
     text = self.split(/\R/).join "\n"
-    text = HTMLEntities.new.encode(text).split /\R?^```\R*/
+    text = Rack::Utils.escape_html(text).split /\R?^```\R*/
     text.map!.with_index do |string, counter|
       if counter.even?
         string.gsub! /\\\\(.+?)(\\\\|\z)/,
@@ -25,6 +25,6 @@ class String
   end
 
   def escape
-    HTMLEntities.new.encode(self)
+    Rack::Utils.escape_html(self)
   end
 end
