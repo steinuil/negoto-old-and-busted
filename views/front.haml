@@ -3,17 +3,19 @@
     %title= $config[:name]
     %meta{ charset: "utf-8" }
     %link{ type: "text/css", rel: "stylesheet", href: "/style.css" }
+    %link{ type: "image/x-icon", rel: "icon", href: "/favicon.ico" }
   %body#front
-    %header
-      #greeting= "#{greeting}, brother."
-      #rotate
-        %img{ src: "/shuko.png" }
-      %br Welcome to the
-      %h1= $config[:name]
-    %ul#boards
-      - boards.each do |board|
-        %li
-          %a{ href: "/#{board[:id]}/" }<= "#{board[:name]}"
-    %footer#powered
-      Powered by
-      %a{ href: "https://github.com/steinuil/negoto" } Negoto
+    #container
+      %header
+        #greeting= "#{greeting}, brother."
+        #rotate
+          /= File.read "public/shuko.svg"
+        Welcome to the
+        %h1= $config[:name]
+      %ul#boards
+        - boards.each do |board|
+          %li
+            %a{ href: "/#{board[:id]}/" }<= "#{board[:name]}"
+      %footer#powered
+        Powered by
+        %a{ href: "https://github.com/steinuil/negoto" } Negoto

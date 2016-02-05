@@ -15,9 +15,9 @@ post "/api/:board_id" do |board_id|
 
   redirect "/error/#{@err}" if @err
 
-  params[:file] = Attachment.add(params[:file], :op).to_s
+  params[:spoiler] = params[:spoiler] == "on"
+  params[:file] = Attachment.add(params[:file], params[:spoiler], :op).to_s
   params[:name] = "Anonymous" if params[:name].empty?
-  params[:spoiler] = params[:spoiler] == "on" ? true : false
 
   @post = {
     board: board_id,
@@ -49,12 +49,12 @@ post "/api/:board_id/thread/:thread_id" do |board_id, thread_id|
 
   redirect "/error/#{@err}" if @err
 
+  params[:spoiler] = params[:spoiler] ==  "on"
   params[:file] = if params[:file]
-    Attachment.add(params[:file], :post).to_s
+    Attachment.add(params[:file], params[:spoiler], :post).to_s
   else "" end
   params[:name] = "Anonymous" if params[:name].empty?
-  params[:spoiler] = params[:spoiler] ==  "on" ? true : false
-  params[:sage] = params[:sage] == "on" ? true : false
+  params[:sage] = params[:sage] == "on"
 
   @post = {
     board: board_id,

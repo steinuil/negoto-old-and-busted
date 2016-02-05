@@ -18,10 +18,10 @@ class Attachment
     end
   end
 
-  def self.add attachment, op
+  def self.add attachment, spoiler, op
     @ext = self.get_ext attachment[:type]
     if %[jpg png gif].include? @ext
-      self.write_image attachment, @ext, op == :op
+      self.write_image attachment, @ext, spoiler, op == :op
     end
   end
 end

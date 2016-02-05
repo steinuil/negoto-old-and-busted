@@ -29,7 +29,7 @@ get "/about" do
 end
 
 get "/:board_id/" do |board_id|
-  redirect "/error/no_board" unless Board.list.include? board_id
+  halt 404 unless Board.list.include? board_id
   @board = { id: board_id, name: Board[board_id].name }
   @threads = Board[board_id].yarns.reverse
 
@@ -42,13 +42,21 @@ end
 
 get "/:board_id/thread/:thread_id" do |board_id, thread_id|
   unless Yarn.list(board_id).include? thread_id.to_i
-    redirect "/error/no_thread"
+    #redirect "/error/no_thread"
+    halt 404
   end
   @board = { id: board_id, name: Board[board_id].name }
   @op = Yarn[board_id, thread_id].get
   @replies = Yarn[board_id, thread_id].posts
 
   haml :thread
+end
+
+not_found do
+  @err = "404 not found"
+  @title = "Error"
+
+  haml :error
 end
 
 get "/error/:err" do |err|
