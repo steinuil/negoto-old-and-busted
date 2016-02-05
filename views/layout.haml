@@ -14,8 +14,16 @@
           %a{ href: "/#{board[:id]}/",
               title: "#{board[:name]}" }= board[:id]
         ] [
+        %a{ href: "/about" } about
+        \/
         %a{ href: "https://github.com/steinuil/negoto" } source
         ]
+        - if $config[:links]
+          [
+          - $config[:links].each.with_index do |link, i|
+            = "/" if i > 0
+            %a{ href: link[:url] }= link[:name]
+          ]
       %img#banner{ src: "/#{banner}" }
       %h1#title= @board ? "/#{@board[:id]}/ - #{@board[:name]}" : @title
     %hr

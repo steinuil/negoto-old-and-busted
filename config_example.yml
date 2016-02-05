@@ -10,3 +10,6 @@
   :name: Music
 - :id: film
   :name: Movies
+:links:
+- :name: example
+  :url: http://www.example.com

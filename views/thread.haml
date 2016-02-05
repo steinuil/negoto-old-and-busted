@@ -12,7 +12,7 @@
     %hr
     - @file = eval @op[:file]
     %figure
-      %a{ href: "/src/#{@file[:src]}" }<
+      %a{ href: "/src/#{@file[:src]}", target: "_blank" }<
         %img{ src: "/thumb/#{@file[:thumb]}",
               title: @file[:filename] }
     .body
@@ -22,7 +22,7 @@
       .post.reply
         - unless post[:file].empty? ; @file = eval post[:file]
           %figure
-            %a{ href: "/src/#{@file[:src]}" }<
+            %a{ href: "/src/#{@file[:src]}", target: "_blank"  }<
               %img{ src: "/thumb/#{@file[:thumb]}",
                     title: @file[:filename] }
         .info
