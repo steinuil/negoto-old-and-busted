@@ -50,6 +50,12 @@ db.create_table :posts do
   String :file
 end
 
+db.create_table :cooldowns do
+  primary_key :cid
+  String :ip
+  DateTime :time
+end
+
 REM.connect  adapter: config[:adapter],
              database: config[:database]
 

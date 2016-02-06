@@ -1,13 +1,15 @@
 post "/api/:board_id" do |board_id|
-  @err = if not Board.list.include? board_id
+  @err = if Cooldown.include? request.ip
+    "cooldown"
+  elsif not Board.ids.include? board_id
     "no_board"
   elsif params[:subject].empty?
     "no_subject"
   elsif params[:file].nil?
     "no_image"
-  elsif params[:subject].length > 30
+  elsif params[:subject].length > 100
     "subject_too_long"
-  elsif params[:name].length > 30
+  elsif params[:name].length > 50
     "name_too_long"
   elsif params[:body].length > 2000
     "post_too_long"
@@ -29,15 +31,17 @@ post "/api/:board_id" do |board_id|
 
   @thread = Yarn.create @post
 
-  #Cooldown.add request.ip
+  Cooldown.add request.ip
 
   "Post successful"
 end
 
 post "/api/:board_id/thread/:thread_id" do |board_id, thread_id|
-  @err = if not Board.list.include? board_id
+  @err = if Cooldown.include? request.ip
+    "cooldown"
+  elsif not Board.ids.include? board_id
     "no_board"
-  elsif not Board[board_id].list.include? thread_id.to_i
+  elsif not Board[board_id].yarn_ids.include? thread_id.to_i
     "no_thread"
   elsif params[:file].nil? and params[:body].empty?
     "no_comment"
@@ -63,12 +67,11 @@ post "/api/:board_id/thread/:thread_id" do |board_id, thread_id|
     body: params[:body].format,
     spoiler: params[:spoiler],
     sage: params[:sage],
-    file: params[:file]
-  }
+    file: params[:file] }
 
   @post = Post.create @post
 
-  #Cooldown.add request.ip
+  Cooldown.add request.ip
 
   "Post successful"
 end

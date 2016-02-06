@@ -36,6 +36,6 @@ helpers do
   end
 
   def boards
-    Board.names
+    Board.list
   end
 end

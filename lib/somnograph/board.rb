@@ -1,9 +1,9 @@
 class Board < REM
-  def self.list
+  def self.ids
     @@boards.map :id
   end
 
-  def self.names
+  def self.list
     @@boards.select :id, :name
   end
 
@@ -30,7 +30,6 @@ class Board < REM
   end
 
   def count
-    #@@count[@id] nah
     @@boards[id: @id][:count]
   end
 
@@ -48,7 +47,7 @@ class Board < REM
       :file, :updated, :count)
   end
 
-  def list
+  def yarn_ids
     @@yarns.where(board: @id).map :id
   end
 

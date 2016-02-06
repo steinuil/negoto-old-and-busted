@@ -1,8 +1,4 @@
 class Yarn < REM
-  def self.list board=nil
-    board ? @@yarns.where(board: board).map(:id) : @@yarns.map(:id)
-  end
-
   def initialize board, id
     @id = id
     @board = board
@@ -15,7 +11,6 @@ class Yarn < REM
     @time = Time.now
     post.merge!({ id: @id, time: @time, updated: @time,
                   locked: false, count: 0 })
-
     @@yarns.insert post
     Board[post[:board]].incr
     #FIXME cache yarn
@@ -28,7 +23,7 @@ class Yarn < REM
 
   attr_reader :id, :board
 
-  def get
+  def to_hash
     @this.select(:id, :locked, :subject, :name, :time, :body,
       :spoiler, :file).first
   end
@@ -62,12 +57,8 @@ class Yarn < REM
     @@posts.where(board: @board, yarn: @id)
   end
 
-  def list_posts
-    posts().all.map :id
-  end
-
-  def include? post_id
-    list_posts().include? post_id
+  def post_ids
+    posts.all.map :id
   end
 
   def delete

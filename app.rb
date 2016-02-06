@@ -3,11 +3,11 @@ require "tilt/haml"
 require "tilt/sass"
 require "yaml"
 
-%w[somnograph api attachment helpers format cooldown].each do |l|
+$config = YAML.load(File.read("config.yml"))
+
+%w[somnograph api attachment helpers format].each do |l|
   require_relative "lib/#{l}"
 end
-
-$config = YAML.load(File.read("config.yml"))
 
 set :bind, "0.0.0.0"
 set :server, :thin
@@ -29,7 +29,7 @@ get "/about" do
 end
 
 get "/:board_id/" do |board_id|
-  halt 404 unless Board.list.include? board_id
+  halt 404 unless Board.ids.include? board_id
   @board = { id: board_id, name: Board[board_id].name }
   @threads = Board[board_id].yarns.reverse
 
@@ -41,12 +41,11 @@ get "/:board_id" do |board_id|
 end
 
 get "/:board_id/thread/:thread_id" do |board_id, thread_id|
-  unless Yarn.list(board_id).include? thread_id.to_i
-    #redirect "/error/no_thread"
+  unless Board[board_id].yarn_ids.include? thread_id.to_i
     halt 404
   end
   @board = { id: board_id, name: Board[board_id].name }
-  @op = Yarn[board_id, thread_id].get
+  @op = Yarn[board_id, thread_id].to_hash
   @replies = Yarn[board_id, thread_id].posts
 
   haml :thread
@@ -77,6 +76,8 @@ get "/error/:err" do |err|
     @err = "Your name is too long"
   when "post_too_long"
     @err = "Your post is too long"
+  when "cooldown"
+    @err = "You must wait 15 seconds before posting again"
   end
   @title = "Error"
 
