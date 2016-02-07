@@ -7,7 +7,7 @@ post "/api/:board_id" do |board_id|
     "no_subject"
   elsif params[:file].nil?
     "no_image"
-  elsif params[:subject].length > 100
+  elsif params[:subject].length > 140
     "subject_too_long"
   elsif params[:name].length > 50
     "name_too_long"

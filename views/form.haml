@@ -1,18 +1,21 @@
-%form#form{ action: "/api/#{id}", method: "POST",
+%form#post-form{ action: "/api/#{id}", method: "POST",
   enctype: "multipart/form-data" }
   - if page == 0
-    %input#subject{ type: "text", placeholder: "Subject",
+    %input.form.text#subject{ type: "text", placeholder: "Subject",
     name: "subject" }
-  %input#name{ type: "text", placeholder: "Anonymous",
+    %br
+  %input.form.text#name{ type: "text", placeholder: "Anonymous",
     value: "Anonymous", name: "name" }<
-  %input#button{ type: "submit", value: "Post" }
+  %input.form.button#send{ type: "submit", value: "Post" }
+  %br
   %textarea#body{ placeholder: "Comment", name: "body" }
-  %label#file{ for: "filei" }< Add attachment
+  %br
+  %label.form.button#file{ for: "filei" }< Add attachment
   %input#filei{ type: "file", name: "file",
     accept: "image/jpeg, image/png, image/gif, video/webm" }<
   - if page != 0
     %input#sagei{ type: "checkbox", name: "sage" }<
-    %label#sage{ for: "sagei" }< Sage
+    %label.form.button#sage{ for: "sagei" }< Sage
   %input#spoileri{ type: "checkbox", name: "spoiler" }<
-  %label#spoiler{ for: "spoileri" } Spoiler
-  %input#page{ type: "hidden", name: "page", value: page }
+  %label.form.button#spoiler{ for: "spoileri" } Spoiler
+  -# %input#page{ type: "hidden", name: "page", value: page }

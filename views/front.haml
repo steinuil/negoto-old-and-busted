@@ -2,16 +2,16 @@
   %head
     %title= $config[:name]
     %meta{ charset: "utf-8" }
-    %link{ type: "text/css", rel: "stylesheet", href: "/style.css" }
+    %link{ type: "text/css", rel: "stylesheet", href: "/front.css" }
     %link{ type: "image/x-icon", rel: "icon", href: "/favicon.ico" }
   %body#front
     #container
       %header
-        #greeting= "#{greeting}, brother."
+        #greeting= "Good #{greeting.capitalize}, Brother."
         #rotate
-          /= File.read "public/shuko.svg"
-        Welcome to the
-        %h1= $config[:name]
+          -#= File.read "public/shuko.svg"
+        Welcome To The
+        %h1= $config[:name] + "."
       %ul#boards
         - boards.each do |board|
           %li

@@ -12,20 +12,24 @@ end
 set :bind, "0.0.0.0"
 set :server, :thin
 set :port, 6789
+set :logging, false
 
 REM.connect adapter: "sqlite", database: "negoto.db"
 
 get "/" do
-  haml :front, layout: false
+  @type = :front
+  haml @type, layout: false
 end
 
-get "/style.css" do
-  sass :style
+get "/*.css" do |type|
+  sass type.to_sym
 end
 
 get "/about" do
   @title = "About"
-  haml :about
+
+  @type = :about
+  haml @type
 end
 
 get "/:board_id/" do |board_id|
@@ -33,7 +37,8 @@ get "/:board_id/" do |board_id|
   @board = { id: board_id, name: Board[board_id].name }
   @threads = Board[board_id].yarns.reverse
 
-  haml :catalog
+  @type = :catalog
+  haml @type
 end
 
 get "/:board_id" do |board_id|
@@ -48,14 +53,16 @@ get "/:board_id/thread/:thread_id" do |board_id, thread_id|
   @op = Yarn[board_id, thread_id].to_hash
   @replies = Yarn[board_id, thread_id].posts
 
-  haml :thread
+  @type = :thread
+  haml @type
 end
 
 not_found do
   @err = "404 not found"
   @title = "Error"
 
-  haml :error
+  @type = :error
+  haml @type
 end
 
 get "/error/:err" do |err|
@@ -81,5 +88,6 @@ get "/error/:err" do |err|
   end
   @title = "Error"
 
-  haml :error
+  @type = :error
+  haml @type
 end

@@ -1,0 +1,79 @@
+$form-width: 350px
+
+#post-form
+  #filei, #sagei, #spoileri
+    display : none
+
+  width: $form-width
+  margin: 10px auto
+  position: relative
+
+  background-color: $dark
+  box-shadow: $shadow
+
+  *
+    font-size: $small
+    font-family: $sans-serif
+
+  &, .form, #body
+    padding: 5px
+
+  .form
+    color: $darker
+    background-color: $light
+    transition: 0.5s
+
+    &:hover, &:focus
+      transition: 0.5s
+
+  .text
+    &:hover, &:focus
+      color: $text
+      background-color: $lightest
+
+  .button:hover
+    background-color: $text
+
+  #subject
+    width: $form-width
+
+  #send
+    width: 40px
+
+  #name
+    width: $form-width - 45px
+
+  #body
+    width: $form-width
+    max-width: $form-width
+    min-height: 100px
+    background-color: $lightest
+
+  .button
+    display: inline-block
+
+  .text, #body
+    margin-bottom: 5px
+
+    &::-webkit-input-placeholder
+      color: $darker
+    &::-moz-placeholder
+      color: $darker
+      opacity: 1
+    &:-ms-input-placeholder
+      color: $darker
+    &:placeholder-shown
+      color: $darker
+
+  #sage, #spoiler
+    margin-left: 5px
+    
+  #send, #sage, #spoiler
+    float: right
+
+  #sagei:checked + #sage,
+  #spoileri:checked + #spoiler
+    font-weight: bold
+    color: $text
+    background-color: $darker
+

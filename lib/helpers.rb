@@ -23,12 +23,12 @@ helpers do
   def greeting
     @hour = Time.now.hour
     if @hour < 6 or @hour > 22
-      "Good night"
+      "night"
     elsif @hour >= 6 and @hour < 12
-      "Good morning"
+      "morning"
     elsif @hour >= 12 and @hour < 18
-      "Good afternoon"
-    else "Good evening" end
+      "afternoon"
+    else "evening" end
   end
 
   def banner

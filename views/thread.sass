@@ -1,0 +1,60 @@
+@import common
+@import form
+#thread
+  #thread-bar
+    margin: 10px 5px
+
+    #return
+      padding: 5px 10px
+
+    #subject
+      padding: 5px 20px
+
+    #return, #subject
+      font-size: $big
+      font-weight: bold
+      background-color: $dark
+      box-shadow: $shadow
+
+  figure
+    float: left
+    width: auto
+    height: auto
+    margin-right: 5px
+
+  .post
+    hr
+      border-bottom: $border
+
+    .name
+      font-weight: bold
+      color: $name
+
+  .op
+    margin: 5px
+
+    pre
+      background-color: $dark
+
+  .reply
+    display: table
+    padding: 5px
+    margin: 5px 0
+    background-color: $dark
+    box-shadow: $shadow
+
+    figure
+      max-width: 150px
+
+    .info
+      display: inline-block
+      vertical-align: top
+      white-space: nowrap
+
+    hr
+      clear: none
+      margin: 0
+      visibility: visible
+
+    pre
+      background-color: $light

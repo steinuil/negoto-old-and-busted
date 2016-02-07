@@ -16,23 +16,21 @@ An imageboard written Ruby using Sinatra and a few other things.
 # Resetting
 * Run `start.rb reset`
 
-# What works without spewing out walls of errors
-* Creating boards
-* Running the program
-* Rendering the homepage and a page for each board
-* Rendering thread pages
-* Markup (code blocks, spoilers, quotes)
-* API:
-  * POST new threads
-  * POST new posts
-  * GET board list
+# TODO
+Server:
 
-# Whatnot
-* Basically everything else
+* Cache threads
+* Music/PDF/webm handling
+* Command line admin thing
+* Public JSON API (get/post/delete)
+* Make the config file control more things
+* Move all the stuff specific to the Fortress in a local branch
+* Release a v1
+* Analytics?
 
-# Javascript stuff to implement
+Client:
+
 * AJAX posting
 * Updating threads
-* Converting dates to local time
 * Converting greeting to local time
 * Moving the reply box around
