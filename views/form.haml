@@ -10,6 +10,7 @@
   %br
   %textarea#body{ placeholder: "Comment", name: "body" }
   %br
+  %a.form.button#close-form{ onclick: "destroy('floating-form')" }< ✕
   %label.form.button#file{ for: "filei" }< Add attachment
   %input#filei{ type: "file", name: "file",
     accept: "image/jpeg, image/png, image/gif, video/webm" }<

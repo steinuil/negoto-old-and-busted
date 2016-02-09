@@ -1,6 +1,6 @@
 $form-width: 350px
 
-#post-form
+#post-form, #floating-form
   #filei, #sagei, #spoileri
     display : none
 
@@ -51,6 +51,7 @@ $form-width: 350px
 
   .button
     display: inline-block
+    cursor: pointer
 
   .text, #body
     margin-bottom: 5px
@@ -77,3 +78,20 @@ $form-width: 350px
     color: $text
     background-color: $darker
 
+  #close-form
+    display: none
+
+#floating-form
+  position: fixed
+  bottom: 0
+  right: 0
+  z-index: 2
+  margin: 10px
+
+  user-select: none
+  cursor: move
+
+  #close-form
+    width: 1rem
+    text-align: center
+    display: inline-block

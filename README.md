@@ -19,18 +19,18 @@ An imageboard written Ruby using Sinatra and a few other things.
 # TODO
 Server:
 
-* Cache threads
-* Music/PDF/webm handling
-* Command line admin thing
-* Public JSON API (get/post/delete)
-* Make the config file control more things
-* Move all the stuff specific to the Fortress in a local branch
-* Release a v1
-* Analytics?
+- [ ] Cache threads
+- [ ] Music/PDF/webm handling
+- [ ] Command line admin thing
+- [ ] Public JSON API (get/post/delete)
+- [ ] Make the config file control more things
+- [ ] Move all the stuff specific to the Fortress in a local branch
+- [ ] Release a v1
+- [ ] Analytics?
 
 Client:
 
-* AJAX posting
-* Updating threads
-* Converting greeting to local time
-* Moving the reply box around
+- [ ] AJAX posting
+- [ ] Updating threads
+- [ ] Converting greeting to local time
+- [X] Moving the reply box around

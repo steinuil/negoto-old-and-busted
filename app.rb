@@ -12,7 +12,7 @@ end
 set :bind, "0.0.0.0"
 set :server, :thin
 set :port, 6789
-set :logging, false
+set :logging, false # because fuck you
 
 REM.connect adapter: "sqlite", database: "negoto.db"
 
@@ -23,6 +23,10 @@ end
 
 get "/*.css" do |type|
   sass type.to_sym
+end
+
+get "/script.js" do
+  File.read "views/script.js"
 end
 
 get "/about" do
