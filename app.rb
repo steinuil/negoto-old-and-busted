@@ -25,8 +25,8 @@ get "/*.css" do |type|
   sass type.to_sym
 end
 
-get "/script.js" do
-  File.read "views/script.js"
+get "/*.js" do |name|
+  File.read "views/#{name}.js"
 end
 
 get "/about" do

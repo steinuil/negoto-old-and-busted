@@ -32,5 +32,5 @@ Client:
 
 - [ ] AJAX posting
 - [ ] Updating threads
-- [ ] Converting greeting to local time
+- [X] Converting greeting to local time
 - [X] Moving the reply box around

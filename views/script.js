@@ -2,6 +2,15 @@ document.onkeypress = keyboard_controls;
 document.onmousedown = mouse_down;
 document.onmouseup = mouse_up;
 
+// Attachment name
+function att_name() {
+	var name = document.getElementById("filei").value;
+	if (name != "") {
+		name = name.split("\\");
+		document.getElementById("file").innerText = name[name.length - 1];
+	}
+}
+
 // Keyboard controls
 function keyboard_controls(e) {
 	if (e.target.tagName != "TEXTAREA" && e.target.tagName != "INPUT") {

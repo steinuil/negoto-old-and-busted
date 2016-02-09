@@ -12,7 +12,7 @@
   %br
   %a.form.button#close-form{ onclick: "destroy('floating-form')" }< ✕
   %label.form.button#file{ for: "filei" }< Add attachment
-  %input#filei{ type: "file", name: "file",
+  %input#filei{ onchange: "att_name()", type: "file", name: "file",
     accept: "image/jpeg, image/png, image/gif, video/webm" }<
   - if page != 0
     %input#sagei{ type: "checkbox", name: "sage" }<

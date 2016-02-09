@@ -22,7 +22,7 @@ helpers do
 
   def greeting
     @hour = Time.now.hour
-    if @hour < 6 or @hour > 22
+    if @hour < 6 or @hour > 21
       "night"
     elsif @hour >= 6 and @hour < 12
       "morning"
