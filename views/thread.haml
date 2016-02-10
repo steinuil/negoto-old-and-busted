@@ -1,4 +1,4 @@
-- url = "#{@board[:id]}/thread/#{@op[:id]}"
+- url = "/#{@board[:id]}/thread/#{@op[:id]}"
 #thread
   #thread-bar
     %a#return{ href: "/#{@board[:id]}/" }= "❬❬"
@@ -8,7 +8,8 @@
       = succeed "&#x000A;" do
         %span.name= @op[:name]
         %span.time= @op[:time].strftime "%Y/%m/%d %H:%M:%S"
-        %a.id{ href: url }= "&#8470;#{@op[:id]}"
+      %a.id{ href: url }> &#8470;
+      %a.id.postnum{ onclick: "quote(#{@op[:id]})" }= "#{@op[:id]}"
     %hr
     - @file = eval @op[:file]
     %figure
@@ -19,7 +20,7 @@
       %p= @op[:body]
   - if @replies
     - @replies.each do |post|
-      .post.reply
+      .post.reply{ id: "p#{post[:id]}" }
         - unless post[:file].empty? ; @file = eval post[:file]
           %figure
             %a{ href: "/src/#{@file[:src]}", target: "_blank"  }<
@@ -29,7 +30,8 @@
           = succeed "&#x000A;" do
             %span.name= post[:name]
             %span.time= post[:time].strftime "%Y/%m/%d %H:%M:%S"
-            %a.id= "&#8470;#{post[:id]}"
+          %a.id{ href: "#{url}#p#{post[:id]}" }> &#8470;
+          %a.id.postnum{ onclick: "quote(#{post[:id]})" }= "#{post[:id]}"
         %hr
         .body<
           %p= post[:body]

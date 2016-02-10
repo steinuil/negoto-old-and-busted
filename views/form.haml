@@ -1,10 +1,10 @@
-%form#post-form{ action: "/api/#{id}", method: "POST",
+%form#post-form{ action: "/api#{id}", method: "POST",
   enctype: "multipart/form-data" }
   - if page == 0
     %input.form.text#subject{ type: "text", placeholder: "Subject",
     name: "subject" }
     %br
-  %input.form.text#name{ type: "text", placeholder: "Anonymous",
+  %input.form.text#name{ type: "text", placeholder: "Name",
     value: "Anonymous", name: "name" }<
   %input.form.button#send{ type: "submit", value: "Post" }
   %br

@@ -20,7 +20,7 @@ An imageboard written Ruby using Sinatra and a few other things.
 Server:
 
 - [ ] Cache threads
-- [ ] Music/PDF/webm handling
+- [ ] Music/webm handling
 - [ ] Command line admin thing
 - [ ] Public JSON API (get/post/delete)
 - [ ] Make the config file control more things

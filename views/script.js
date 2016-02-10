@@ -2,6 +2,11 @@ document.onkeypress = keyboard_controls;
 document.onmousedown = mouse_down;
 document.onmouseup = mouse_up;
 
+// Quoting
+function quote(id) {
+	document.getElementById("body").value += (">>" + id + "\n")
+}
+
 // Attachment name
 function att_name() {
 	var name = document.getElementById("filei").value;

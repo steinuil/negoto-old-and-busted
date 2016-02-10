@@ -1,4 +1,4 @@
-= haml :form, locals: {id: @board[:id], page: 0}
+= haml :form, locals: {id: "/#{@board[:id]}", page: 0}
 %hr
 #catalog
   - if @threads
