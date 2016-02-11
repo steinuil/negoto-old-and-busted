@@ -54,11 +54,11 @@ class Yarn < REM
   end
 
   def posts
-    @@posts.where(board: @board, yarn: @id)
+    @@posts.where(board: @board, yarn: @id).all
   end
 
   def post_ids
-    posts.all.map :id
+    @@posts.where(board: @board, yarn: @id).map :id
   end
 
   def delete

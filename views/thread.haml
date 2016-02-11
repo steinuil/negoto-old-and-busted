@@ -37,4 +37,5 @@
           %p= post[:body]
 
 %hr
-= haml :form, locals: { id: url, page: @op[:id] }
+%noscript
+  = haml :form, locals: { id: url, page: @op[:id] }

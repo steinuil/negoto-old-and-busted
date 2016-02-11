@@ -4,7 +4,7 @@ class Board < REM
   end
 
   def self.list
-    @@boards.select :id, :name
+    @@boards.select(:id, :name).all
   end
 
   def initialize id
@@ -44,11 +44,15 @@ class Board < REM
   def yarns
     @@yarns.where(board: @id).order(:updated).select(
       :id, :locked, :subject, :name, :time, :body, :spoiler,
-      :file, :updated, :count)
+      :file, :updated, :count).all
   end
 
   def yarn_ids
     @@yarns.where(board: @id).map :id
+  end
+
+  def ids
+    @@yarns.where(board: @id).map(:id) + @@posts.where(board: @id).map(:id)
   end
 
   def delete

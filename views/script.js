@@ -4,7 +4,9 @@ document.onmouseup = mouse_up;
 
 // Quoting
 function quote(id) {
-	document.getElementById("body").value += (">>" + id + "\n")
+	var body = document.getElementById("body");
+	if (body === null) { spawn_qr(); };
+	document.getElementById("body").value += (">>" + id + "\n");
 }
 
 // Attachment name
@@ -16,16 +18,23 @@ function att_name() {
 	}
 }
 
+// Spawn quick reply box
+function spawn_qr() {
+	var tmp = document.createElement('div');
+	tmp.innerHTML = document.getElementsByTagName("noscript")[0].innerText;
+	tmp = tmp.children[0];
+	tmp.id = "floating-form";
+	tmp.className = "draggable";
+	document.body.appendChild(tmp);
+}
+
 // Keyboard controls
 function keyboard_controls(e) {
 	if (e.target.tagName != "TEXTAREA" && e.target.tagName != "INPUT") {
 		// Spawn QR box if "q" is pressed
-		if (document.getElementById("floating-form") === null && e.keyCode === 113) {
-			var orig = document.getElementById("post-form");
-			var box = orig.cloneNode(true);
-			box.id = "floating-form";
-			box.className = "draggable";
-			document.body.appendChild(box);
+		if (document.getElementById("floating-form") === null && e.keyCode === 113 &&
+			document.getElementById("catalog") === null) {
+			spawn_qr();
 		}
 	}
 }
@@ -34,7 +43,7 @@ function destroy(id) {
 	document.body.removeChild(document.getElementById(id));
 }
 
-// Dragging stuff around
+// Dragging stuff around (works on every .draggable element)
 var start_x = 0, start_y = 0, offset_x = 0, offset_y = 0, element;
 
 function mouse_down(e) {
@@ -55,7 +64,7 @@ function mouse_down(e) {
 			document.body.focus();
 		};
 
-		return false;
+		return false; // avoid selecting text while moving the box around
 	}
 }
 
