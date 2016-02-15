@@ -9,10 +9,13 @@ $config = YAML.load(File.read("config.yml"))
   require_relative "lib/#{l}"
 end
 
-set :bind, "0.0.0.0"
-set :server, :thin
-set :port, 6789
-set :logging, false # because fuck you
+configure do
+  set :bind, "0.0.0.0"
+  set :server, :thin
+  set :port, 6789
+  set :logging, false # because fuck you
+  set :sass, { style: :expanded }
+end
 
 REM.connect adapter: "sqlite", database: "negoto.db"
 
@@ -89,6 +92,8 @@ get "/error/:err" do |err|
     @err = "Your post is too long"
   when "cooldown"
     @err = "You must wait 15 seconds before posting again"
+  when "thread_locked"
+    @err = "You can't reply to this thread"
   end
   @title = "Error"
 

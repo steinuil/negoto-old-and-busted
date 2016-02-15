@@ -43,6 +43,8 @@ post "/api/:board_id/thread/:thread_id" do |board_id, thread_id|
     "no_board"
   elsif not Board[board_id].yarn_ids.include? thread_id.to_i
     "no_thread"
+  elsif Yarn[board_id, thread_id].locked?
+    "thread_locked"
   elsif params[:file].nil? and params[:body].empty?
     "no_comment"
   elsif params[:name].length > 50

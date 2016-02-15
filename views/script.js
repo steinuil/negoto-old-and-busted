@@ -33,7 +33,7 @@ function keyboard_controls(e) {
 	if (e.target.tagName != "TEXTAREA" && e.target.tagName != "INPUT") {
 		// Spawn QR box if "q" is pressed
 		if (document.getElementById("floating-form") === null && e.keyCode === 113 &&
-			document.getElementById("catalog") === null) {
+			document.getElementById("thread") !== null) {
 			spawn_qr();
 		}
 	}
@@ -59,8 +59,10 @@ function mouse_down(e) {
 		element = target;
 		
 		document.onmousemove = function(e) {
-			element.style.right = (window.outerWidth - e.clientX + offset_x - start_x) + "px";
-			element.style.bottom = (window.outerHeight - e.clientY + offset_y - start_y) + "px";
+			var r = window.outerWidth - e.clientX + offset_x - start_x;
+			var b = window.outerHeight - e.clientY + offset_y - start_y;
+			element.style.right = (r >= 0 ? r : 0) + "px";
+			element.style.bottom = (b >= 0 ? b : 0) + "px";
 			document.body.focus();
 		};
 

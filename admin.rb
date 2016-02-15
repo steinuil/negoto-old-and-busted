@@ -4,12 +4,14 @@ require_relative "lib/eval_line"
 
 REM.connect adapter: "sqlite", database: "negoto.db"
 
-def quit() puts "See you!"; exit end
+def quit() puts "Goodbye."; exit end
 
 cols = IO.console.winsize[1]
 $version = 0.01
-puts " Good Day, Brother. ".center(cols, "#")
-puts " Hello By The Negoto v#{$version} Admin Panel. ".center(cols, "#")
+puts " Good Day, Brother. ".center(cols)
+puts " Hello By The Negoto v#{$version} Admin Console. ".center(cols)
+puts "Type 'help' for a list of commands"
+puts
 
 loop do
   print "> "
@@ -18,6 +20,6 @@ loop do
 
   line = line.split " "
 
-  res = eval_line line
-  puts res if res
+  eval_line line
+  puts
 end

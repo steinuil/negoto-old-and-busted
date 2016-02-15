@@ -13,6 +13,8 @@
           = thread[:count] > 1 ? "posts" : "post"
           \/
           = elapsed thread[:updated]
+          - if thread[:locked]
+            \/ 🔒
         %p.desc<
           %span.subject<= thread[:subject]
           - unless thread[:body].empty?

@@ -51,8 +51,8 @@ class Board < REM
     @@yarns.where(board: @id).map :id
   end
 
-  def ids
-    @@yarns.where(board: @id).map(:id) + @@posts.where(board: @id).map(:id)
+  def post_ids
+    @@posts.where(board: @id).map(:id)
   end
 
   def delete
