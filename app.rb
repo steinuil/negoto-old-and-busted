@@ -5,7 +5,7 @@ require "yaml"
 
 $config = YAML.load(File.read("config.yml"))
 
-%w[somnograph api attachment helpers format].each do |l|
+%w[somnograph api helpers format].each do |l|
   require_relative "lib/#{l}"
 end
 

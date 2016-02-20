@@ -1,8 +1,14 @@
+require "mini_magick"
+
+MiniMagick.configure do |config|
+  config.cli = :graphicsmagick
+end
+
 class Attachment
-  def self.write_image image, ext, spoiler, op
+  def self.write_image image, ext, spoiler, op, name
     @image = image
     @ext = ext
-    @name = Time.now.strftime("%s%3N").to_s
+    @name = name
     @tname = @name + ".jpg"
     @name += ".#{ext}"
     @spoilimg = op ? "spoiler_op.jpg" : "spoiler.jpg"

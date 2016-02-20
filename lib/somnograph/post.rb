@@ -9,9 +9,17 @@ class Post < REM
     @id = @@count[post[:board]] += 1
     post.merge!({ id: @id, time: Time.now })
 
-    @yarn = Yarn[post[:board], post[:yarn]]
-    return nil if @yarn.locked?
+    unless post[:file].empty?
+      post[:file] = Attachment.create(
+        board: post[:board],
+        yarn: post[:yarn],
+        post: @id,
+        file: post[:file],
+        spoiler: post[:spoiler],
+        op: false).to_s
+    end
 
+    @yarn = Yarn[post[:board], post[:yarn]]
     @sage = post.delete :sage
     @@posts.insert post
     Board[post[:board]].incr
@@ -22,9 +30,7 @@ class Post < REM
   end
 
   def self.[](board, id)
-    @post = @@posts.where(board: board, id: id)
-
-    if @post
+    if @@posts.where(board: board, id: id)
       new(board, id)
     else nil end
   end
@@ -45,7 +51,8 @@ class Post < REM
 
   def delete
     @this.delete
-    #FIXME delete file
+    @@files.where(board: @board, parent: @id).delete
+    Attachment[board: @board, post: @id].delete
   end
 end
 

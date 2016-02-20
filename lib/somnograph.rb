@@ -7,11 +7,16 @@ class REM
     @@yarns = @db[:yarns]
     @@posts = @db[:posts]
     @@cooldowns = @db[:cooldowns]
+    @@files = @db[:files]
 
     @@count = @@boards.to_hash(:id, :count)
   end
 end
 
-%w[board yarn post cooldown].each do |l|
+%w[attachment board yarn post cooldown].each do |l|
   require_relative "somnograph/#{l}"
+end
+
+["image"].each do |l|
+  require_relative "attachment/#{l}"
 end

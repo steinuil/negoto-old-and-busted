@@ -24,7 +24,7 @@ This is just a list of ideas that I might want to implement later. Not all of th
 
 Server:
 
-- [ ] Delete files when deleting associated post
+- [X] Delete files when deleting associated post
 - [ ] Ban people
 - [ ] Cache threads
 - [ ] Pin threads
@@ -39,6 +39,7 @@ Server:
 - [ ] Make the config file control more things
 - [ ] News/blotter/whatever
   * Might have to depend on some Markdown library
+    * minidown looks like a good candidate
 - [ ] Move all the stuff specific to the Fortress in a local branch
 - [ ] Release a v1
 - [ ] Analytics

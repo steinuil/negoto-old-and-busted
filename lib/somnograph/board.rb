@@ -56,9 +56,8 @@ class Board < REM
   end
 
   def delete
-    @this.delete
     @@yarns.where(board: @id).delete
     @@posts.where(board: @id).delete
-    #FIXME delete some files
+    Attachment.delete(board: @id)
   end
 end

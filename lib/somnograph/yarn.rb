@@ -9,6 +9,15 @@ class Yarn < REM
   def self.create post
     @id = @@count[post[:board]] += 1
     @time = Time.now
+
+    post[:file] = Attachment.create(
+      board: post[:board],
+      yarn: @id,
+      post: @id,
+      file: post[:file],
+      spoiler: false,
+      op: true).to_s
+
     post.merge!({ id: @id, time: @time, updated: @time,
                   locked: false, count: 0 })
     @@yarns.insert post
@@ -64,6 +73,6 @@ class Yarn < REM
   def delete
     @this.delete
     @@posts.where(board: @board, yarn: @id).delete
-    #FIXME delete some files
+    Attachment.delete(board: @board, yarn: @id)
   end
 end

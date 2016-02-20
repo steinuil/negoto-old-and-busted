@@ -18,7 +18,6 @@ post "/api/:board_id" do |board_id|
   redirect "/error/#{@err}" if @err
 
   params[:spoiler] = params[:spoiler] == "on"
-  params[:file] = Attachment.add(params[:file], params[:spoiler], :op).to_s
   params[:name] = "Anonymous" if params[:name].empty?
 
   @post = {
@@ -56,9 +55,7 @@ post "/api/:board_id/thread/:thread_id" do |board_id, thread_id|
   redirect "/error/#{@err}" if @err
 
   params[:spoiler] = params[:spoiler] ==  "on"
-  params[:file] = if params[:file]
-    Attachment.add(params[:file], params[:spoiler], :post).to_s
-  else "" end
+  params[:file] = params[:file] ? params[:file] : ""
   params[:name] = "Anonymous" if params[:name].empty?
   params[:sage] = params[:sage] == "on"
 

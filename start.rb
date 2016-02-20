@@ -56,6 +56,15 @@ db.create_table :cooldowns do
   DateTime :time
 end
 
+db.create_table :files do
+  primary_key :fid
+  String :board
+  Integer :yarn
+  String :post
+
+  String :fname
+end
+
 REM.connect  adapter: config[:adapter],
              database: config[:database]
 
