@@ -7,7 +7,7 @@ get "/api/boards" do
 end
 
 get "/api/:board_id" do |board_id|
-  
+
 end
 
 get "/api/:board_id/thread/:thread_id" do |board_id, thread_id|

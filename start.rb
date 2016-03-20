@@ -34,6 +34,7 @@ db.create_table :yarns do
   DateTime :time
   String :body, text: true
   FalseClass :spoiler
+  String :ip
   String :file
 end
 
@@ -47,6 +48,7 @@ db.create_table :posts do
   DateTime :time
   String :body, text: true
   FalseClass :spoiler
+  String :ip
   String :file
 end
 

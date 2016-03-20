@@ -26,6 +26,7 @@ post "/api/:board_id" do |board_id|
     name: params[:name].escape,
     body: params[:body].format,
     spoiler: params[:spoiler],
+    ip: request.ip,
     file: params[:file] }
 
   @thread = Yarn.create @post
@@ -66,6 +67,7 @@ post "/api/:board_id/thread/:thread_id" do |board_id, thread_id|
     body: params[:body].format,
     spoiler: params[:spoiler],
     sage: params[:sage],
+    ip: request.ip,
     file: params[:file] }
 
   @post = Post.create @post

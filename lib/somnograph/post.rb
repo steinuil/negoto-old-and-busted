@@ -16,6 +16,7 @@ class Post < REM
         post: @id,
         file: post[:file],
         spoiler: post[:spoiler],
+        ip: post[:ip],
         op: false).to_s
     end
 
@@ -36,6 +37,10 @@ class Post < REM
   end
 
   attr_reader :id
+
+  def ip
+    @this.map(:ip).first
+  end
 
   def yarn
     @this.map(:yarn).first

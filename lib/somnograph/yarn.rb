@@ -16,6 +16,7 @@ class Yarn < REM
       post: @id,
       file: post[:file],
       spoiler: false,
+      ip: post[:ip],
       op: true).to_s
 
     post.merge!({ id: @id, time: @time, updated: @time,
@@ -68,6 +69,10 @@ class Yarn < REM
 
   def post_ids
     @@posts.where(board: @board, yarn: @id).map :id
+  end
+
+  def ip
+    @this.map(:ip).first
   end
 
   def delete
