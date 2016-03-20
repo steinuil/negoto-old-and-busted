@@ -25,7 +25,7 @@ This is just a list of ideas that I might want to implement later. Not all of th
 Server:
 
 - [X] Delete files when deleting associated post
-- [ ] Ban people
+- [X] Ban people
 - [ ] Cache threads
 - [ ] Pin threads
 - [ ] /all/ or /recent/ metaboard

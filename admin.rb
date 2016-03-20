@@ -11,6 +11,7 @@ $version = 0.01
 puts " Good Day, Brother. ".center(cols)
 puts " Hello By The Negoto v#{$version} Admin Console. ".center(cols)
 puts "Type 'help' for a list of commands"
+puts "Type 'quit' or send an EOF to exit"
 puts
 
 loop do

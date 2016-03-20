@@ -12,6 +12,10 @@ class Cooldown < REM
     @@cooldowns.insert(ip: self.format_ip(ip), time: time)
   end
 
+  def self.lift ip
+    @@cooldowns.where(ip: self.format_ip(ip)).update time: Time.now
+  end
+
   def self.include? ip
     self.update
     not @@cooldowns.where(ip: self.format_ip(ip)).all.empty?

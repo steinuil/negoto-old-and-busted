@@ -2,7 +2,7 @@ def eval_line(line)
   case line.first
 
   when "help"
-    puts "Commands: list delete post lock unlock"
+    puts "Commands: list delete post lock unlock ban"
     puts "Help on single command: <command> help"
 
   # List
@@ -43,7 +43,7 @@ def eval_line(line)
   # Delete
   when /del(ete)?/
     if line.length != 2 or line[1] == "help"
-      puts "Usage: delete <board_id>[/<yarn_id>|<post_id>]"
+      puts "Usage: delete <board_id>[/<yarn|post_id>]"
       return
     end
 
@@ -101,6 +101,46 @@ def eval_line(line)
       puts "#{@lock ? "L" : "Unl"}ocking yarn #{id[2]} on /#{id[1]}/..."
       Yarn[id[1], id[2]].locked = @lock
     end
+
+  when /(un)?ban/
+    @ban = line[0] == "ban"
+    if line.length < 2 or line.length > 3  or line[1] == "help"
+      if @ban
+        puts "Usage: ban <board_id>/<yarn|post_id> [<length (in seconds)>]"
+        puts "       ban <ip> [<length (in seconds)>]"
+        puts "The default length is 1 year"
+      else
+        puts "Usage: unban <board_id>/<yarn|post_id>"
+        puts "       unban <ip>"
+      end
+      return
+    end
+
+    if line[1] =~ /([0-9]{1,3}\.){3}[0-9]{1,3}/
+      ip = line[1]
+    else
+      id = parse line[1]
+      if id
+        if id[0] == :yarn
+          ip = Yarn[id[1], id[2]].ip
+        elsif id[0] == :post
+          ip = Post[id[1], id[2]].ip
+        end
+      end
+    end
+
+    secs = (line[2] and line[2].to_i) ? line[2].to_i : (60 * 60 * 24 * 365)
+
+    if ip
+      if @ban
+        puts "Banning ip #{ip} for #{secs} seconds..."
+        #Cooldown.add ip, secs
+      else
+        puts "Lifting ban on ip #{ip}..."
+        #Cooldown.lift ip
+      end
+    end
+
 
   else
     puts "Invalid command"
