@@ -5,9 +5,9 @@ An imageboard written Ruby using Sinatra and a few other things.
 * Ruby (tested in Ruby 2.3.0)
 * A database compatible with [Sequel](http://sequel.jeremyevans.net) (tested with SQLite)
 * Image/GraphicsMagick
-* Gems: `sinatra thin haml sequel mini_magick sass`
 
 # Running
+* Install the required gems with `bundle install`
 * Create `config.yml` and configure it to your liking
 * Put some banners into `public/banners` if you so desire
 * Run `start.rb`
