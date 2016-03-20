@@ -5,6 +5,7 @@ An imageboard written Ruby using Sinatra and a few other things.
 * Ruby (tested in Ruby 2.3.0)
 * A database compatible with [Sequel](http://sequel.jeremyevans.net) (tested with SQLite)
 * Image/GraphicsMagick
+* A few gems (see `Gemfile`)
 
 # Running
 * Install the required gems with `bundle install`
@@ -26,10 +27,11 @@ Server:
 
 - [X] Delete files when deleting associated post
 - [X] Ban people
+- [ ] Set a thread limit and expire threads
 - [ ] Cache threads
 - [ ] Pin threads
 - [ ] /all/ or /recent/ metaboard
-- [ ] Music/webm handling
+- [ ] Music/webm handling (can't wait for the DMCAs)
 - [X] Admin console
   - [ ] Add more commands (ban, bump, edit…)
   - [ ] Make it work remotely
