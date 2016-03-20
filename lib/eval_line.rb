@@ -134,10 +134,10 @@ def eval_line(line)
     if ip
       if @ban
         puts "Banning ip #{ip} for #{secs} seconds..."
-        #Cooldown.add ip, secs
+        Cooldown.add ip, secs
       else
         puts "Lifting ban on ip #{ip}..."
-        #Cooldown.lift ip
+        Cooldown.lift ip
       end
     end
 
