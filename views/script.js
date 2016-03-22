@@ -18,14 +18,20 @@ function att_name() {
 	}
 }
 
-// Spawn quick reply box
+// Spawn/despawn quick reply box
 function spawn_qr() {
+  document.getElementById("qr-spawner").style.display = "none";
 	var tmp = document.createElement('div');
 	tmp.innerHTML = document.getElementsByTagName("noscript")[0].innerText;
 	tmp = tmp.children[0];
 	tmp.id = "floating-form";
 	tmp.className = "draggable";
 	document.body.appendChild(tmp);
+}
+
+function destroy_qr() {
+	document.body.removeChild(document.getElementById("floating-form"));
+  document.getElementById("qr-spawner").style.display = "block";
 }
 
 // Keyboard controls
@@ -37,10 +43,6 @@ function keyboard_controls(e) {
 			spawn_qr();
 		}
 	}
-}
-
-function destroy(id) {
-	document.body.removeChild(document.getElementById(id));
 }
 
 // Dragging stuff around (works on every .draggable element)

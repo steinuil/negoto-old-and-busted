@@ -39,5 +39,7 @@
           %p= post[:body]
 
 %hr
+#qr-spawner
+  %a{ onclick: "spawn_qr()" } +
 %noscript
   = haml :form, locals: { id: url, page: @op[:id] }
