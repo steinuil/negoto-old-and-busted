@@ -32,7 +32,7 @@ function spawn_qr() {
 function keyboard_controls(e) {
 	if (e.target.tagName != "TEXTAREA" && e.target.tagName != "INPUT") {
 		// Spawn QR box if "q" is pressed
-		if (document.getElementById("floating-form") === null && e.keyCode === 113 &&
+		if (document.getElementById("floating-form") === null && (e.keyCode === 113 || e.charCode == 113) &&
 			document.getElementById("thread") !== null) {
 			spawn_qr();
 		}

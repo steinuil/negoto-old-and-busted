@@ -5,7 +5,7 @@
     %meta{ charset: "utf-8" }
     %link{ type: "text/css", rel: "stylesheet", href: "/#{@type}.css" }
     %link{ type: "image/x-icon", rel: "icon", href: "/favicon.ico" }
-    %script{ type: "text/javascript", src: "/script.js" }
+    %script{ type: "application/javascript", src: "/script.js" }
   %body
     %header
       %nav
@@ -26,7 +26,7 @@
             = "/" if i > 0
             %a{ href: link[:url] }= link[:name]
           ]
-      %img#banner{ src: "/#{banner}" }
+      %img#crest{ src: "/#{banner}" }
       %h1#title= @board ? "/#{@board[:id]}/ - #{@board[:name]}" : @title
     %hr
     = yield

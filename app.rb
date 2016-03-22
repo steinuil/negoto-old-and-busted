@@ -29,6 +29,7 @@ get "/*.css" do |type|
 end
 
 get "/*.js" do |name|
+  headers "Content-Type" => "application/javascript"
   File.read "views/#{name}.js"
 end
 
