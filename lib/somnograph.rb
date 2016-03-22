@@ -2,14 +2,14 @@ require "sequel"
 
 class REM
   def self.connect options
-    @db = Sequel.connect options
-    @@boards = @db[:boards]
-    @@yarns = @db[:yarns]
-    @@posts = @db[:posts]
-    @@cooldowns = @db[:cooldowns]
-    @@files = @db[:files]
+    @@db = Sequel.connect options
+    @@boards = @@db[:boards]
+    @@yarns = @@db[:yarns]
+    @@posts = @@db[:posts]
+    @@cooldowns = @@db[:cooldowns]
+    @@files = @@db[:files]
 
-    @@count = @@boards.to_hash(:id, :count)
+    #@@count = @@boards.to_hash(:id, :count)
   end
 end
 

@@ -30,15 +30,25 @@ class Board < REM
   end
 
   def count
-    @@boards[id: @id][:count]
+    @this.map(:count).first
+    #@@boards[id: @id][:count]
   end
 
   def incr
-    @this.update count: @@boards[id: @id][:count] + 1
+    @@db.transaction do
+      @count = @this.map(:count).first + 1
+      @this.update count: @count
+    end
+    return @count
   end
 
   def decr
-    @this.update count: @@boards[id: @id][:count] - 1
+    @@db.transaction do
+      @count = @this.map(:count).first - 1
+      @this.update count: @count
+    end
+    return @count
+    #@this.update count: @@boards[id: @id][:count] - 1
   end
 
   def yarns

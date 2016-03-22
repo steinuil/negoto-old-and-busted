@@ -6,8 +6,8 @@ class Post < REM
   end
 
   def self.create post
-    @id = @@count[post[:board]] += 1
-    post.merge!({ id: @id, time: Time.now })
+    #@id = @@count[post[:board]] += 1
+    #post.merge!({ time: Time.now })
 
     unless post[:file].empty?
       post[:file] = Attachment.create(
@@ -22,8 +22,13 @@ class Post < REM
 
     @yarn = Yarn[post[:board], post[:yarn]]
     @sage = post.delete :sage
-    @@posts.insert post
-    Board[post[:board]].incr
+
+    @@db.transaction do
+      id = Board[post[:board]].incr
+      @@posts.insert post.merge id: id, time: Time.now
+      #Board[post[:board]].incr
+    end
+
     @yarn.incr
     @yarn.bump unless @sage
     #FIXME cache yarn

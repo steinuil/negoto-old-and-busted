@@ -3,11 +3,11 @@ class Yarn < REM
     @id = id
     @board = board
     @this = @@yarns.where(board: board, id: id)
-    @count = @this.map(:count).first
+    #@count = @this.map(:count).first
   end
 
   def self.create post
-    @id = @@count[post[:board]] += 1
+    #@id = @@count[post[:board]] += 1
     @time = Time.now
 
     post[:file] = Attachment.create(
@@ -19,10 +19,18 @@ class Yarn < REM
       ip: post[:ip],
       op: true).to_s
 
-    post.merge!({ id: @id, time: @time, updated: @time,
-                  locked: false, count: 0 })
-    @@yarns.insert post
-    Board[post[:board]].incr
+    #post.merge!({ id: @id, time: @time, updated: @time,
+    #              locked: false, count: 0 })
+
+    @@db.transaction do
+      id = Board[post[:board]].incr
+      @@yarns.insert post.merge({ id: id, time: @time,
+                                  updated: @time, locked:false,
+                                  count: 0 })
+    end
+
+    #@@yarns.insert post
+    #Board[post[:board]].incr
     #FIXME cache yarn
     return new(post[:board], @id)
   end
@@ -59,8 +67,13 @@ class Yarn < REM
   end
 
   def incr
-    @count += 1
-    @this.update count: @count
+    @@db.transaction do
+      @count = @this.map(:count).first
+      @this.update count: @count + 1
+    end
+    return @count + 1
+    #@count += 1
+    #@this.update count: @count
   end
 
   def posts
