@@ -10,7 +10,7 @@
       %header
         #greeting= "Good #{greeting.capitalize}, Brother."
         #rotate
-          = File.read "public/shuko.svg" if File.exist? "public/shuko.svg"
+          = File.read PUBLIC_DIR + "/shuko.svg" if File.exist? PUBLIC_DIR + "/shuko.svg"
         Welcome To The
         %h1= $config[:name] + "."
       %ul#boards
