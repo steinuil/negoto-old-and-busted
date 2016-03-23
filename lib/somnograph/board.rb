@@ -31,7 +31,6 @@ class Board < REM
 
   def count
     @this.map(:count).first
-    #@@boards[id: @id][:count]
   end
 
   def incr
@@ -48,7 +47,6 @@ class Board < REM
       @this.update count: @count
     end
     return @count
-    #@this.update count: @@boards[id: @id][:count] - 1
   end
 
   def yarns

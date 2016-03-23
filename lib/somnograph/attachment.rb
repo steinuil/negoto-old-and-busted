@@ -7,8 +7,8 @@ class Attachment < REM
     end
 
     @files.map(:fname).each do |file|
-      File.delete("public/src/#{file}")
-      File.delete("public/thumb/#{file.split(".")[0]}.jpg")
+      File.delete(PUBLIC_DIR + "/src/#{file}")
+      File.delete(PUBLIC_DIR + "/thumb/#{file.split(".")[0]}.jpg")
     end
 
     @files.delete

@@ -5,6 +5,9 @@ require "yaml"
 
 $config = YAML.load(File.read("config.yml"))
 
+DATA_DIR = ""
+PUBLIC_DIR = DATA_DIR + "public"
+
 %w[somnograph api helpers format].each do |l|
   require_relative "lib/#{l}"
 end
@@ -15,9 +18,11 @@ configure do
   set :port, 6789
   set :logging, false # because fuck you
   set :sass, { style: :expanded }
+  set :public_folder, PUBLIC_DIR
 end
 
-REM.connect adapter: "sqlite", database: "negoto.db"
+REM.connect adapter: $config[:adapter],
+            database: DATA_DIR + $config[:database]
 
 get "/" do
   @type = :front

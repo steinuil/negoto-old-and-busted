@@ -59,7 +59,7 @@ function mouse_down(e) {
 		offset_y = to_int(target.style.bottom);
 
 		element = target;
-		
+
 		document.onmousemove = function(e) {
 			var r = window.outerWidth - e.clientX + offset_x - start_x;
 			var b = window.outerHeight - e.clientY + offset_y - start_y;

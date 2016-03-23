@@ -32,7 +32,7 @@ helpers do
   end
 
   def banner
-    Dir.chdir("public") { Dir.glob("banners/*").sample }
+    Dir.chdir(PUBLIC_DIR) { Dir.glob("banners/*").sample }
   end
 
   def boards

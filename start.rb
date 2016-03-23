@@ -7,12 +7,12 @@ config = YAML.load(File.read("config.yml"))
 
 if ARGV[0] == "reset"
   File.delete config[:database]
-  FileUtils.rm_r "public/thumb"
-  FileUtils.rm_r "public/src"
+  FileUtils.rm_r "#{PUBLIC_DIR}/thumb"
+  FileUtils.rm_r "#{PUBLIC_DIR}/src"
 end
 
 db = Sequel.connect adapter: config[:adapter],
-                    database: config[:database]
+                    database: DATA_DIR + config[:database]
 
 db.create_table :boards do
   primary_key :bid
@@ -68,7 +68,7 @@ db.create_table :files do
 end
 
 REM.connect  adapter: config[:adapter],
-             database: config[:database]
+             database: DATA_DIR + config[:database]
 
 config[:boards].each do |board|
   Board.create id: board[:id], name: board[:name]

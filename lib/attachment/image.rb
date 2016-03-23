@@ -1,7 +1,7 @@
 require "mini_magick"
 
 MiniMagick.configure do |config|
-  config.cli = :graphicsmagick
+  config.cli = $config[:magick].to_sym
 end
 
 class Attachment
@@ -14,7 +14,7 @@ class Attachment
     @spoilimg = op ? "spoiler_op.jpg" : "spoiler.jpg"
 
     # Save file
-    @path = "public/src/#{@name}"
+    @path = PUBLIC_DIR + "/src/#{@name}"
     File.open(@path, "wb") do |i|
       i.write @image[:tempfile].read
     end
@@ -36,7 +36,7 @@ class Attachment
       #this could be regulated by config file
       @file.resize op ? "250x250" : "150x150"
       @file.format "jpg"
-      @file.write "public/thumb/#{@tname}"
+      @file.write PUBLIC_DIR + "/thumb/#{@tname}"
     end
 
     return @info

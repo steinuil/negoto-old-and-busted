@@ -8,8 +8,6 @@ class REM
     @@posts = @@db[:posts]
     @@cooldowns = @@db[:cooldowns]
     @@files = @@db[:files]
-
-    #@@count = @@boards.to_hash(:id, :count)
   end
 end
 
