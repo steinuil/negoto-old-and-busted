@@ -1,4 +1,4 @@
-post "/api/:board_id" do |board_id|
+post "/post/:board_id" do |board_id|
   @err = if Cooldown.include? request.ip
     "cooldown"
   elsif not Board.ids.include? board_id
@@ -36,7 +36,7 @@ post "/api/:board_id" do |board_id|
   "Post successful"
 end
 
-post "/api/:board_id/thread/:thread_id" do |board_id, thread_id|
+post "/post/:board_id/thread/:thread_id" do |board_id, thread_id|
   @err = if Cooldown.include? request.ip
     "cooldown"
   elsif not Board.ids.include? board_id

@@ -1,4 +1,4 @@
-%form#post-form{ action: "/api#{id}", method: "POST",
+%form#post-form{ action: "/post#{id}", method: "POST",
   enctype: "multipart/form-data" }
   - if page == 0
     %input.form.text#subject{ type: "text", placeholder: "Subject",
@@ -19,4 +19,3 @@
     %label.form.button#sage{ for: "sagei" }< Sage
   %input#spoileri{ type: "checkbox", name: "spoiler" }<
   %label.form.button#spoiler{ for: "spoileri" } Spoiler
-  -# %input#page{ type: "hidden", name: "page", value: page }
