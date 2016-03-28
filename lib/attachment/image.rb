@@ -5,6 +5,14 @@ MiniMagick.configure do |config|
 end
 
 class Attachment
+  def self.thumb_size sizes, op
+    longest = op ? 250 : 150
+    thicc = sizes[0] > sizes[1]
+
+    shortest = (sizes.min.to_f / sizes.max * longest).to_i
+    return thicc ? [longest, shortest] : [shortest, longest]
+  end
+
   def self.write_image image, ext, spoiler, op, name
     @image = image
     @ext = ext
@@ -20,11 +28,13 @@ class Attachment
     end
 
     @file = MiniMagick::Image.open @path
+    @size = thumb_size [@file[:width], @file[:height]], op
     @info = {
       src: @name,
       thumb: spoiler ? @spoilimg : @tname,
       filename: @image[:filename],
-      resolution: "#{@file.width}&times;#{@file.height}",
+      t_width: @size[0],
+      t_height: @size[1],
       size: @file.size }
 
     # Save thumbnail

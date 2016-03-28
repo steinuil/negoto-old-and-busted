@@ -26,7 +26,7 @@
             = "/" if i > 0
             %a{ href: link[:url] }= link[:name]
           ]
-      %img#crest{ src: "/#{banner}" }
+      %img#crest{ src: "/#{banner}", height: 100, width: 300 }
       %h1#title= @board ? "/#{@board[:id]}/ - #{@board[:name]}" : @title
     %hr
     = yield

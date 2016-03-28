@@ -17,7 +17,8 @@
     %figure
       %a{ href: "/src/#{@file[:src]}", target: "_blank" }<
         %img{ src: "/thumb/#{@file[:thumb]}",
-              title: @file[:filename] }
+              title: @file[:filename],
+              width: @file[:t_width], height: @file[:t_height]}
     .body
       %p= @op[:body]
   - if @replies
@@ -27,7 +28,8 @@
           %figure
             %a{ href: "/src/#{@file[:src]}", target: "_blank"  }<
               %img{ src: "/thumb/#{@file[:thumb]}",
-                    title: @file[:filename] }
+                    title: @file[:filename],
+                    width: @file[:t_width], height: @file[:t_height]}
         .info
           = succeed "&#x000A;" do
             %span.name= post[:name]
