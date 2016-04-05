@@ -32,7 +32,8 @@ post "/post/:board_id" do |board_id|
   @thread = Yarn.create @post
 
   Cooldown.add request.ip
-
+ 
+  status 201
   "Post successful"
 end
 

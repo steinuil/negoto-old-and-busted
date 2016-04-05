@@ -68,7 +68,8 @@ class Yarn < REM
   end
 
   def posts
-    @@posts.where(board: @board, yarn: @id).all
+    @@posts.where(board: @board, yarn: @id).select(:id, :name, :time,
+      :body, :spoiler, :file).all
   end
 
   def post_ids

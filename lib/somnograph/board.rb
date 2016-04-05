@@ -49,7 +49,7 @@ class Board < REM
     return @count
   end
 
-  def yarns
+  def to_hash
     @@yarns.where(board: @id).order(:updated).select(
       :id, :locked, :subject, :name, :time, :body, :spoiler,
       :file, :updated, :count).all
