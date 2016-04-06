@@ -1,42 +1,49 @@
+def invalid? p, ip, board, yarn = nil
+  if Cooldown.include? ip
+    "cooldown"
+  elsif yarn and Yarn[board, yarn].locked?
+    "thread locked"
+  elsif not yarn and p[:file].nil?
+    "no file"
+  elsif yarn and p[:file].nil? and p[:body].empty?
+    "no comment"
+  elsif not yarn and p[:subject].length > 140
+    "subject too long"
+  elsif p[:name].length > 50
+    "name too long"
+  elsif p[:body].length > 2000
+    "post too long"
+  else
+    nil
+  end
+end
+
 post "/api/:board_id" do |board_id|
+  pass unless Board.ids.include? board_id
+
   headers "Content-Type" => "application/json"
   params = JSON.parse request.body.read
   params.keys.each { |key| params[key.to_sym] = params.delete(key) }
 
-  @err = if Cooldown.include? request.ip
-    "cooldown"
-  elsif not Board.ids.include? board_id
-    "no_board"
-  elsif params[:subject].empty?
-    "no_subject"
-  elsif params[:file].nil?
-    "no_image"
-  elsif params[:subject].length > 140
-    "subject_too_long"
-  elsif params[:name].length > 50
-    "name_too_long"
-  elsif params[:body].length > 2000
-    "post_too_long"
+  # name, subject, body, spoiler, file
+
+  params[:name]    ||= "Anonymous"
+  params[:subject] ||= ""
+  params[:body]    ||= ""
+  params[:spoiler] ||= "off"
+
+  if err = invalid?(params, request.ip, board_id)
+    halt 400, { status: 400, err: err }.to_json
   end
 
-  if @err
-    status 400
-    return { status: 400, err: @err }.to_json
-  end
-
-  # Fix parameters
-  if not params[:name] or params[:name].empty?
-    params[:name] = "Anonymous"
-  end
-  params[:body] ||= ""
-  params[:spoiler] = params[:spoiler] ? params[:spoiler] == "on" : false
+  params[:name] = "Anonymous" if params[:name].empty?
 
   post = {
     board: board_id,
     subject: params[:subject].escape,
     name: params[:name].escape,
     body: params[:body].format,
-    spoiler: params[:spoiler],
+    spoiler: params[:spoiler] == "on",
     ip: request.ip,
     file: params[:file]
   }
@@ -50,38 +57,29 @@ post "/api/:board_id" do |board_id|
 end
 
 post "/api/:board_id/thread/:thread_id" do |board_id, thread_id|
+  pass unless Board.ids.include? board_id
+  pass unless Board[board_id].yarn_ids.include? thread_id.to_i
+
+  #p Board[board_id].yarn_ids.include? thread_id.to_i
+  #halt 404
+
   headers "Content-Type" => "application/json"
   params = JSON.parse request.body.read
 
   params.keys.each { |key| params[key.to_sym] = params.delete(key) }
 
-  @err = if Cooldown.include? request.ip
-    "cooldown"
-  elsif not Board.ids.include? board_id
-    "no_board"
-  elsif not Board[board_id].yarn_ids.include? thread_id.to_i
-    "no_thread"
-  elsif Yarn[board_id, thread_id].locked?
-    "thread_locked"
-  elsif params[:file].nil? and params[:body].empty?
-    "no_comment"
-  elsif params[:name] and params[:name].length > 50
-    "name_too_long"
-  elsif params[:body] and params[:body].length > 2000
-    "post_too_long"
+  # name, body, spoiler, sage, file
+  
+  params[:name]    ||= "Anonymous"
+  params[:body]    ||= ""
+  params[:spoiler] ||= "off"
+  params[:sage]    ||= "off"
+
+  if err = invalid?(params, request.ip, board_id, thread_id)
+    halt 400, { status: 400, err: err }.to_json
   end
 
-  if @err
-    status 400
-    return { status: 400, err: @err }.to_json
-  end
-
-  if not params[:name] or params[:name].empty?
-    params[:name] = "Anonymous"
-  end
-  params[:body] ||= ""
-  params[:spoiler] = params[:spoiler] ? params[:spoiler] == "on" : false
-  params[:sage] = params[:sage] ? params[:sage] == "on" : false
+  params[:name] = "Anonymous" if params[:name].empty?
   params[:file] = params[:file] ? params[:file] : ""
 
   post = {
@@ -89,8 +87,8 @@ post "/api/:board_id/thread/:thread_id" do |board_id, thread_id|
     yarn: thread_id,
     name: params[:name].escape,
     body: params[:body].format,
-    spoiler: params[:spoiler],
-    sage: params[:sage],
+    spoiler: params[:spoiler] == "on",
+    sage: params[:sage] == "on",
     ip: request.ip,
     file: params[:file] }
 

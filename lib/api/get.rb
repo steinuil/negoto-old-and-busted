@@ -12,6 +12,8 @@ get "/api/:board_id/" do |board_id|
 end
 
 get "/api/:board_id" do |board_id|
+  pass unless Board.ids.include? board_id
+
   headers "Content-Type" => "application/json"
   yarns = Board[board_id].to_hash
   yarns.map! do |yarn|
@@ -22,6 +24,9 @@ get "/api/:board_id" do |board_id|
 end
 
 get "/api/:board_id/thread/:thread_id" do |board_id, thread_id|
+  pass unless Board.ids.include? board_id
+  pass unless Board[board_id].yarn_ids.include? thread_id.to_i
+
   headers "Content-Type" => "application/json"
   yarn = Yarn[board_id, thread_id].posts
   yarn = yarn.unshift(Yarn[board_id, thread_id].to_hash)

@@ -27,11 +27,12 @@ function spawn_qr() {
 	tmp.id = "floating-form";
 	tmp.className = "draggable";
 	document.body.appendChild(tmp);
+    document.getElementById("body").select();
 }
 
 function destroy_qr() {
 	document.body.removeChild(document.getElementById("floating-form"));
-  document.getElementById("qr-spawner").style.display = "block";
+    document.getElementById("qr-spawner").style.display = "block";
 }
 
 // Keyboard controls
@@ -41,6 +42,7 @@ function keyboard_controls(e) {
 		if (document.getElementById("floating-form") === null && (e.keyCode === 113 || e.charCode == 113) &&
 			document.getElementById("thread") !== null) {
 			spawn_qr();
+            return false;
 		}
 	}
 }
