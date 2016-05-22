@@ -1,0 +1,22 @@
+= haml :form, locals: { id: "/#{board.id}/", page: 0 }
+%hr
+#catalog
+  - if yarns
+    - yarns.each do |yarn|
+      .thread
+        %figure<
+          %a{ href: "/#{board.id}/thread/#{yarn[:id]}" }<
+            %img{ src: "/thumb/#{yarn[:file][:thumb]}",
+              width: yarn[:file][:thumb_w], height: yarn[:file][:thumb_h] }
+        .info
+          = elapsed yarn[:updated]
+          \/
+          = yarn[:count]
+          = yarn[:count] > 1 ? 'posts' : 'post'
+          - if yarn[:locked]
+            \/ 🔒
+        %p.desc<
+          %span.subject<= yarn[:subject]
+          - unless yarn[:body].empty?
+            \//
+            %span.body= yarn[:body]

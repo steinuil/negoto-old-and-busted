@@ -1,0 +1,21 @@
+%html
+  %head
+    %title Negoto
+    %link{ type: "text/css", rel: "stylesheet", href: "/front.css" }
+    %link{ type: "image/x-icon", rel: "icon", href: "/favicon.ico" }
+    %script{ type: "application/javascript", src: "/front.js" }
+  %body#front
+    #container
+      %header
+        #greeting= "Good #{greeting.capitalize}, Brother."
+        #rotate
+          /= File.read 
+        Welcome to the
+        %h1 Time-Telling Fortress
+      %ul#boards
+        - boards.each do |board|
+          %li
+            %a{ href: "/#{board[:id]}/" }<= "#{board[:name]}"
+      %footer#powered
+        Powered by
+        %a{ href: "https://github.com/steinuil/negoto" } Negoto
