@@ -1,0 +1,54 @@
+@import layout
+body
+  font-size: $normal
+  margin: 5px
+  background-color: $light
+  color: $text
+  position: relative
+
+a
+  color: $link
+
+  &:hover
+    color: $backquote
+
+p
+  line-height: 1.2rem
+
+.admin, .backquote
+  color: $backquote
+
+.quote
+  color: $quote
+
+.spoiler
+  color: $text
+  background-color: $text
+
+  &:hover
+    color: $lightest
+
+pre
+  display: inline-block
+  padding: 5px
+  margin: 2px
+
+  font-family: $monospace
+  font-size: $small
+  line-height: 1.2rem
+  tab-size: 4
+  -moz-tab-size: 4
+
+header
+  text-align: center
+
+nav
+  margin-bottom: 5px
+  font-size: $small
+
+#crest
+  +extrude
+
+#title
+  margin: 15px
+  font-size: $biggest

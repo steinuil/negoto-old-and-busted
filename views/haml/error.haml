@@ -1,10 +1,10 @@
 %html
   %head
-    %title= title
+    %title= error ||= 'Error'
     %meta{ charset: 'utf-8' }
     %link{ type: 'image/x-icon', rel: 'icon', href: '/favicon.ico' }
-    %link{ type: 'text/css', rel: 'stylesheet', href: '' }
-    %script{ type: 'application/javascript', src: '' }
+    %link{ type: 'text/css', rel: 'stylesheet', href: '/error.css' }
+    %script{ type: 'application/javascript', src: '/script.js' }
   %body
     %header
       %nav
@@ -19,7 +19,10 @@
         \/
         %a{ href: 'https://github.com/steinuil/negoto' } source
         ]
-      %img#crest{ src: "/#{crest}", height: 100, width: 300 }
-      %h1#title= title
     %hr
-    = yield
+    #error
+      #shikataganai 仕方が無い
+      %hr
+      #error-desc
+        = message
+      %img#helped{src: '/images/404.jpg' }

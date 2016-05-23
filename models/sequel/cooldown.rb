@@ -9,18 +9,21 @@ class Cooldown < REM
     @@cooldowns.where('time < ?', Time.now).delete
   end
 
-  def self.add ip, seconds = 15
+  def self.add ip, seconds: 5, sum: true
     time = Time.now + seconds
-    @@cooldowns.insert(ip: checksum(ip), time: time)
+    ip = checksum(ip) if sum
+    @@cooldowns.insert(ip: ip, time: time)
+    ip
   end
 
-  def self.lift ip
-    @@cooldowns.where(ip: checksum(ip)).delete
+  def self.lift ip_sum
+    @@cooldowns.where(ip: ip_sum).delete
   end
 
   def self.include? ip
     self.update
-    not @@cooldowns.where(ip: checksum(ip)).all.empty?
+    c = @@cooldowns.where(ip: checksum(ip)).all
+    c.empty? ? nil : c[:time] - Time.now
   end
 
   private

@@ -7,7 +7,8 @@
         %figure<
           %a{ href: "/#{board.id}/thread/#{yarn[:id]}" }<
             %img{ src: "/thumb/#{yarn[:file][:thumb]}",
-              width: yarn[:file][:thumb_w], height: yarn[:file][:thumb_h] }
+              width: yarn[:file][:thumb_w],
+              height: yarn[:file][:thumb_h] }
         .info
           = elapsed yarn[:updated]
           \/

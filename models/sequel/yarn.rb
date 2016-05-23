@@ -1,8 +1,8 @@
 class Yarn < REM
   # Access yarns this way
   def self.[] board, id
-    raise BoardNotFound unless @@boards.where(board: board)
-    raise YarnNotFound unless @@yarns.where(board: board, id: id)
+    raise BoardNotFound if @@boards.where(id: board).all.empty?
+    raise YarnNotFound if @@yarns.where(board: board, id: id).all.empty?
     new(board, id)
   end
 
@@ -28,16 +28,16 @@ class Yarn < REM
         updated: time, locked: false, count: 0,
         subject: subject, name: name, body: body,
         file: file_id, time: time, spoiler: spoiler,
-        ip: Cooldown.checksum(ip))
+        ip: Cooldown.add(ip))
     end
 
     @yarn = @@yarns.where(board: @board, id: @id)
   end
 
   def destroy
-    @yarn.delete
-    @@posts.where(board: @board, yarn: @id).delete
     Attachment.delete(board: @board, yarn: @id)
+    @@posts.where(board: @board, yarn: @id).delete
+    @yarn.delete
   end
 
   # Attribute accessors

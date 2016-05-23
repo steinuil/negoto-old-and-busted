@@ -1,7 +1,7 @@
 class Board < REM
   # Access boards this way
   def self.[] id
-    raise BoardNotFound unless @@boards.where(id: id)
+    raise BoardNotFound if @@boards.where(id: id).all.empty?
     new(id)
   end
 
@@ -16,10 +16,10 @@ class Board < REM
   end
 
   def destroy
+    Attachment.delete(board: @id)
     @board.delete
     @@yarns.where(board: @id).delete
     @@posts.where(board: @id).delete
-    Attachment.delete(board: @id)
   end
 
   # Attribute accessors

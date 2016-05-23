@@ -1,0 +1,85 @@
+@import common
+@import form
+#thread-bar
+  margin: 10px 5px
+
+#return
+  padding: 5px 10px
+
+#subject
+  padding: 5px 20px
+
+#locked
+  padding: 5px
+
+#return, #subject, #locked
+  font-size: $big
+  font-weight: bold
+  background-color: $dark
+  box-shadow: $shadow
+
+#thread figure
+  float: left
+  width: auto
+  height: auto
+  margin-right: 5px
+
+.post hr
+  border-bottom: $border
+
+.name
+  font-weight: bold
+  color: $name
+
+.postnum
+  cursor: pointer
+
+.op
+  margin: 5px
+
+pre
+  background-color: $dark
+
+.reply
+  display: table
+  padding: 5px
+  margin: 5px 0
+  background-color: $dark
+  box-shadow: $shadow
+
+  hr
+    clear: none
+    margin: 0
+    visibility: visible
+
+  pre
+    background-color: $light
+
+  figure
+    max-width: 150px
+
+.info
+  display: inline-block
+  vertical-align: top
+  white-space: nowrap
+
+#thread-controls
+  text-align: center
+  font-size: $small
+  position: absolute
+  bottom: 5px
+  right: 0
+  left: 0
+  
+  a
+    cursor: pointer
+
+body
+  padding-bottom: 25px
+
+.floating
+  position: fixed
+  z-index: 3
+  box-shadow: none
+  border: 1px solid $darkest
+  margin: 0

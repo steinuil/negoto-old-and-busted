@@ -1,0 +1,30 @@
+@import common
+@import form
+#catalog
+  display: flex
+  flex-flow: row wrap
+  justify-content: center
+  align-items: baseline
+
+.thread
+  margin: 5px
+  text-align: center
+  width: 250px
+
+  figure img
+    +extrude
+
+.info
+  padding: 4px 0 0
+  font-size: $smaller
+  color: $darker
+
+.desc
+  padding: 0 5px
+
+.subject
+  font-weight: bold
+
+pre
+  background-color: $dark
+  text-align: left

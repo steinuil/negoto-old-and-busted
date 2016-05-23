@@ -1,0 +1,54 @@
+$text: #333
+
+$darkest: #7E9CD9
+$darker: #B7C5D9
+$dark: #D6DAF0
+$light: #EEF2FF
+$lightest: #FFF
+
+$quote: #789922
+$backquote: #D00
+$link: #34345C
+$name: #117743
+
+$sans-serif: -apple-system, "Segoe UI", "Roboto", "Helvetica Neue", "Open Sans", sans-serif
+$monospace: "Lucida Console", Monaco, monospace
+
+$biggest: 3rem
+$big: 1.25rem
+$normal: 0.9rem
+$small: 0.8rem
+$smaller: 0.75rem
+
+$shadow: 3px 3px $darker
+$border: 1px solid $darker
+=extrude
+  border: $border
+  box-shadow: $shadow
+
+// Restoring sanity
+html
+  -ms-text-size-adjust: 100%
+  -webkit-text-size-adjust: 100%
+
+input[type="submit"]
+  -webkit-appearance: none
+
+  &::-moz-focus-inner
+    border: 0
+    padding: 0
+
+*
+  border: 0
+  margin: 0
+  padding: 0
+
+a
+  text-decoration: none
+
+hr
+  clear: both
+  visibility: hidden
+
+body
+  font-family: $sans-serif

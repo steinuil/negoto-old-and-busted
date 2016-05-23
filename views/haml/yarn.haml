@@ -1,0 +1,34 @@
+#thread
+  #thread-bar
+    %a#return{ href: "/#{board.id}/" }= "❬❬"
+    %span#subject= op[:subject]
+    - if op[:locked]
+      %span#locked{ title: 'Thread locked. You may not reply.' } 🔒
+  .post.op
+    .info
+      = succeed "&#x000A;" do
+        %span.name= op[:name]
+        %span.time= op[:time].strftime("%Y/%m/%d %H:%M")
+      %a.id{ href: url }> &#8470;
+      %a.id.postnum{ onclick: "quote(#{op[:id]});" }= op[:id]
+    %hr
+    %figure
+      %a{ href: "/src/#{op[:file][:src]}" , target: '_blank' }<
+        %img{ src: "/thumb/#{op[:file][:thumb]}", title: op[:file][:name],
+          width: op[:file][:thumb_w], height: op[:file][:thumb_h] }
+    .body
+      %p= op[:body]
+  - if posts
+    - posts.each do |post| 
+      = haml :post, locals: { post: post, url: url }
+%hr
+#thread-controls
+  [
+  %a{ href: "/#{board.id}/" } Back
+  \/
+  %a{ onclick: 'qr.spawn();' } Reply
+  \/
+  %a{ id: 'refresh', onclick: 'refresh();' } Refresh
+  ]
+%noscript
+  = haml :form, locals: { id: url, page: op[:id] }

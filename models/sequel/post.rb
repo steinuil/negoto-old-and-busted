@@ -30,9 +30,9 @@ class Post < REM
       @id = Board[@board].count_incr
       @@posts.insert(
         board: @board, yarn: @yarn, id: @id,
-        name: name, body: body, file: file_id,
+        name: name, body: body, file: file_id ||= nil,
         time: time, spoiler: spoiler,
-        ip: Cooldown.checksum(ip))
+        ip: Cooldown.add(ip))
     end
 
     yarn.count_incr

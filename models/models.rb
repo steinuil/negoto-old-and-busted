@@ -37,5 +37,5 @@ class FileNotFound < StandardError
 end
 
 %w[board yarn post cooldown attachment image].each do |f|
-  require_relative "sqlite/#{f}"
+  require_relative "sequel/#{f}"
 end
