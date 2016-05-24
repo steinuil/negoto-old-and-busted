@@ -21,17 +21,18 @@ function attachment_name() {
 // Post preview on hover
 var preview = {
   show: function(post) {
-    var _ = ß('#p' + post.textContent.substring(2)),
-        clone = _.cloneNode(true),
+    var _ = ß('#p' + post.textContent.substring(2));
+    if (!_) return;
+    var clone = _.cloneNode(true),
         rect = post.getBoundingClientRect();
-    clone.className += ' floating';
+    clone.className += ' preview';
     clone.style.bottom = window.innerHeight - rect.bottom;
     clone.style.left = rect.right + 5;
     document.body.appendChild(clone);
   },
 
   destroy: function() {
-    var els = ß('.floating');
+    var els = ß('.preview');
     while (0 < els.length) els[0].remove();
   }
 };
@@ -81,9 +82,14 @@ var qr = {
   }
 };
 
+function to_int(s) {
+  var n = parseInt(s);
+  return (isNaN(n) || n == null)  ? 0 : n;
+}
+
 // Fetch new posts
 function refresh() {
-  var last = parseInt(ß('#thread').lastElementChild['id'].substring(1)),
+  var last = to_int(ß('#thread').lastElementChild['id'].substring(1)),
       request = new XMLHttpRequest();
   ß('#refresh').textContent += 'ing...';
 
@@ -112,7 +118,7 @@ function quote(id) {
 // Keyboard shortcuts handler
 document.onkeypress = function(e) {
   var _ = e.target.tagName;
-  if (_ !== 'TEXTAREA' && _ !== 'INPUT' && ß('#thread') !== null) {
+  if (_ !== 'TEXTAREA' && _ !== 'INPUT') {
     if (e.key === 'q' || e.charCode === 113)
       qr.spawn();
     else if (e.key === 'r' || e.charCode === 114)
@@ -120,11 +126,6 @@ document.onkeypress = function(e) {
     return false;
   }
 };
-
-function to_int(v) {
-  var n = parseInt(v);
-  return n === null || isNaN(n) ? 0 : n;
-}
 
 // Draggable
 var mouse = {

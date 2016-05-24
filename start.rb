@@ -1,9 +1,8 @@
-require 'yaml'
-require_relative 'models/models'
+boards = [
+  { id: 'snw', name: 'Time-Telling Fortress' }
+]
 
-config = YAML.load_file 'config.yml'
-
-db = Sequel.connect adapter: 'sqlite', database: 'db.db'
+db = Sequel.connect adapter: 'sqlite', database: DATABASE
 
 db.create_table :boards do
   primary_key :bid
@@ -61,13 +60,15 @@ db.create_table :files do
   Integer :size
 end
 
-REM.connect adapter: 'sqlite', database: 'db.db'
+REM.connect adapter: 'sqlite', database: DATABASE
 
-config[:boards].each do |board|
+boards.each do |board|
   Board.new(board[:id]).create board[:name]
 end
 
-Dir.mkdir 'public' unless Dir.exists? 'public'
-Dir.mkdir 'public/crests' unless Dir.exist? 'public/crests'
-Dir.mkdir 'public/thumb' unless Dir.exist? 'public/thumb'
-Dir.mkdir 'public/src' unless Dir.exist? 'public/src'
+Dir.mkdir(PUBLIC) rescue nil
+Dir.chdir PUBLIC do
+  %w[crests thumb src].each do |dir|
+    Dir.mkdir(dir) rescue nil
+  end
+end

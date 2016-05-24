@@ -33,8 +33,9 @@ post '/post/:board_id/' do |board_id|
     if params[:xhr]
       msg = e
     else
-      msg = haml(:error, layout: false, locals: {
+      msg = haml(:error, layout: :alt, locals: {
         boards: Board.all,
+        title: 'Error',
         message: e
       })
     end
@@ -64,8 +65,9 @@ post '/post/:board_id/thread/:yarn_id' do |board_id, yarn_id|
     if params[:xhr]
       msg = e
     else
-      msg = haml(:error, layout: false, locals: {
+      msg = haml(:error, layout: :alt, locals: {
         boards: Board.all,
+        title: 'Error',
         message: e
       })
     end

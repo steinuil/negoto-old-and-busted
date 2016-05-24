@@ -1,9 +1,12 @@
 require 'sinatra'
 
-DATA_DIR = ''
-PUBLIC_DIR = DATA_DIR + 'public'
+DATA_DIR = '.'.freeze
+PUBLIC = "#{DATA_DIR}/public".freeze
+DATABASE = "#{DATA_DIR}/db.db".freeze
 
 require_relative 'models/models'
 require_relative 'controllers/controllers'
 
-REM.connect adapter: 'sqlite', database: 'db.db'
+load 'start.rb' unless File.exists? DATABASE
+
+REM.connect adapter: 'sqlite', database: DATABASE

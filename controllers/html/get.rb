@@ -1,8 +1,7 @@
 get '/' do
-  # FIXME: a whole load of stuff
   haml :front, layout: false, locals: {
     boards: Board.all,
-    logo: File.read(PUBLIC_DIR + '/images/shuko.svg')
+    logo: (File.read("#{PUBLIC}/images/shuko.svg") rescue nil)
   }
 end
 
@@ -17,9 +16,9 @@ end
 
 get '/*.js' do |name|
   headers 'Content-Type' => 'application/javascript'
-  if %w[catalog yarn].include? name
+  begin
     File.read "#{settings.views[:js]}/#{name}.js"
-  else
+  rescue
     halt 404
   end
 end

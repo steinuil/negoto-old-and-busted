@@ -20,8 +20,8 @@ class Attachment < REM
 
   def destroy
     ext = @file.map(:ext).first
-    File.delete(PUBLIC_DIR + "/src/#{@id}.#{ext}")
-    File.delete(PUBLIC_DIR + "/thumb/#{@id}.jpg")
+    File.delete("#{PUBLIC}/src/#{@id}.#{ext}")
+    File.delete("#{PUBLIC}/thumb/#{@id}.jpg")
     @file.delete
   end
 
@@ -63,8 +63,8 @@ class Attachment < REM
     end
 
     files.select(:src, :thumb).each do |file|
-      File.delete(PUBLIC_DIR + "/src/#{file[:src]}")
-      File.delete(PUBLIC_DIR + "/thumb/#{file[:thumb]}")
+      File.delete("#{PUBLIC}/src/#{file[:src]}")
+      File.delete("#{PUBLIC}/thumb/#{file[:thumb]}")
     end
 
     files.delete

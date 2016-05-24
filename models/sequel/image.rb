@@ -16,7 +16,7 @@ class Attachment::Image
   def self.save img, id, ext, spoiler, op
     file_name = "#{id}.#{ext}"
 
-    path = PUBLIC_DIR + "/src/#{file_name}"
+    path = "#{PUBLIC}/src/#{file_name}"
     File.open(path, 'wb') { |i| i.write img.read }
 
     file = MiniMagick::Image.open path
@@ -28,7 +28,7 @@ class Attachment::Image
       file.extent '0x0'
       file.resize "%sx%s" % size
       file.format 'jpg'
-      file.write PUBLIC_DIR + "/thumb/#{thumb_name}"
+      file.write "#{PUBLIC}/thumb/#{thumb_name}"
     end
 
     return {

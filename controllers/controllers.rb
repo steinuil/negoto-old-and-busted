@@ -5,7 +5,7 @@ require 'json'
 configure do
   set :bind, '0.0.0.0'
   set :sass, { style: :expanded }
-  set :public_folder, PUBLIC_DIR
+  set :public_folder, PUBLIC
   set :views, sass: 'views/sass', haml: 'views/haml', js: 'views/js'
 end
 

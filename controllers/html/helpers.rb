@@ -35,7 +35,7 @@ helpers do
   end
 
   def crest
-    Dir.chdir(PUBLIC_DIR) { Dir.glob('crests/*').sample }
+    Dir.chdir(PUBLIC) { Dir.glob('crests/*').sample }
   end
 end
 
