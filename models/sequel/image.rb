@@ -1,9 +1,3 @@
-require 'mini_magick'
-
-MiniMagick.configure do |config|
-  config.cli = :imagemagick
-end
-
 class Attachment::Image
   def self.thumb_size *sizes, spoiler, op
     return (op ? [250, 250] : [150, 150]) if spoiler
@@ -25,8 +19,8 @@ class Attachment::Image
     unless spoiler
       thumb_name = "#{id}.jpg"
       file.background(op ? '#EEF2FF' : '#D6DAF0')
-      file.extent '0x0'
-      file.resize "%sx%s" % size
+      file.flatten
+      file.resize '%sx%s' % size
       file.format 'jpg'
       file.write "#{PUBLIC}/thumb/#{thumb_name}"
     end

@@ -1,6 +1,7 @@
 require 'sqlite3'
 require 'sequel'
 require 'digest/md5'
+require 'mini_magick'
 
 class REM
   def self.connect options
@@ -35,6 +36,10 @@ class FileNotFound < StandardError
   def initialize msg = 'No such file found'
     super
   end
+end
+
+MiniMagick.configure do |config|
+  config.cli = :imagemagick # Don't use graphicsmagick. It sucks.
 end
 
 %w[board yarn post cooldown attachment image].each do |f|

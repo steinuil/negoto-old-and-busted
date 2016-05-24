@@ -8,6 +8,11 @@ require_relative 'models/models'
 require_relative 'controllers/controllers'
 
 unless File.exists? DATABASE
+  boards = [
+    { id: 'desu', name: 'Suiseiseki' },
+    { id: 'tech', name: 'Technology' }
+  ]
+
   puts 'Database not found, initializing...'
   db = Sequel.connect adapter: 'sqlite', database: DATABASE
   db.create_table :boards do
@@ -31,7 +36,7 @@ unless File.exists? DATABASE
     Integer :size
   end
   REM.connect adapter: 'sqlite', database: DATABASE
-  [{id: 'snw', name: 'Time-Telling Fortress'}].each do |board|
+  boards.each do |board|
     Board.new(board[:id]).create(board[:name])
   end
   Dir.mkdir(PUBLIC) rescue nil

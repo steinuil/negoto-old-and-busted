@@ -1,0 +1,8 @@
+source 'https://rubygems.org'
+gem 'sinatra'
+gem 'thin'
+gem 'sqlite3'
+gem 'sequel'
+gem 'haml'
+gem 'sass'
+gem 'mini_magick'

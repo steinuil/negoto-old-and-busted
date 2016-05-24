@@ -1,6 +1,7 @@
 require 'tilt/haml'
 require 'tilt/sass'
 require 'json'
+require 'rack/utils'
 
 configure do
   set :bind, '0.0.0.0'

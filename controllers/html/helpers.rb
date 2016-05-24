@@ -39,8 +39,6 @@ helpers do
   end
 end
 
-require 'rack/utils'
-
 class String
   def format_post
     Rack::Utils.escape_html(self).split(/\R?^```\R*/).map.with_index do |string, c|
