@@ -22,7 +22,8 @@ def post_invalid? p, ip, board_id, yarn_id = nil
   end
 rescue BoardNotFound, YarnNotFound => e
   e.message
-rescue NoMethodError
+rescue NoMethodError => e
+  puts e.message
   'You forgot a parameter in your request.'
 end
 

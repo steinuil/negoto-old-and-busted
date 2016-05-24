@@ -26,17 +26,20 @@ class Post < REM
         file, @board, @yarn, spoiler)
     end
 
+    ip_md5 = Cooldown.new(ip)
+
     @@db.transaction do
       @id = Board[@board].count_incr
       @@posts.insert(
         board: @board, yarn: @yarn, id: @id,
         name: name, body: body, file: file_id ||= nil,
         time: time, spoiler: spoiler,
-        ip: Cooldown.add(ip))
+        ip: ip_md5.ip)
     end
 
-    yarn.count_incr
-    yarn.bump unless sage
+    ip_md5.add
+    count = yarn.count_incr
+    yarn.bump unless sage or count > 300
 
     @post = @@posts.where(board: @board, id: @id)
   end

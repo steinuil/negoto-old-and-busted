@@ -10,7 +10,7 @@
     %input.form.button#send{ type: 'submit', value: 'Post' }
   - else
     %input.form.button#send{ type: "button", value: "Post",
-      onclick: "upload_post();" }
+      onclick: "qr.upload();" }
   %br
   %textarea#body{ placeholder: "Comment", name: "body" }
   %br

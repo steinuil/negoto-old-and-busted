@@ -21,6 +21,8 @@ class Yarn < REM
     Attachment.new(file_id).create(
       file, @board, @id, spoiler, true)
 
+    ip_md5 = Cooldown.new(ip)
+
     @@db.transaction do
       @id = Board[@board].count_incr
       @@yarns.insert(
@@ -28,7 +30,15 @@ class Yarn < REM
         updated: time, locked: false, count: 0,
         subject: subject, name: name, body: body,
         file: file_id, time: time, spoiler: spoiler,
-        ip: Cooldown.add(ip))
+        ip: ip_md5.ip)
+    end
+
+    ip_md5.add
+
+    # Delete older threads
+    Thread.new do
+      y = Board[@board].yarn_ids.reverse.slice(25..-1)
+      y.each { |id| Yarn[@board, id].destroy } unless y.nil? or y.empty?
     end
 
     @yarn = @@yarns.where(board: @board, id: @id)

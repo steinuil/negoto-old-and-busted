@@ -68,7 +68,7 @@ class Board < REM
   end
 
   def yarn_ids
-    @@yarns.where(board: @id).map(:id)
+    @@yarns.where(board: @id).order(:updated).map(:id)
   end
 
   def post_ids

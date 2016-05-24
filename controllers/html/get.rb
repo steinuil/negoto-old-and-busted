@@ -16,7 +16,11 @@ end
 
 get '/*.js' do |name|
   headers 'Content-Type' => 'application/javascript'
-  File.read 'views/js/script.js' # FIXME: you know
+  if %w[catalog yarn].include? name
+    File.read "#{settings.views[:js]}/#{name}.js"
+  else
+    halt 404
+  end
 end
 
 get '/about' do

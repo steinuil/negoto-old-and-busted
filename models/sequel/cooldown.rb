@@ -1,34 +1,32 @@
-require 'digest/md5'
-
 class Cooldown < REM
-  def self.checksum ip
-    Digest::MD5.hexdigest ip
+  def initialize ip, sum = true
+    ip = Digest::MD5.digest(ip) if sum
+    @ip = ip
+    @cooldown = @@cooldowns.where(ip: ip)
   end
 
-  def self.update
-    @@cooldowns.where('time < ?', Time.now).delete
-  end
+  attr_accessor :ip
 
-  def self.add ip, seconds: 5, sum: true
+  def add seconds = 5
     time = Time.now + seconds
-    ip = checksum(ip) if sum
-    @@cooldowns.insert(ip: ip, time: time)
-    ip
+    if @cooldown.all.empty?
+      @@cooldowns.insert(ip: @ip, time: time)
+    elsif @cooldown.all and @cooldown.all.first[:time] < time
+      @cooldown.update(time: time)
+    end
   end
 
-  def self.lift ip_sum
-    @@cooldowns.where(ip: ip_sum).delete
+  def lift
+    @cooldown.update(time: Time.now)
   end
 
-  def self.include? ip
-    self.update
-    c = @@cooldowns.where(ip: checksum(ip)).all
-    c.empty? ? nil : c[:time] - Time.now
-  end
-
-  private
-
-  def checksup ip
-    self.checksum ip
+  def self.include? ip, sum = true
+    ip = Digest::MD5.digest(ip) if sum
+    c = @@cooldowns.where(ip: ip).all
+    if c.empty? or (t = c.first[:time] - Time.now) < 0
+      nil
+    else
+      t.to_i
+    end
   end
 end

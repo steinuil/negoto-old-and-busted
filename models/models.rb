@@ -1,5 +1,6 @@
 require 'sqlite3'
 require 'sequel'
+require 'digest/md5'
 
 class REM
   def self.connect options

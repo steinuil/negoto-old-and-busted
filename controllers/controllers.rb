@@ -6,7 +6,7 @@ configure do
   set :bind, '0.0.0.0'
   set :sass, { style: :expanded }
   set :public_folder, PUBLIC_DIR
-  set :views, sass: 'views/sass', haml: 'views/haml'
+  set :views, sass: 'views/sass', haml: 'views/haml', js: 'views/js'
 end
 
 helpers do

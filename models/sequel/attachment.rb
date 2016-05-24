@@ -62,9 +62,9 @@ class Attachment < REM
       @@files.where(board: board)
     end
 
-    files.map(:src).each do |file|
-      File.delete(PUBLIC_DIR + "/src/#{file}")
-      File.delete(PUBLIC_DIR + "/thumb/#{file.split('.')[0]}.jpg")
+    files.select(:src, :thumb).each do |file|
+      File.delete(PUBLIC_DIR + "/src/#{file[:src]}")
+      File.delete(PUBLIC_DIR + "/thumb/#{file[:thumb]}")
     end
 
     files.delete

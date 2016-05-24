@@ -68,6 +68,6 @@ config[:boards].each do |board|
 end
 
 Dir.mkdir 'public' unless Dir.exists? 'public'
-Dir.mkdir 'public/banners' unless Dir.exist? 'public/banners'
-Dir.mkdir 'public/thumb'
-Dir.mkdir 'public/src'
+Dir.mkdir 'public/crests' unless Dir.exist? 'public/crests'
+Dir.mkdir 'public/thumb' unless Dir.exist? 'public/thumb'
+Dir.mkdir 'public/src' unless Dir.exist? 'public/src'
