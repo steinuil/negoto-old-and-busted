@@ -1,7 +1,7 @@
 get '/' do
   haml :front, layout: false, locals: {
     boards: Board.all,
-    logo: (File.read("#{PUBLIC}/images/shuko.svg") rescue nil)
+    logo: (File.read("#{PUBLIC}/assets/shuko.svg") rescue nil)
   }
 end
 
