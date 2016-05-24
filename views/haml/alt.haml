@@ -3,8 +3,7 @@
     %title= title
     %meta{ charset: 'utf-8' }
     %link{ type: 'image/x-icon', rel: 'icon', href: '/favicon.ico' }
-    %link{ type: 'text/css', rel: 'stylesheet', href: "/#{type}.css" }
-    %script{ type: 'application/javascript', src: "/#{type}.js" }
+    %link{ type: 'text/css', rel: 'stylesheet', href: '/alt.css' }
   %body
     %header
       %nav
@@ -19,7 +18,5 @@
         \/
         %a{ href: 'https://github.com/steinuil/negoto' } source
         ]
-      %img#crest{ src: "/#{crest}", height: 100, width: 300 }
-      %h1#title= title
     %hr
     = yield

@@ -9,13 +9,13 @@
       %header
         #greeting= "Good #{greeting.capitalize}, Brother."
         #rotate
-          /= File.read 
+          = logo
         Welcome to the
-        %h1 Time-Telling Fortress
+        %h1 Time-Telling Fortress.
       %ul#boards
         - boards.each do |board|
           %li
-            %a{ href: "/#{board[:id]}/" }<= "#{board[:name]}"
+            %a{ href: "/#{board[:id]}/" }<= "/#{board[:id]}/ - #{board[:name]}"
       %footer#powered
         Powered by
         %a{ href: "https://github.com/steinuil/negoto" } Negoto

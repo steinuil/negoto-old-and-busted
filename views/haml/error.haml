@@ -1,28 +1,6 @@
-%html
-  %head
-    %title= error ||= 'Error'
-    %meta{ charset: 'utf-8' }
-    %link{ type: 'image/x-icon', rel: 'icon', href: '/favicon.ico' }
-    %link{ type: 'text/css', rel: 'stylesheet', href: '/error.css' }
-    %script{ type: 'application/javascript', src: '/script.js' }
-  %body
-    %header
-      %nav
-        [
-        %a{ href: '/'} Home
-        - boards.each do |board|
-          \/
-          %a{ href: "/#{board[:id]}/",
-              title: "#{board[:name]}" }= board[:id]
-        ] [
-        %a{ href: '/about' } about
-        \/
-        %a{ href: 'https://github.com/steinuil/negoto' } source
-        ]
-    %hr
-    #error
-      #shikataganai 仕方が無い
-      %hr
-      #error-desc
-        = message
-      %img#helped{src: '/images/404.jpg' }
+%article
+  #title 仕方が無い
+  %hr
+  #error-desc
+    = message
+  %img#helped{src: '/images/404.jpg' }

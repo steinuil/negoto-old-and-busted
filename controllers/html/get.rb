@@ -1,7 +1,8 @@
 get '/' do
   # FIXME: a whole load of stuff
   haml :front, layout: false, locals: {
-    boards: Board.all
+    boards: Board.all,
+    logo: File.read(PUBLIC_DIR + '/images/shuko.svg')
   }
 end
 
@@ -23,11 +24,10 @@ get '/*.js' do |name|
   end
 end
 
-get '/about' do
-  # FIXME: write about page
-  haml :about, locals: {
-    title: 'About',
-    type: :about
+get '/readme' do
+  haml :readme, layout: :alt, locals: {
+    title: 'Readme',
+    boards: Board.all
   }
 end
 

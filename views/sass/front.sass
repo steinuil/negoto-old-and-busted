@@ -1,0 +1,73 @@
+@import layout
+#front
+  font-family: 'Copperplate', $sans-serif
+  text-align: center
+  background: url('/images/tile.png') repeat
+  color: rgba(255, 255, 221, 0.5)
+
+a
+  color: rgba(255, 255, 221, 0.5)
+
+a:hover
+  color: $link
+
+#container
+  position: fixed
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  overflow: scroll
+  background-image: -webkit-radial-gradient(50% 50%, circle closest-corner, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6) 100%)
+  background-image: -moz-radial-gradient(50% 50%, circle closest-corner, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6) 100%)
+  background-image: -o-radial-gradient(50% 50%, circle closest-corner, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6) 100%)
+  background-image: radial-gradient(50% 50%, circle closest-corner, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6) 100%)
+
+header
+  font-size: 2.5rem
+
+#greeting
+  margin: 30px 0 0
+
+#rotate
+  perspective: 10000
+
+@keyframes rotate
+  from
+    transform: rotateY(0deg)
+  to
+    transform: rotateY(360deg)
+
+svg
+  width: auto
+  margin: 30px
+  height: 50vh
+  transform-style: preserve-3d
+  -webkit-animation: rotate 5s linear infinite
+  -moz-animation: rotate 5s linear infinite
+  -o-animation: rotate 5s linear infinite
+  animation: rotate 5s linear infinite
+
+h1
+  font-size: 5rem
+
+#boards
+  list-style: none
+  text-align: center
+  display: flex
+  flex-wrap: wrap
+  justify-content: center
+
+  li
+    margin: 15px
+    font-size: 3rem
+    padding: 10px
+    color: rgba(255, 255, 221, 0.5)
+
+#powered
+  font-size: $big
+  position: fixed
+  bottom: 10px
+  left: 10px
+  padding: 5px
+  color: rgba(255, 255, 221, 0.5)
