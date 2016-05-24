@@ -9,8 +9,6 @@ def post_invalid? p, ip, board_id, yarn_id = nil
     'Your post can\'t be longer than 2000 chars.'
   elsif !yarn_id and !p[:file]
     'You must post a file to open a thread.'
-  elsif !yarn_id and p[:subject].empty?
-    'You must provide a subject to open a thread.'
   elsif !yarn_id and p[:subject].length > 140
     'Your subject can\'t be longer than 140 chars.'
   elsif yarn_id and Yarn[board_id, yarn_id].locked?

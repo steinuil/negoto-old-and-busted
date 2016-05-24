@@ -93,7 +93,7 @@ class Yarn < REM
   # IDs and content
 
   def op # -> Hash of info
-    y = @yarn.select(:id, :locked, :subject, :name, :time,
+    y = @yarn.select(:id, :body, :locked, :subject, :name, :time,
                      :spoiler, :file).first
     y[:file] = Attachment[y[:file]].info
     y

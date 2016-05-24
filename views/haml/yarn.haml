@@ -1,7 +1,8 @@
 #thread
   #thread-bar
     %a#return{ href: "/#{board.id}/" }= "❬❬"
-    %span#subject= op[:subject]
+    - unless op[:subject].empty?
+      %span#subject= op[:subject]
     - if op[:locked]
       %span#locked{ title: 'Thread locked. You may not reply.' } 🔒
   .post.op

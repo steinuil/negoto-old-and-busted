@@ -16,8 +16,11 @@
           = yarn[:count] > 1 ? 'posts' : 'post'
           - if yarn[:locked]
             \/ 🔒
-        %p.desc<
-          %span.subject<= yarn[:subject]
-          - unless yarn[:body].empty?
-            \//
-            %span.body= yarn[:body]
+        - unless yarn[:subject].empty? and yarn[:body].empty?
+          %p.desc<
+            - unless yarn[:subject].empty?
+              %span.subject<= yarn[:subject]
+              - unless yarn[:body].empty?
+                \//
+            - unless yarn[:body].empty?
+              %span.body= yarn[:body]
