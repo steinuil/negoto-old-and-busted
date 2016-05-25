@@ -1,11 +1,17 @@
 # Negoto Mark III
 
 Negoto is an **imageboard**.
+
 It is written in **Ruby**.
+
 It doesn't use ~~Rails~~.
+
 It is pretty **good-looking**, if I may say so myself. (But you can change that if you don't like it.)
+
 It tries to be **simple**.
+
 It doesn't try to be **fast**. (But that doesn't mean it's slow.)
+
 It is quite **small**.
 
 ```
