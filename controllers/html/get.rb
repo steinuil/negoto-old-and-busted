@@ -5,6 +5,8 @@ get '/' do
   }
 end
 
+get('/thumb/spoiler.jpg') { redirect '/assets/spoiler.jpg' }
+
 get '/*.css' do |type|
   headers 'Content-Type' => 'text/css'
   begin

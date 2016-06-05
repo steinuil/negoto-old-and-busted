@@ -57,7 +57,7 @@ var qr = {
 
     request.upload.onprogress = function(e) {
       if (e.lengthComputable) {
-        ß('#send').value = (e.loaded / e.total * 100) + '%';
+        ß('#send').value = Math.floor(e.loaded / e.total * 100) + '%';
       }
     }
 
@@ -119,11 +119,13 @@ function quote(id) {
 document.onkeypress = function(e) {
   var _ = e.target.tagName;
   if (_ !== 'TEXTAREA' && _ !== 'INPUT') {
-    if (e.key === 'q' || e.charCode === 113)
+    if (e.key === 'q' || e.charCode === 113) {
       qr.spawn();
-    else if (e.key === 'r' || e.charCode === 114)
+      return false;
+    } else if (e.key === 'r' || e.charCode === 114) {
       refresh();
-    return false;
+      return false;
+    }
   }
 };
 
