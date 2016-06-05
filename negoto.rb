@@ -30,6 +30,9 @@ unless File.exists? DATABASE
     FalseClass :spoiler; String :ip; foreign_key(:file, :files)
   end
   db.create_table :cooldowns do String :ip; DateTime :time end
+  db.create_table :admins do
+    String :name; String :email; String :token; DateTime :expire
+  end
   db.create_table :files do
     primary_key :id; String :board; Integer :yarn; String :name
     String :src; String :thumb; Integer :thumb_w; Integer :thumb_h;

@@ -17,7 +17,11 @@ helpers do
   end
 end
 
-%w[helpers get post error].each do |f|
+%w[haml post].each do |f|
+  require_relative "helpers/#{f}"
+end
+
+%w[get post error admin].each do |f|
   require_relative "html/#{f}"
 end
 

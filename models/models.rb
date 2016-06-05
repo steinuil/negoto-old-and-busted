@@ -10,6 +10,7 @@ class REM
     @@yarns = @@db[:yarns]
     @@posts = @@db[:posts]
     @@files = @@db[:files]
+    @@admins = @@db[:admins]
     @@cooldowns = @@db[:cooldowns]
   end
 end
@@ -42,6 +43,6 @@ MiniMagick.configure do |config|
   config.cli = :imagemagick # Don't use graphicsmagick. It sucks.
 end
 
-%w[board yarn post cooldown attachment image].each do |f|
+%w[board yarn post cooldown attachment image admin].each do |f|
   require_relative "sequel/#{f}"
 end

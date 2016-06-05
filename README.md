@@ -28,17 +28,20 @@ This is the third time I've rewritten it, so it's Mark III.
 ## Getting it to run
 
 Install these:
+
 * Ruby 2.x (possibly 2.3.x)
 * gem (should be bundled with Ruby)
 * SQLite
 * ImageMagick
 
 Then do these:
+
 1. Run `bundle install` to install the required gems
 2. Edit `negoto.rb` (you might need to activate Common Sense 2016 for this)
 3. Run `negoto.rb`
 
 You should also have these:
+
 * A `spoiler.jpg` file in the `public/thumb` folder
 * A few 300╳100 banners in the `public/crests` folder
 * A `public/assets` folder with the following:

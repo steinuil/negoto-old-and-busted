@@ -28,7 +28,7 @@ end
 post '/post/:board_id/' do |board_id|
   if e = post_invalid?(params, request.ip, board_id)
     status 400
-    if params[:xhr]
+    if params[:xhr] or request.xhr?
       msg = e
     else
       msg = haml(:error, layout: :alt, locals: {
@@ -50,7 +50,7 @@ post '/post/:board_id/' do |board_id|
     file: params[:file])
 
   status 201
-  if params[:xhr]
+  if params[:xhr] or request.xhr?
     'Success'
   else
     redirect "/#{board_id}/thread/#{yarn.id}"
@@ -60,7 +60,7 @@ end
 post '/post/:board_id/thread/:yarn_id' do |board_id, yarn_id|
   if e = post_invalid?(params, request.ip, board_id, yarn_id)
     status 400
-    if params[:xhr]
+    if params[:xhr] or request.xhr?
       msg = e
     else
       msg = haml(:error, layout: :alt, locals: {
@@ -81,7 +81,7 @@ post '/post/:board_id/thread/:yarn_id' do |board_id, yarn_id|
     ip: request.ip,
     file: params[:file])
   
-  if params[:xhr]
+  if params[:xhr] or request.xhr?
     'Success'
   else
     redirect "/#{board_id}/thread/#{yarn_id}#p#{post.id}"
