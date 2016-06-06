@@ -42,16 +42,20 @@ Then do these:
 
 You should also have these:
 
-* A `spoiler.jpg` file in the `public/thumb` folder
 * A few 300╳100 banners in the `public/crests` folder
 * A `public/assets` folder with the following:
   * A `404.jpg` file to show on the error page
   * A `shuko.svg` file to show on the front page
   * A `tile.png` file as front page background
+  * A square `spoiler.jpg` file as spoiler image
 
 ## Actually running it
 
 Run `negoto.rb`. It just werks.
+
+## Killing it
+
+If you want to wipe it, just delete `db.db`, `public/thumb` and `public/src` from the data folder.
 
 ## What it does
 
