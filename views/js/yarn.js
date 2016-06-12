@@ -37,6 +37,20 @@ var preview = {
   }
 };
 
+// Drag & drop file input
+var input = {
+  ignore: function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+  },
+
+  drop: function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    ß("#filei").files = e.dataTransfer.files;
+  }
+}
+
 // QR Box
 var qr = {
   spawn: function() {
@@ -48,6 +62,11 @@ var qr = {
     form.className = 'draggable';
     document.body.appendChild(form);
     ß('#body').select();
+
+    var dragbox = ß("#file");
+    dragbox.addEventListener('drop', input.drop);
+    dragbox.addEventListener('dragenter', input.ignore);
+    dragbox.addEventListener('dragover', input.ignore);
   },
 
   upload: function() {
